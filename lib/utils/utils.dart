@@ -93,7 +93,8 @@ return bandera;
 
 class Utilitarios {
 
-  final urlWebapi = "http://192.168.0.2/Reserva.API/api/";
+  final urlWebapi = "http://192.168.100.6/Reserva.API/api/";
+  
 
   final header = {
     'content-type': "application/json",
@@ -108,4 +109,10 @@ class ValidacioItem{
 
   ValidacioItem(this.value, this.error);
 
+}
+
+Widget MostrarMensajeError(){
+  return Container(
+    child: Text('Error'),
+  );
 }

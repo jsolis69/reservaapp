@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:reservaapp/models/sucursales_model.dart';
 import 'package:reservaapp/models/ubicaciones_model.dart';
 import 'package:reservaapp/providers/ubicaciones_provider.dart';
+import 'package:reservaapp/utils/utils.dart';
 import 'package:reservaapp/widgets/botonesNavegacion_widget.dart';
 import 'package:reservaapp/widgets/botones_grandes.dart';
 import 'package:reservaapp/widgets/header.dart';
@@ -94,7 +95,10 @@ Widget _obtenerUbicaciones(){
     
           }
           else{
-            return _ListaUbicaciones(snapshot.data.listaGenerica);
+            if(snapshot.hasError)
+              return MostrarMensajeError();
+            else
+              return _ListaUbicaciones(snapshot.data.listaGenerica);
 
     
           }

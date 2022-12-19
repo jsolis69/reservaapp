@@ -35,7 +35,8 @@ class UbicacionesProvider with ChangeNotifier{
     "CodigoProvincia": ""
   };
 
- final url = Utilitarios().urlWebapi + 'Provincia/ObtenerProvincias';
+var url = Uri.http( Utilitarios().urlWebapi + 'Provincia/ObtenerProvincias');
+
  final datos = json.encode( autData );
 
 

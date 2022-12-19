@@ -191,7 +191,7 @@ class UsuarioProvider with ChangeNotifier{
      //'returnSecureToken' : true
    };
 
- final url = Utilitarios().urlWebapi + 'Autenticar/AutenticarUsuario';
+ final url = Uri.http( Utilitarios().urlWebapi + 'Autenticar/AutenticarUsuario');
  final datos = json.encode( autData );
 
 
@@ -222,7 +222,7 @@ class UsuarioProvider with ChangeNotifier{
   };
 
 
-  final url = Utilitarios().urlWebapi + 'Usuario/InsertarUsuario';
+  final url = Uri.http( Utilitarios().urlWebapi + 'Usuario/InsertarUsuario');
   final datos = json.encode( autData );
 
 

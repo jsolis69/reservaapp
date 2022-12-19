@@ -16,6 +16,7 @@ class AyudaPage extends StatelessWidget {
   final args = ModalRoute.of(context).settings.arguments as String;
   String menu = "Menu";
   if(args == "Anfitrion")
+  
   {
     menu = "MenuAnfitrion";
   }

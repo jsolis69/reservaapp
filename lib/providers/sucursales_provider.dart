@@ -29,7 +29,7 @@ class SucursalesProvider with ChangeNotifier{
     }
   };
 
- final url = Utilitarios().urlWebapi + 'Sucursal/ObtenerSucursalesPorUbicacion';
+ final url = Uri.http( Utilitarios().urlWebapi + 'Sucursal/ObtenerSucursalesPorUbicacion');
  final datos = json.encode( autData );
 
 
