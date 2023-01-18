@@ -93,7 +93,7 @@ return bandera;
 
 class Utilitarios {
 
-  final urlWebapi = "http://192.168.100.6/Reserva.API/api/";
+  final urlWebapi = '192.168.100.6';
   
 
   final header = {

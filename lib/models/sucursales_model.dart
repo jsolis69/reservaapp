@@ -40,6 +40,7 @@ class ListaSucursales {
     ListaSucursales({
         this.idSucursal,
         this.idEmpresa,
+        this.NombreEmpresa,
         this.nombre,
         this.direccionExacta,
         this.latitud,
@@ -54,6 +55,7 @@ class ListaSucursales {
 
     int idSucursal;
     int idEmpresa;
+    String NombreEmpresa;
     String nombre;
     dynamic direccionExacta;
     double latitud;
@@ -68,6 +70,7 @@ class ListaSucursales {
     factory ListaSucursales.fromJson(Map<String, dynamic> json) => ListaSucursales(
         idSucursal: json["IdSucursal"],
         idEmpresa: json["IdEmpresa"],
+        NombreEmpresa: json["NombreEmpresa"],
         nombre: json["Nombre"],
         direccionExacta: json["DireccionExacta"],
         latitud: json["Latitud"],
@@ -83,6 +86,7 @@ class ListaSucursales {
     Map<String, dynamic> toJson() => {
         "IdSucursal": idSucursal,
         "IdEmpresa": idEmpresa,
+        "NombreEmpresa": NombreEmpresa,
         "Nombre": nombre,
         "DireccionExacta": direccionExacta,
         "Latitud": latitud,

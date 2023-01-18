@@ -9,6 +9,7 @@ import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/paginas/Anfitrion/menuAnfitron_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misSucursales_page.dart';
 import 'package:reservaapp/paginas/ayuda_page.dart';
+import 'package:reservaapp/paginas/canchas_page.dart';
 import 'package:reservaapp/paginas/comentarios_page.dart';
 import 'package:reservaapp/paginas/configuracion_page.dart';
 //import 'package:reservaapp/blocs/theme.dart';
@@ -18,6 +19,7 @@ import 'package:reservaapp/paginas/miPerfil_page.dart';
 import 'package:reservaapp/paginas/registro_page.dart';
 import 'package:reservaapp/paginas/reserva_page.dart';
 import 'package:reservaapp/paginas/sucursales_page.dart';
+import 'package:reservaapp/providers/horario_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/providers/ubicaciones_provider.dart';
 import 'package:reservaapp/providers/usuario_provider.dart';
@@ -41,6 +43,7 @@ void main() async{
           ChangeNotifierProvider( create: (_)=>new UsuarioProvider()),
           ChangeNotifierProvider( create: (_)=>new SucursalesProvider()),
           ChangeNotifierProvider( create: (_)=>new UbicacionesProvider()),
+          ChangeNotifierProvider( create: (_)=>new HorariosProvider()),
         ],
         child: MyApp(), 
       )
@@ -71,6 +74,7 @@ class MyApp extends StatelessWidget {
           'Menu': (BuildContext context) => MenuPage(),
           'Sucursales': (BuildContext context) => SucursalesPage(),
           'Reservar': (BuildContext context) => ReservaPage(),
+          'Canchas': (BuildContext context) => CanchasPage(),
     
           //acá todas las relacionadas al anfitron
           'MisSucursales': (BuildContext context) => MisSucursalesPage(),

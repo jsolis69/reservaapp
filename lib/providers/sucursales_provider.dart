@@ -10,37 +10,24 @@ class SucursalesProvider with ChangeNotifier{
 
 
 
-  Future<SucursalesXUbicacionResponse> obtenerSucursalesPorUbicacion( int idprovincia, int idcanton, int iddistrito ) async {
-    
+  Future<SucursalesXUbicacionResponse> obtenerSucursalesPorUbicacion() async {
+   
 
-   final autData = {
-    "Ubicacion": {
-        "CodigoProvincia": "$idprovincia",
-        "Cantones": [
-          {
-            "CodigoCanton": "$idcanton",
-            "Distritos": [
-                {
-                    "CodigoDistrito": "$iddistrito"
-                }
-            ]
-          }
-        ]
-    }
-  };
+ var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Sucursal/ObtenerSucursalesPorUbicacion');
 
- final url = Uri.http( Utilitarios().urlWebapi + 'Sucursal/ObtenerSucursalesPorUbicacion');
- final datos = json.encode( autData );
+ final response = await http.get(url);
 
 
-   final resp = await http.post(
-      url,
-      body: datos
-      ,headers: Utilitarios().header
-   );
+   //final resp = await http.post(
+   //   url,
+   //   body: datos
+   //   ,headers: Utilitarios().header
+   //);
+//if (response.statusCode == 200) {
 
-  return sucursalesXUbicacionResponseFromJson(resp.body);
 
+  return sucursalesXUbicacionResponseFromJson(response.body);
+  //}
    //Map<String, dynamic> decodeResp = json.decode(resp.body);
 
    //return decodeResp;
