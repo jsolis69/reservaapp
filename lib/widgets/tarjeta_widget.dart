@@ -9,13 +9,12 @@ class TarjetaWidget extends StatelessWidget {
   final Image imagen;
 
   const TarjetaWidget({
-      Key key, 
       this.ancho = 150.0, 
       this.alto = 150.0, 
       this.color1 = Colors.greenAccent, 
       this.color2 = Colors.green, 
       this.imagen = const Image(image: AssetImage('assets/img/canchafutbol.jpg'))
-    }) : super(key: key);
+    });
   //const TarjetaWidget({Key? key}) : super(key: key);
 
   @override
@@ -59,12 +58,11 @@ class _TarjetaFondo extends StatelessWidget {
   final Color color2;
 
   const _TarjetaFondo({
-    Key key, 
-    this.ancho,
-    this.alto,
-    this.color1,
-    this.color2
-  }) : super(key: key);
+    required this.ancho,
+    required this.alto,
+    required this.color1,
+    required this.color2
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,6 @@ import 'package:reservaapp/providers/horario_provider.dart';
 
 
 class CanchasPage extends StatelessWidget {
-  const CanchasPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class CanchasPage extends StatelessWidget {
         }
        else if (snapshot.hasData) {
         return CustomScrollView(
-          slivers: _sliverList(snapshot.data.listaGenerica.length, 10),
+          slivers: _sliverList(snapshot.data.objeto.canchas),
           );
        }
       }
@@ -41,12 +40,12 @@ class CanchasPage extends StatelessWidget {
   }
 }
 
-List<Widget> _sliverList(int size, int sliverChildCount) {
+List<Widget> _sliverList( dynamic canchas) {
     var widgetList = <Widget>[];
-    for (int index = 0; index < size; index++)
+    for (int contador = 0; contador < canchas.length; contador++)
       widgetList
         ..add(SliverAppBar(
-           title: Text("Title $index"),
+           title: Text(canchas[contador].nombre),
            pinned: true,
          ))
         ..add(SliverFixedExtentList(
@@ -56,9 +55,9 @@ List<Widget> _sliverList(int size, int sliverChildCount) {
                    return Container(
                       alignment: Alignment.center,
                       color: Colors.lightBlue[100 * (index % 9)],
-                      child: Text('list item $index'),
+                      child: Text(canchas[contador].horarios[index].horaInicio +' - ' + canchas[contador].horarios[index].horaFin),
                    );
-              }, childCount: sliverChildCount),
+              }, childCount: canchas[contador].horarios.length),
         ));
 
    return widgetList;

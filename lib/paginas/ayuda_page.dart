@@ -13,7 +13,7 @@ class AyudaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-  final args = ModalRoute.of(context).settings.arguments as String;
+  final args = ModalRoute.of(context)!.settings.arguments as String;
   String menu = "Menu";
   if(args == "Anfitrion")
   

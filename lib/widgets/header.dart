@@ -10,13 +10,13 @@ class HeaderWidget extends StatelessWidget {
   final Color color1;
   final Color color2;
 
-  const HeaderWidget({Key key, 
-  @required this.icono, 
-  @required this.titulo, 
+  const HeaderWidget({ 
+  required this.icono, 
+  required this.titulo, 
   this.subTitulo = '',
   this.color1 = Colors.greenAccent,
   this.color2 = Colors.green
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +51,9 @@ class _FondoHeader extends StatelessWidget {
   final Color color2;
 
   const _FondoHeader({
-    Key key, this.color1, this.color2,
-  }) : super(key: key);
+    required this.color1, 
+    required this.color2,
+  });
 
   @override
   Widget build(BuildContext context) {

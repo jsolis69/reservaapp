@@ -10,10 +10,10 @@ String horariosCanchaResponseToJson(HorariosCanchaResponse data) => json.encode(
 
 class HorariosCanchaResponse {
     HorariosCanchaResponse({
-        this.codigoRespuesta,
-        this.descripcionRespuesta,
+        required this.codigoRespuesta,
+        required this.descripcionRespuesta,
         this.listaGenerica,
-        this.objeto,
+        required this.objeto,
         this.infoAdicional,
     });
 
@@ -42,19 +42,19 @@ class HorariosCanchaResponse {
 
 class Objeto {
     Objeto({
-        this.idSucursal,
-        this.idEmpresa,
+        required this.idSucursal,
+        required this.idEmpresa,
         this.nombreEmpresa,
         this.nombre,
         this.direccionExacta,
-        this.latitud,
-        this.longitud,
+        required this.latitud,
+        required this.longitud,
         this.telefono,
         this.correo,
         this.estado,
         this.ubicacion,
         this.imagen,
-        this.canchas,
+        required this.canchas,
         this.atributos,
     });
 
@@ -110,10 +110,10 @@ class Objeto {
 
 class Cancha {
     Cancha({
-        this.idCancha,
-        this.nombre,
+        required this.idCancha,
+        required this.nombre,
         this.estado,
-        this.horarios,
+        required this.horarios,
     });
 
     int idCancha;
@@ -138,12 +138,12 @@ class Cancha {
 
 class Horario {
     Horario({
-        this.idHorario,
-        this.horaInicio,
-        this.horaFin,
+        required this.idHorario,
+        required this.horaInicio,
+        required this.horaFin,
         this.diaSemana,
         this.estado,
-        this.reserva,
+        required this.reserva,
     });
 
     int idHorario;
@@ -174,12 +174,12 @@ class Horario {
 
 class Reserva {
     Reserva({
-        idReserva,
-        equipo1,
-        this.equipo2,
-        this.indLlevaDosEquipos,
-        this.estado,
-        this.fecha,
+        required this.idReserva,
+        required this.equipo1,
+        required this.equipo2,
+        required this.indLlevaDosEquipos,
+        required this.estado,
+        required this.fecha,
     });
 
     int idReserva;
@@ -210,8 +210,8 @@ class Reserva {
 
 class Equipo {
     Equipo({
-        this.idUsuario,
-        this.nombre,
+        required this.idUsuario,
+        required this.nombre,
         this.primerApellido,
         this.segundoApelldo,
         this.email,
@@ -222,7 +222,7 @@ class Equipo {
         this.contrasenia,
         this.usuarioEmpresa,
         this.empresaLogueada,
-        this.permiteNotificar,
+        required this.permiteNotificar,
     });
 
     int idUsuario;

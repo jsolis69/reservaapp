@@ -7,9 +7,8 @@ class BotonesNavegacion extends StatefulWidget {
   final int seleccionado;
 
   const BotonesNavegacion({
-    Key key, 
-    this.seleccionado
-  }) : super(key: key);
+    required this.seleccionado
+  });
 
   @override
   _BotonesNavegacionState createState() => _BotonesNavegacionState();

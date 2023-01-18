@@ -104,10 +104,12 @@ class Utilitarios {
 
 class ValidacioItem{
 
-  final String value;
-  final String error;
+  final String? value;
+  final String? error;
 
-  ValidacioItem(this.value, this.error);
+  ValidacioItem(
+    this.value, 
+    this.error);
 
 }
 

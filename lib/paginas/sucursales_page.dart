@@ -35,7 +35,6 @@ class SucursalesPage extends StatelessWidget {
 }
 
 class _contenido extends StatelessWidget {
-  const _contenido({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

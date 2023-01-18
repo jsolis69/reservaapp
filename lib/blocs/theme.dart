@@ -30,7 +30,7 @@ class ThemeChanger with ChangeNotifier {
 
   bool _modoOscuro = false;
 
-  ThemeData _temaActual; 
+  late ThemeData _temaActual; 
 
   bool get modoOscuro => this._modoOscuro;
 

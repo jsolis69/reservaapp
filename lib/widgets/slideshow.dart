@@ -13,7 +13,7 @@ class Slidesshow extends StatelessWidget {
   final double tamPunto;
 
   Slidesshow({
-    @required this.slides, 
+    required this.slides, 
     this.puntosArriba = false, 
     this.colorPrimario = Colors.blue, 
     this.colorSecundario = Colors.grey, 
@@ -43,10 +43,9 @@ class Slidesshow extends StatelessWidget {
 
 class _CrearEstructuraSlides extends StatelessWidget {
   const _CrearEstructuraSlides({
-    Key key,
-    @required this.puntosArriba,
-    @required this.slides,
-  }) : super(key: key);
+    required this.puntosArriba,
+    required this.slides,
+  });
 
   final bool puntosArriba;
   final List<Widget> slides;
@@ -149,7 +148,7 @@ class __SlidesState extends State<_Slides> {
     super.initState();
 
     pageviewController.addListener(() {
-      Provider.of<_SlideshowModel>(context, listen: false).currentPage = pageviewController.page;
+      Provider.of<_SlideshowModel>(context, listen: false).currentPage = pageviewController.page!;
     });
   }
 

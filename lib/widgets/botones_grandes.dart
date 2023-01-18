@@ -10,13 +10,12 @@ class BotonesGrantes extends StatelessWidget {
   final IconData icono;
 
   const BotonesGrantes({
-    Key key, 
-    @required this.titulo, 
+    required this.titulo, 
     this.subtitulo = '', 
     this.color1 = Colors.greenAccent, 
     this.color2 = Colors.green, 
-    @required this.icono
-  }) : super(key: key);
+    required this.icono
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +49,10 @@ class _BotonesGrandesFondo extends StatelessWidget {
   final Color color2;
   final IconData icono;
 
-  const _BotonesGrandesFondo({Key key, this.color1, this.color2, this.icono}) : super(key: key);
+  const _BotonesGrandesFondo({
+    required this.color1, 
+    required this.color2, 
+    required this.icono}) ;
 
   @override
   Widget build(BuildContext context) {

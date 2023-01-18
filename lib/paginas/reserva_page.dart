@@ -21,7 +21,7 @@ class _ReservaPageState extends State<ReservaPage> {
   final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
-  DateTime _selectedDay;
+  late DateTime _selectedDay;
   
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
     equals: isSameDay,

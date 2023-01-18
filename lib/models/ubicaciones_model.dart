@@ -10,10 +10,10 @@ String ubicacionesResponseToJson(UbicacionesResponse data) => json.encode(data.t
 
 class UbicacionesResponse {
     UbicacionesResponse({
-        this.codigoRespuesta,
-        this.descripcionRespuesta,
-        this.listaGenerica,
-        this.objeto,
+        required this.codigoRespuesta,
+        required this.descripcionRespuesta,
+        required this.listaGenerica,
+        required this.objeto,
     });
 
     int codigoRespuesta;
@@ -38,9 +38,9 @@ class UbicacionesResponse {
 
 class ListaUbicaciones {
     ListaUbicaciones({
-        this.codigoProvincia,
-        this.descripcionProvincia,
-        this.cantones,
+        required this.codigoProvincia,
+        required this.descripcionProvincia,
+        required this.cantones,
     });
 
     int codigoProvincia;
@@ -62,10 +62,10 @@ class ListaUbicaciones {
 
 class Cantone {
     Cantone({
-        this.codigoCanton,
-        this.descripcionCanton,
-        this.codigoProvincia,
-        this.distritos,
+        required this.codigoCanton,
+        required this.descripcionCanton,
+        required this.codigoProvincia,
+        required this.distritos,
     });
 
     int codigoCanton;
@@ -90,9 +90,9 @@ class Cantone {
 
 class Distrito {
     Distrito({
-        this.codigoDistrito,
-        this.descripcionDistrito,
-        this.codigoCanton,
+        required this.codigoDistrito,
+        required this.descripcionDistrito,
+        required this.codigoCanton,
     });
 
     int codigoDistrito;

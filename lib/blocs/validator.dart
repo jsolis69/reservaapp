@@ -50,7 +50,7 @@ final validarConfirmarContrasenia = StreamTransformer<String, String>.fromHandle
 final validarEmail = StreamTransformer<String, String>.fromHandlers(
   handleData: (email, sink) {
 
-    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
     RegExp regExp = new RegExp(pattern);
 
@@ -174,7 +174,7 @@ handleData: (nombre, sink){
 final validarTelefono = StreamTransformer<String, String>.fromHandlers(
   handleData: (telefono, sink) {
 
-    Pattern pattern = r'[0-9]{8}';
+    String pattern = r'[0-9]{8}';
 
     RegExp regExp = new RegExp(pattern);
 
@@ -191,12 +191,12 @@ final validarTelefono = StreamTransformer<String, String>.fromHandlers(
 );
 
 
- Widget asignarIcono(Object validar){
+ Icon? asignarIcono(Object validar){
 
 return validar == null? null : validar == 'ok'? Icon( Icons.done_rounded, color: Colors.green ) : Icon( Icons.close_rounded, color: Colors.red, );
 }
 
- Object asignarError(Object validar){
+ Object? asignarError(Object validar){
 
 return validar == 'ok'? null : validar;
 }

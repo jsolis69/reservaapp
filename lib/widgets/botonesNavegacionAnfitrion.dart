@@ -7,9 +7,8 @@ class BotonesNavegacionAnfitron extends StatefulWidget {
     final int seleccionado;
 
   const BotonesNavegacionAnfitron({
-    Key key, 
-    this.seleccionado
-  }) : super(key: key);
+    required this.seleccionado
+  });
 
 
   @override

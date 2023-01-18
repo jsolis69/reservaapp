@@ -10,9 +10,9 @@ String sucursalesXUbicacionResponseToJson(SucursalesXUbicacionResponse data) => 
 
 class SucursalesXUbicacionResponse {
     SucursalesXUbicacionResponse({
-        this.codigoRespuesta,
-        this.descripcionRespuesta,
-        this.listaGenerica,
+        required this.codigoRespuesta,
+        required this.descripcionRespuesta,
+        required this.listaGenerica,
         this.objeto,
     });
 
@@ -38,18 +38,18 @@ class SucursalesXUbicacionResponse {
 
 class ListaSucursales {
     ListaSucursales({
-        this.idSucursal,
-        this.idEmpresa,
-        this.NombreEmpresa,
-        this.nombre,
+        required this.idSucursal,
+        required this.idEmpresa,
+        required this.NombreEmpresa,
+        required this.nombre,
         this.direccionExacta,
-        this.latitud,
-        this.longitud,
+        required this.latitud,
+        required this.longitud,
         this.telefono,
         this.correo,
         this.estado,
         this.ubicacion,
-        this.imagen,
+        //required this.imagen,
         this.canchas,
     });
 
@@ -64,14 +64,14 @@ class ListaSucursales {
     dynamic correo;
     dynamic estado;
     dynamic ubicacion;
-    int imagen;
+    //int imagen;
     dynamic canchas;
 
     factory ListaSucursales.fromJson(Map<String, dynamic> json) => ListaSucursales(
         idSucursal: json["IdSucursal"],
         idEmpresa: json["IdEmpresa"],
-        NombreEmpresa: json["NombreEmpresa"],
-        nombre: json["Nombre"],
+        NombreEmpresa: json["NombreEmpresa"]??'',
+        nombre: json["Nombre"]??'',
         direccionExacta: json["DireccionExacta"],
         latitud: json["Latitud"],
         longitud: json["Longitud"],
@@ -79,7 +79,7 @@ class ListaSucursales {
         correo: json["Correo"],
         estado: json["Estado"],
         ubicacion: json["Ubicacion"],
-        imagen: json["Imagen"],
+        //imagen: json["Imagen"]??'',
         canchas: json["Canchas"],
     );
 
@@ -95,7 +95,7 @@ class ListaSucursales {
         "Correo": correo,
         "Estado": estado,
         "Ubicacion": ubicacion,
-        "Imagen": imagen,
+        //"Imagen": imagen,
         "Canchas": canchas,
     };
 }

@@ -14,18 +14,18 @@ class Provider extends InheritedWidget{
   final _registroBloc = new RegistroBloc();
   //final _themeBloc = ThemeChanger(ThemeData.dark());
 
-  static Provider _instancia;
+  static Provider? _instancia;
 
-  factory Provider({Key key, Widget child}){
+  factory Provider({ required Widget child}){
     
     if(_instancia == null){
-      _instancia = new Provider._internal(key: key, child: child);
+      _instancia = new Provider._internal(child: child);
 
     }
-    return _instancia;
+    return _instancia!;
   }
-  Provider._internal({Key key, Widget child})
-  : super(key: key, child: child);
+  Provider._internal({required Widget child})
+  : super(child: child);
 
   //Provider({Key key, Widget child})
   //: super(key: key, child: child);
@@ -34,11 +34,11 @@ class Provider extends InheritedWidget{
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static LoginBloc of (BuildContext context){
-    return context.dependOnInheritedWidgetOfExactType<Provider>()._loginBloc;
+    return context.dependOnInheritedWidgetOfExactType<Provider>()!._loginBloc;
   }
 
   static RegistroBloc registroBloc (BuildContext context){
-    return context.dependOnInheritedWidgetOfExactType<Provider>()._registroBloc;
+    return context.dependOnInheritedWidgetOfExactType<Provider>()!._registroBloc;
   }
 
 }
