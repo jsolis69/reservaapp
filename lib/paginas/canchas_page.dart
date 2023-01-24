@@ -1,20 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/horario_provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 
-class CanchasPage extends StatelessWidget {
+class CanchasPage extends StatefulWidget {
 
+  @override
+  State<CanchasPage> createState() => _CanchasPageState();
+}
+
+class _CanchasPageState extends State<CanchasPage> {
   @override
   Widget build(BuildContext context) {
 
 
     final horariosServices = Provider.of<HorariosProvider>(context);
+  
+    final f = new DateFormat('dd-MM-yyyy');
+    var fecha= f.format(DateTime.now()) ;
 
    
     return Scaffold(
        appBar: AppBar(
-      title: Text("Slivers"),
+      title: Center(child: Text(fecha)),
+      actions: [
+        IconButton(
+          onPressed: () async {
+            DateTime? pickedDate = await showDatePicker(
+              locale: const Locale("es", "ES"),
+              context: context, 
+              initialDate: DateTime.now(), 
+              firstDate: DateTime.now(), 
+              lastDate: DateTime.now().add(const Duration(days: 30 ))
+              );
+
+              fecha= f.format(pickedDate!) ;
+              setState(() {
+                print(fecha);
+              });
+          },
+          icon: Icon(Icons.calendar_month),
+          )
+      ],
     ),
     body: FutureBuilder(
       future: horariosServices.ObtenerHorarioPorSucursal(2),
@@ -45,6 +74,19 @@ List<Widget> _sliverList( dynamic canchas) {
     for (int contador = 0; contador < canchas.length; contador++)
       widgetList
         ..add(SliverAppBar(
+          flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.center,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Color.fromARGB(255, 165, 93, 4),
+                      Color.fromARGB(255, 192, 118, 6),
+                    ],
+                  ),
+                ),
+              ),
+          leading: Icon(Icons.sports_soccer_sharp),
            title: Text(canchas[contador].nombre),
            pinned: true,
          ))
@@ -52,11 +94,32 @@ List<Widget> _sliverList( dynamic canchas) {
           itemExtent: 50.0,
           delegate:
               SliverChildBuilderDelegate((BuildContext context, int index) {
-                   return Container(
-                      alignment: Alignment.center,
-                      color: Colors.lightBlue[100 * (index % 9)],
-                      child: Text(canchas[contador].horarios[index].horaInicio +' - ' + canchas[contador].horarios[index].horaFin),
-                   );
+
+                final horario = canchas[contador].horarios[index];
+
+
+                return Padding(
+                  padding: EdgeInsets.only(left: 40, right: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      
+                        Text(horario.horaInicio +' - ' + horario.horaFin),
+                        !horario.reserva.equipo1.nombre?.isEmpty ? 
+                        Text((horario.reserva.equipo1.nombre?? '') + '-' + (horario.reserva.equipo2.nombre?.isEmpty ? 'Esperando reto' : horario.reserva.equipo2.nombre))
+                        :Text('Disponible'),
+                        
+                        
+                        Row(children: [
+                          Icon(Icons.calendar_month),
+                          Icon(Icons.send),
+                          Icon(Icons.person)
+                        
+                                        ])
+                    ]
+                              
+                  ),
+                );
               }, childCount: canchas[contador].horarios.length),
         ));
 

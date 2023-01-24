@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/blocs/theme.dart';
 import 'package:reservaapp/widgets/header.dart';
 import 'package:reservaapp/widgets/slideshow.dart';
@@ -52,10 +53,10 @@ class AyudaPage extends StatelessWidget {
 
 Widget _crearFormulario(BuildContext context) {
 
-  final temaAplicacion = Provider.of<ThemeChanger>(context);
+  //final temaAplicacion = Provider.of<ThemeChanger>(context);
 
   return Slidesshow(
-    colorPrimario: temaAplicacion.modoOscuro ? temaAplicacion.temaActual.accentColor : Colors.red,
+    colorPrimario: PreferenciasUsuario.esModoOscuro ? Colors.black : Colors.red,
     //colorSecundario: Colors.purple,
     slides: <Widget>[
         SvgPicture.asset('assets/svgs/svg1.svg'),

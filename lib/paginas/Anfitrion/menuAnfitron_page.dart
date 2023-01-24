@@ -8,9 +8,13 @@ import 'package:reservaapp/widgets/botonesNavegacionAnfitrion.dart';
 import 'package:reservaapp/widgets/botonesNavegacion_widget.dart';
 import 'package:reservaapp/widgets/header.dart';
 
-class MenuAnfitrionPage extends StatelessWidget {
-  //const MenuPage({Key? key}) : super(key: key);
+class MenuAnfitrionPage extends StatefulWidget {
+  @override
+  State<MenuAnfitrionPage> createState() => _MenuAnfitrionPageState();
+}
 
+class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
+  //const MenuPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
 
@@ -60,10 +64,14 @@ class MenuAnfitrionPage extends StatelessWidget {
                 title: Text('Modo oscuro'),
                 trailing: Switch.adaptive(
                   activeColor: temaAplicacion.temaActual.accentColor,
-                  value: temaAplicacion.modoOscuro, 
+                  value: PreferenciasUsuario.esModoOscuro, 
                   onChanged: (value){
                     
-                    temaAplicacion.modoOscuro = value;
+                    PreferenciasUsuario.esModoOscuro = value;
+                    final temaServicio = Provider.of<ThemeChanger>(context, listen: false);
+                    value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
+                    setState(() {
+                    });
 
                   }
                   )

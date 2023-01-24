@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/blocs/theme.dart';
 import 'package:reservaapp/widgets/botonesNavegacion_widget.dart';
 import 'package:reservaapp/widgets/header.dart';
@@ -8,9 +9,13 @@ import 'package:reservaapp/widgets/header.dart';
 
 import 'package:reservaapp/providers/usuario_provider.dart';
 
-class MenuPage extends StatelessWidget {
-  //const MenuPage({Key? key}) : super(key: key);
+class MenuPage extends StatefulWidget {
+  @override
+  State<MenuPage> createState() => _MenuPageState();
+}
 
+class _MenuPageState extends State<MenuPage> {
+  //const MenuPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
 
@@ -19,9 +24,7 @@ class MenuPage extends StatelessWidget {
     Color colorPrimario = Color(0xffFA5858);
     Color colorSecundario = Color(0xffDF0101);
 
-    
-     final temaAplicacion = Provider.of<ThemeChanger>(context);
-
+  
     return Scaffold(
       body: Stack(
         children: [
@@ -29,6 +32,8 @@ class MenuPage extends StatelessWidget {
             margin: EdgeInsets.only(top: 200),
             child: ListView(
             children: [
+
+              if(PreferenciasUsuario.esPropietario)...[
               Divider(height: 20, color: Colors.red, thickness: 1,),
               ListTile(
                 title: Text('Cambiar a modo anfitrión'),
@@ -37,6 +42,9 @@ class MenuPage extends StatelessWidget {
                   Navigator.pushNamed(context, 'MisSucursales');
                 },
               ),
+              ],
+              
+   
               Divider(height: 20, color: Colors.red, thickness: 1,),
               ListTile(
                 title: Text('Ayuda'),
@@ -58,10 +66,14 @@ class MenuPage extends StatelessWidget {
               ListTile(
                 title: Text('Modo oscuro'),
                 trailing: Switch.adaptive(
-                  value: temaAplicacion.modoOscuro, 
-                  activeColor: temaAplicacion.temaActual.accentColor,
+                  value: PreferenciasUsuario.esModoOscuro, 
+                  //activeColor: PreferenciasUsuario.temaActual.accentColor,
                   onChanged: (value){
-                    temaAplicacion.modoOscuro = value;
+                    PreferenciasUsuario.esModoOscuro = value;
+                    final temaServicio = Provider.of<ThemeChanger>(context, listen: false);
+                    value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
+                    setState(() {
+                    });
                   }
                   )
                 ),

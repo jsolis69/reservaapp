@@ -255,15 +255,12 @@ class LoginPage extends StatelessWidget {
         if(usuarioprovider.loginValido)
         {
             usuarioprovider.login().then((resp){ 
-                if(resp['CodigoRespuesta'] == 0){
+                if(resp.codigoRespuesta == 0){
                   Navigator.pushReplacementNamed(context, 'Sucursales');
                 }
                 else{
-                  mostrarAlerta(context, resp['DescripcionRespuesta']);
+                  mostrarAlerta(context, resp.descripcionRespuesta);
                 }
-
-
-
             }
             );
             

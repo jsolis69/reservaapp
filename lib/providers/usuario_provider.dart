@@ -2,10 +2,12 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 //import 'package:reservaapp/blocs/registro_bloc.dart';
 //import 'package:reservaapp/models/usuario_model.dart';
 import 'package:reservaapp/utils/utils.dart';
 //import 'package:recetaap/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:reservaapp/models/autenticar_model.dart';
 
 class UsuarioProvider with ChangeNotifier{
 
@@ -182,7 +184,7 @@ class UsuarioProvider with ChangeNotifier{
 
 
 
-  Future<Map<String, dynamic>> login( ) async {
+  Future<AutenticarResponse> login( ) async {
     
 
    final autData = {
@@ -191,7 +193,9 @@ class UsuarioProvider with ChangeNotifier{
      //'returnSecureToken' : true
    };
 
- final url = Uri.http( Utilitarios().urlWebapi + 'Autenticar/AutenticarUsuario');
+ var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Autenticar/AutenticarUsuario');
+
+ 
  final datos = json.encode( autData );
 
 
@@ -201,9 +205,22 @@ class UsuarioProvider with ChangeNotifier{
       ,headers: Utilitarios().header
    );
 
-   Map<String, dynamic> decodeResp = json.decode(resp.body);
+   if(resp.statusCode == 200)
+   {
+      AutenticarResponse autenticar = autenticarResponseFromJson(resp.body);
 
-   return decodeResp;
+      PreferenciasUsuario.esPropietario = autenticar.objeto.indEsAdministrador;
+
+
+      return autenticar;
+   }
+   else{
+    throw Exception('Ocurrió un error al autenticar.');
+   }
+
+   //Map<String, dynamic> decodeResp = json.decode(resp.body);
+
+   
   }
 
 

@@ -2,59 +2,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenciasUsuario {
 
- static final PreferenciasUsuario _instancia = new PreferenciasUsuario._internal();
+ static late SharedPreferences _prefs;
 
- factory PreferenciasUsuario() {
-   return _instancia;
- }
+  static bool _esModoOscuro = true;
+  static bool _esPropietario = false;
 
- PreferenciasUsuario._internal();
-
-  late SharedPreferences _prefs;
-
- initPrefs() async {
-   this._prefs = await SharedPreferences.getInstance();
+ static Future init() async {
+   _prefs = await SharedPreferences.getInstance();
  }
 
  // GET y SET del token
- int get modoAplicacion {
-   return _prefs.getInt('modoAplicacion') ?? 1;
+ static bool get esModoOscuro {
+   return _prefs.getBool('EsModoOscuro') ?? _esModoOscuro;
+ }
+  static bool get esPropietario{
+    return _prefs.getBool('EsPropietario') ?? _esPropietario;
+  }
+
+ static set esModoOscuro( bool value ) {
+  _esModoOscuro = value;
+   _prefs.setBool('EsModoOscuro', value);
  }
 
- set modoAplicacion( int value ) {
-   _prefs.setInt('modoAplicacion', value);
- }
-
-
-// void cerrarSesion(){
-//   this._prefs.clear();
-// }
-
- // GET y SET del token
- //get token {
- //  return _prefs.getString('token') ?? '';
- //}
-
- //set token( String value ) {
- //  _prefs.setString('token', value);
- //}
-   // GET y SET del token
- //get tokenExpira {
- //  return _prefs.getString('tokenExpira') ?? '';
- //}
-
- //set tokenExpira( String value ) {
- //  _prefs.setString('tokenExpira', value);
- //}
- 
-
- // GET y SET de la última página
- //get ultimaPagina {
- //  return _prefs.getString('ultimaPagina') ?? 'login';
- //}
-
- //set ultimaPagina( String value ) {
- //  _prefs.setString('ultimaPagina', value);
- //}
-
+   static set esPropietario(bool value){
+    _esPropietario = value;
+    _prefs.setBool('EsPropietario', value);
+  }
 }

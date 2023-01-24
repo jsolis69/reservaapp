@@ -1,6 +1,7 @@
 //import 'dart:js_util';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 //import 'package:reservaapp/blocs/provider.dart';
@@ -27,19 +28,19 @@ import 'package:reservaapp/providers/usuario_provider.dart';
 import 'blocs/theme.dart';
 
 
-final prefs = new PreferenciasUsuario();
+//final prefs = new PreferenciasUsuario();
 
 void main() async{
 
     WidgetsFlutterBinding.ensureInitialized();
-    final prefs = new PreferenciasUsuario();
-    await prefs.initPrefs();
+    //final prefs = new PreferenciasUsuario();
+    await PreferenciasUsuario.init();
 
     runApp(
 
       MultiProvider(
         providers:[
-          ChangeNotifierProvider( create: (_)=>new ThemeChanger(prefs.modoAplicacion)),
+          ChangeNotifierProvider( create: (_)=>new ThemeChanger(esModoOscuro: PreferenciasUsuario.esModoOscuro)),
           ChangeNotifierProvider( create: (_)=>new UsuarioProvider()),
           ChangeNotifierProvider( create: (_)=>new SucursalesProvider()),
           ChangeNotifierProvider( create: (_)=>new UbicacionesProvider()),
@@ -62,6 +63,14 @@ class MyApp extends StatelessWidget {
     final temaActual = Provider.of<ThemeChanger>(context).temaActual;
 
     return MaterialApp(
+      //para cambiar el idioma del datepicker
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate
+      ],
+      supportedLocales: [
+         const Locale('es'),
+         const Locale('en')
+      ],
         theme: temaActual,
         debugShowCheckedModeBanner: false,
         title: 'Fut5 Reservas',
