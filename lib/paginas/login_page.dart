@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/usuario_provider.dart';
 import 'package:reservaapp/utils/utils.dart';
@@ -50,14 +49,6 @@ class LoginPage extends StatelessWidget {
           ),
 
       )
-      
-      //Stack(
-      //  children: <Widget>[
-      //    _colorFondo(),
-      //    _imagenFondo(),
-      //    _titulos(context)
-      //],
-      //),
     );
   }
 
@@ -74,112 +65,6 @@ class LoginPage extends StatelessWidget {
       ),
   );
   }
-
-
-
-// Widget _colorFondo() {
-// return Container(
-//   width: double.infinity,
-//   height: double.infinity,
-//   color: Colors.white,
-//   );
-// }
-//
-// Widget _imagenFondo() {
-// return Container(
-//   width: double.infinity,
-//   height: double.infinity,
-//   child: Image(
-//     image: AssetImage('assets/img/fondo.jpg'),
-//     fit: BoxFit.cover,
-//     ),
-// );
-//
-// }
-//
-// Widget _titulos(BuildContext context) {
-//
-//   //final estiloTextos = TextStyle(color: Colors.white, fontSize: 50.0);
-//
-//   return SafeArea(
-//     child: SingleChildScrollView(
-//         child: Column(
-//         children: <Widget>[          
-//           SafeArea(
-//           child: Container(
-//             height: 40.0,
-//           ),
-//           ),
-//           crearTitulo('Reservas', 50.0),
-//           crearTitulo('Bienvenidos', 50.0),
-//           _ventanasSession(context),
-//           
-//         ],
-//       ),
-//     ),
-//   );
-//
-// }
-//
-// Widget _ventanasSession(BuildContext context) {
-//   //final bloc = Provider.of(context);
-//   final size = MediaQuery.of(context).size;
-//
-//   //final estiloTextos = TextStyle(color: Colors.white, fontSize: 20.0);
-//
-//   return SingleChildScrollView(
-//     child: Column(
-//       children: <Widget>[
-//         Container(
-//           width: size.width * 0.85,
-//           padding: EdgeInsets.symmetric(vertical: 50.0),
-//           margin: EdgeInsets.symmetric( vertical: 30.0),
-//           decoration: BoxDecoration(
-//             color:  Colors.white,
-//             borderRadius: BorderRadius.circular(5.0),
-//             boxShadow: [
-//               BoxShadow(
-//                 color: Color(0xff008000),
-//                 blurRadius: 3.0,
-//                 offset: Offset(0.0, 0.0),
-//                 spreadRadius: 3.0 
-//               )
-//             ]
-//           ),
-//           child: Column(
-//             children: [
-//                crearTitulo('Iniciar Sesión', 20.0),
-//               SizedBox(height: 30.0),
-//               _crearTexto('Usuario','Digíte su usuario', Icons.account_box, false),
-//               SizedBox(height: 20.0),
-//               _crearTexto('Contraseña', 'Digíte la contraseña', Icons.lock_open, true),
-//               SizedBox(height: 20.0),
-//               _crearBoton(),
-//               SizedBox(height: 20.0),
-//               _crearBotonesLogin(),
-//               SizedBox(height: 20.0),
-//
-//
-//
-//                    TextButton(
-//           onPressed: ()=> Navigator.pushReplacementNamed(context, 'Sucursales'), 
-//           child: Text('Entrar')//, style: estiloTextos)
-//         ),
-//
-//
-//             ],
-//           ),
-//         ),
-//         TextButton(
-//           onPressed: ()=> Navigator.pushReplacementNamed(context, 'Registro'), 
-//           
-//           child: crearTitulo('Registrarse', 20.0)
-//         ),
-//       ],
-//     )
-//   );
-// }
-
 
 
   Widget _crearContrasenia(BuildContext context) {
@@ -221,14 +106,15 @@ class LoginPage extends StatelessWidget {
         hintText: 'Digíte su usuario',
         labelText: 'Usuario',
         errorText: usuarioprovider.usuario.error,
-         suffixIcon: Icon( Icons.account_box ),
+         suffixIcon: Icon( Icons.account_box )
+      ),
         //errorText: snapshot.error
         //icon: Icon( Icons.account_box )
-      ),
+      
       onChanged: (value){
         usuarioprovider.cambiarUsuario(value);
-      }//bloc.changeEmail,
-        )
+      }
+     )//bloc.changeEmail,
     );
     
 

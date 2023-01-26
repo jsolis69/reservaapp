@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:reservaapp/blocs/provider.dart';
-//import 'package:reservaapp/blocs/validator.dart';
-//import 'package:reservaapp/providers/usuario_provider.dart';
 import 'package:reservaapp/utils/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/usuario_provider.dart';
 
 class RegistroPage extends StatefulWidget {
- // const RegistroPage({Key? key}) : super(key: key);
-
-
 
   @override
   _RegistroPageState createState() => _RegistroPageState();

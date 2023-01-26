@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/blocs/theme.dart';
+import 'package:reservaapp/providers/tema_provider.dart';
 import 'package:reservaapp/widgets/botonesNavegacion_widget.dart';
 import 'package:reservaapp/widgets/header.dart';
 
@@ -70,7 +71,7 @@ class _MenuPageState extends State<MenuPage> {
                   //activeColor: PreferenciasUsuario.temaActual.accentColor,
                   onChanged: (value){
                     PreferenciasUsuario.esModoOscuro = value;
-                    final temaServicio = Provider.of<ThemeChanger>(context, listen: false);
+                    final temaServicio = Provider.of<TemaServicio>(context, listen: false);
                     value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
                     setState(() {
                     });

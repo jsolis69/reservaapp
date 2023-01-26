@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/blocs/theme.dart';
+import 'package:reservaapp/providers/tema_provider.dart';
 //import 'package:reservaapp/blocs/provider.dart';
 import 'package:reservaapp/widgets/botonesNavegacionAnfitrion.dart';
 import 'package:reservaapp/widgets/botonesNavegacion_widget.dart';
@@ -23,7 +24,7 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
     Color colorPrimario = Color(0xffFA5858);
     Color colorSecundario = Color(0xffDF0101);
 
-     final temaAplicacion = Provider.of<ThemeChanger>(context);
+     //final temaAplicacion = Provider.of<TemaServicio>(context);
     return Scaffold(
 
  
@@ -63,12 +64,12 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
               ListTile(
                 title: Text('Modo oscuro'),
                 trailing: Switch.adaptive(
-                  activeColor: temaAplicacion.temaActual.accentColor,
+                  //activeColor: temaAplicacion.temaActual.accentColor,
                   value: PreferenciasUsuario.esModoOscuro, 
                   onChanged: (value){
                     
                     PreferenciasUsuario.esModoOscuro = value;
-                    final temaServicio = Provider.of<ThemeChanger>(context, listen: false);
+                    final temaServicio = Provider.of<TemaServicio>(context, listen: false);
                     value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
                     setState(() {
                     });

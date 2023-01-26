@@ -4,16 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
-//import 'package:reservaapp/blocs/provider.dart';
-//import 'package:provider/provider.dart';
-//import 'package:reservaapp/blocs/provider.dart';
 import 'package:reservaapp/paginas/Anfitrion/menuAnfitron_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misSucursales_page.dart';
 import 'package:reservaapp/paginas/ayuda_page.dart';
 import 'package:reservaapp/paginas/canchas_page.dart';
 import 'package:reservaapp/paginas/comentarios_page.dart';
 import 'package:reservaapp/paginas/configuracion_page.dart';
-//import 'package:reservaapp/blocs/theme.dart';
 import 'package:reservaapp/paginas/login_page.dart';
 import 'package:reservaapp/paginas/menu_page.dart';
 import 'package:reservaapp/paginas/miPerfil_page.dart';
@@ -22,13 +18,9 @@ import 'package:reservaapp/paginas/reserva_page.dart';
 import 'package:reservaapp/paginas/sucursales_page.dart';
 import 'package:reservaapp/providers/horario_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
+import 'package:reservaapp/providers/tema_provider.dart';
 import 'package:reservaapp/providers/ubicaciones_provider.dart';
 import 'package:reservaapp/providers/usuario_provider.dart';
-
-import 'blocs/theme.dart';
-
-
-//final prefs = new PreferenciasUsuario();
 
 void main() async{
 
@@ -40,7 +32,7 @@ void main() async{
 
       MultiProvider(
         providers:[
-          ChangeNotifierProvider( create: (_)=>new ThemeChanger(esModoOscuro: PreferenciasUsuario.esModoOscuro)),
+          ChangeNotifierProvider( create: (_)=>new TemaServicio(esModoOscuro: PreferenciasUsuario.esModoOscuro)),
           ChangeNotifierProvider( create: (_)=>new UsuarioProvider()),
           ChangeNotifierProvider( create: (_)=>new SucursalesProvider()),
           ChangeNotifierProvider( create: (_)=>new UbicacionesProvider()),
@@ -60,12 +52,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final temaActual = Provider.of<ThemeChanger>(context).temaActual;
+    final temaActual = Provider.of<TemaServicio>(context).temaActual;
 
     return MaterialApp(
       //para cambiar el idioma del datepicker
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate
+      localizationsDelegates: [      
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: [
          const Locale('es'),

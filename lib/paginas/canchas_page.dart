@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/providers/horario_provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 
 class CanchasPage extends StatefulWidget {
@@ -12,41 +12,45 @@ class CanchasPage extends StatefulWidget {
 }
 
 class _CanchasPageState extends State<CanchasPage> {
+
+    DateTime selectedDate = DateTime.now();
+      Future<void> _seleccionarFecha(BuildContext context)async {
+            DateTime? pickedDate = await showDatePicker(
+              locale: const Locale("es", "ES"),
+              context: context, 
+              initialDate: selectedDate, 
+              firstDate: DateTime.now().add(const Duration(days: -30)), 
+              lastDate: DateTime.now().add(const Duration(days: 30 ))
+              );
+              setState(() {
+                selectedDate = pickedDate!;
+              });
+          }
+
   @override
   Widget build(BuildContext context) {
 
 
     final horariosServices = Provider.of<HorariosProvider>(context);
-  
-    final f = new DateFormat('dd-MM-yyyy');
-    var fecha= f.format(DateTime.now()) ;
+  final f = new DateFormat('dd-MM-yyyy');
+  final fSer = new DateFormat('yyyy-MM-dd');
 
    
     return Scaffold(
        appBar: AppBar(
-      title: Center(child: Text(fecha)),
+      title: Center(child: Text(f.format(selectedDate))),
       actions: [
         IconButton(
-          onPressed: () async {
-            DateTime? pickedDate = await showDatePicker(
-              locale: const Locale("es", "ES"),
-              context: context, 
-              initialDate: DateTime.now(), 
-              firstDate: DateTime.now(), 
-              lastDate: DateTime.now().add(const Duration(days: 30 ))
-              );
+          onPressed: () {
 
-              fecha= f.format(pickedDate!) ;
-              setState(() {
-                print(fecha);
-              });
+            _seleccionarFecha(context);
           },
           icon: Icon(Icons.calendar_month),
           )
       ],
     ),
     body: FutureBuilder(
-      future: horariosServices.ObtenerHorarioPorSucursal(2),
+      future: horariosServices.ObtenerHorarioPorSucursal(2, fSer.format(selectedDate)),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
 
          if (snapshot.connectionState == ConnectionState.done) {
@@ -111,11 +115,18 @@ List<Widget> _sliverList( dynamic canchas) {
                         
                         
                         Row(children: [
-                          Icon(Icons.calendar_month),
-                          Icon(Icons.send),
-                          Icon(Icons.person)
-                        
-                                        ])
+
+                          if(horario.reserva.equipo1.nombre?.isEmpty)
+                            Icon(Icons.calendar_month),
+
+                          if(PreferenciasUsuario.esPropietario)
+                            Icon(Icons.send),
+                          if(horario.reserva.equipo2.nombre?.isEmpty)
+                            Icon(Icons.person),
+                          if((horario.reserva.equipo2.idUsuario == PreferenciasUsuario.usuarioLogueado)
+                          || (horario.reserva.equipo1.idUsuario == PreferenciasUsuario.usuarioLogueado))
+                            Icon(Icons.dangerous)
+                        ])
                     ]
                               
                   ),

@@ -7,7 +7,7 @@ import 'package:reservaapp/utils/utils.dart';
 
 class HorariosProvider with ChangeNotifier{
 
- Future<HorariosCanchaResponse> ObtenerHorarioPorSucursal(int idSucursal) async {
+ Future<HorariosCanchaResponse> ObtenerHorarioPorSucursal(int idSucursal, String fecha) async {
    
 
  var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorSucursal');
@@ -23,7 +23,7 @@ class HorariosProvider with ChangeNotifier{
       'Horarios':[
         { 
           'Reserva': { 
-            'Fecha': '2023-01-17'
+            'Fecha': fecha
           }
         }
       ]

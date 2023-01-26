@@ -6,6 +6,7 @@ class PreferenciasUsuario {
 
   static bool _esModoOscuro = true;
   static bool _esPropietario = false;
+  static int _usuarioLogueado = -1;
 
  static Future init() async {
    _prefs = await SharedPreferences.getInstance();
@@ -18,6 +19,9 @@ class PreferenciasUsuario {
   static bool get esPropietario{
     return _prefs.getBool('EsPropietario') ?? _esPropietario;
   }
+   static int get usuarioLogueado{
+    return _prefs.getInt('UsuarioLogueado') ?? _usuarioLogueado;
+  }
 
  static set esModoOscuro( bool value ) {
   _esModoOscuro = value;
@@ -27,5 +31,10 @@ class PreferenciasUsuario {
    static set esPropietario(bool value){
     _esPropietario = value;
     _prefs.setBool('EsPropietario', value);
+  }
+
+  static set usuarioLogueado(int value){
+    _usuarioLogueado = value;
+    _prefs.setInt('UsuarioLogueado', value);
   }
 }

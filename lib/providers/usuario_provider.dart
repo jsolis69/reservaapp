@@ -210,6 +210,7 @@ class UsuarioProvider with ChangeNotifier{
       AutenticarResponse autenticar = autenticarResponseFromJson(resp.body);
 
       PreferenciasUsuario.esPropietario = autenticar.objeto.indEsAdministrador;
+      PreferenciasUsuario.usuarioLogueado = autenticar.objeto.idUsuario;
 
 
       return autenticar;
