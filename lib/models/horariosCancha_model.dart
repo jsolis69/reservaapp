@@ -12,31 +12,27 @@ class HorariosCanchaResponse {
     HorariosCanchaResponse({
         required this.codigoRespuesta,
         required this.descripcionRespuesta,
-        this.listaGenerica,
+        required this.listaGenerica,
         required this.objeto,
-        this.infoAdicional,
     });
 
     int codigoRespuesta;
     String descripcionRespuesta;
-    dynamic listaGenerica;
+    List<dynamic> listaGenerica;
     Objeto objeto;
-    dynamic infoAdicional;
 
     factory HorariosCanchaResponse.fromJson(Map<String, dynamic> json) => HorariosCanchaResponse(
         codigoRespuesta: json["CodigoRespuesta"],
         descripcionRespuesta: json["DescripcionRespuesta"],
-        listaGenerica: json["ListaGenerica"],
+        listaGenerica: List<dynamic>.from(json["ListaGenerica"].map((x) => x)),
         objeto: Objeto.fromJson(json["Objeto"]),
-        infoAdicional: json["InfoAdicional"],
     );
 
     Map<String, dynamic> toJson() => {
         "CodigoRespuesta": codigoRespuesta,
         "DescripcionRespuesta": descripcionRespuesta,
-        "ListaGenerica": listaGenerica,
+        "ListaGenerica": List<dynamic>.from(listaGenerica.map((x) => x)),
         "Objeto": objeto.toJson(),
-        "InfoAdicional": infoAdicional,
     };
 }
 
@@ -51,11 +47,10 @@ class Objeto {
         required this.longitud,
         this.telefono,
         this.correo,
-        this.estado,
-        this.ubicacion,
+        required this.estado,
         this.imagen,
         required this.canchas,
-        this.atributos,
+        required this.atributos,
     });
 
     int idSucursal;
@@ -67,11 +62,10 @@ class Objeto {
     int longitud;
     dynamic telefono;
     dynamic correo;
-    dynamic estado;
-    dynamic ubicacion;
+    Estado estado;
     dynamic imagen;
     List<Cancha> canchas;
-    dynamic atributos;
+    List<dynamic> atributos;
 
     factory Objeto.fromJson(Map<String, dynamic> json) => Objeto(
         idSucursal: json["IdSucursal"],
@@ -83,11 +77,10 @@ class Objeto {
         longitud: json["Longitud"],
         telefono: json["Telefono"],
         correo: json["Correo"],
-        estado: json["Estado"],
-        ubicacion: json["Ubicacion"],
+        estado: Estado.fromJson(json["Estado"]),
         imagen: json["Imagen"],
         canchas: List<Cancha>.from(json["Canchas"].map((x) => Cancha.fromJson(x))),
-        atributos: json["Atributos"],
+        atributos: List<dynamic>.from(json["Atributos"].map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
@@ -100,11 +93,10 @@ class Objeto {
         "Longitud": longitud,
         "Telefono": telefono,
         "Correo": correo,
-        "Estado": estado,
-        "Ubicacion": ubicacion,
+        "Estado": estado.toJson(),
         "Imagen": imagen,
         "Canchas": List<dynamic>.from(canchas.map((x) => x.toJson())),
-        "Atributos": atributos,
+        "Atributos": List<dynamic>.from(atributos.map((x) => x)),
     };
 }
 
@@ -112,27 +104,47 @@ class Cancha {
     Cancha({
         required this.idCancha,
         required this.nombre,
-        this.estado,
+        required this.estado,
         required this.horarios,
     });
 
     int idCancha;
     String nombre;
-    dynamic estado;
+    Estado estado;
     List<Horario> horarios;
 
     factory Cancha.fromJson(Map<String, dynamic> json) => Cancha(
         idCancha: json["IdCancha"],
         nombre: json["Nombre"],
-        estado: json["Estado"],
+        estado: Estado.fromJson(json["Estado"]),
         horarios: List<Horario>.from(json["Horarios"].map((x) => Horario.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "IdCancha": idCancha,
         "Nombre": nombre,
-        "Estado": estado,
+        "Estado": estado.toJson(),
         "Horarios": List<dynamic>.from(horarios.map((x) => x.toJson())),
+    };
+}
+
+class Estado {
+    Estado({
+        required this.codigo,
+        this.descripcion,
+    });
+
+    int codigo;
+    dynamic descripcion;
+
+    factory Estado.fromJson(Map<String, dynamic> json) => Estado(
+        codigo: json["Codigo"],
+        descripcion: json["Descripcion"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "Codigo": codigo,
+        "Descripcion": descripcion,
     };
 }
 
@@ -141,24 +153,24 @@ class Horario {
         required this.idHorario,
         required this.horaInicio,
         required this.horaFin,
-        this.diaSemana,
-        this.estado,
+        required this.diaSemana,
+        required this.estado,
         required this.reserva,
     });
 
     int idHorario;
     String horaInicio;
     String horaFin;
-    dynamic diaSemana;
-    dynamic estado;
+    Estado diaSemana;
+    Estado estado;
     Reserva reserva;
 
     factory Horario.fromJson(Map<String, dynamic> json) => Horario(
         idHorario: json["IdHorario"],
         horaInicio: json["HoraInicio"],
         horaFin: json["HoraFin"],
-        diaSemana: json["DiaSemana"],
-        estado: json["Estado"],
+        diaSemana: Estado.fromJson(json["DiaSemana"]),
+        estado: Estado.fromJson(json["Estado"]),
         reserva: Reserva.fromJson(json["Reserva"]),
     );
 
@@ -166,8 +178,8 @@ class Horario {
         "IdHorario": idHorario,
         "HoraInicio": horaInicio,
         "HoraFin": horaFin,
-        "DiaSemana": diaSemana,
-        "Estado": estado,
+        "DiaSemana": diaSemana.toJson(),
+        "Estado": estado.toJson(),
         "Reserva": reserva.toJson(),
     };
 }
@@ -186,7 +198,7 @@ class Reserva {
     Equipo equipo1;
     Equipo equipo2;
     bool indLlevaDosEquipos;
-    dynamic estado;
+    Estado estado;
     DateTime fecha;
 
     factory Reserva.fromJson(Map<String, dynamic> json) => Reserva(
@@ -194,7 +206,7 @@ class Reserva {
         equipo1: Equipo.fromJson(json["Equipo1"]),
         equipo2: Equipo.fromJson(json["Equipo2"]),
         indLlevaDosEquipos: json["IndLlevaDosEquipos"],
-        estado: json["Estado"],
+        estado: Estado.fromJson(json["Estado"]),
         fecha: DateTime.parse(json["Fecha"]),
     );
 
@@ -203,7 +215,7 @@ class Reserva {
         "Equipo1": equipo1.toJson(),
         "Equipo2": equipo2.toJson(),
         "IndLlevaDosEquipos": indLlevaDosEquipos,
-        "Estado": estado,
+        "Estado": estado.toJson(),
         "Fecha": fecha.toIso8601String(),
     };
 }
@@ -217,12 +229,12 @@ class Equipo {
         this.email,
         this.telefono,
         this.direccion,
-        this.estado,
+        required this.estado,
         this.codUsuario,
         this.contrasenia,
-        this.usuarioEmpresa,
-        this.empresaLogueada,
+        required this.empresa,
         required this.permiteNotificar,
+        required this.indEsAdministrador,
     });
 
     int idUsuario;
@@ -232,12 +244,12 @@ class Equipo {
     dynamic email;
     dynamic telefono;
     dynamic direccion;
-    dynamic estado;
+    Estado estado;
     dynamic codUsuario;
     dynamic contrasenia;
-    dynamic usuarioEmpresa;
-    dynamic empresaLogueada;
+    Empresa empresa;
     bool permiteNotificar;
+    bool indEsAdministrador;
 
     factory Equipo.fromJson(Map<String, dynamic> json) => Equipo(
         idUsuario: json["IdUsuario"],
@@ -247,12 +259,12 @@ class Equipo {
         email: json["Email"],
         telefono: json["Telefono"],
         direccion: json["Direccion"],
-        estado: json["Estado"],
+        estado: Estado.fromJson(json["Estado"]),
         codUsuario: json["CodUsuario"],
         contrasenia: json["Contrasenia"],
-        usuarioEmpresa: json["UsuarioEmpresa"],
-        empresaLogueada: json["EmpresaLogueada"],
+        empresa: Empresa.fromJson(json["Empresa"]),
         permiteNotificar: json["PermiteNotificar"],
+        indEsAdministrador: json["indEsAdministrador"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -263,11 +275,51 @@ class Equipo {
         "Email": email,
         "Telefono": telefono,
         "Direccion": direccion,
-        "Estado": estado,
+        "Estado": estado.toJson(),
         "CodUsuario": codUsuario,
         "Contrasenia": contrasenia,
-        "UsuarioEmpresa": usuarioEmpresa,
-        "EmpresaLogueada": empresaLogueada,
+        "Empresa": empresa.toJson(),
         "PermiteNotificar": permiteNotificar,
+        "indEsAdministrador": indEsAdministrador,
+    };
+}
+
+class Empresa {
+    Empresa({
+        required this.idEmpresa,
+        this.nombre,
+        this.telefono,
+        this.correo,
+        required this.estado,
+        required this.logo,
+        required this.sucursales,
+    });
+
+    int idEmpresa;
+    dynamic nombre;
+    dynamic telefono;
+    dynamic correo;
+    Estado estado;
+    int logo;
+    List<dynamic> sucursales;
+
+    factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
+        idEmpresa: json["IdEmpresa"],
+        nombre: json["Nombre"],
+        telefono: json["Telefono"],
+        correo: json["Correo"],
+        estado: Estado.fromJson(json["Estado"]),
+        logo: json["Logo"],
+        sucursales: List<dynamic>.from(json["Sucursales"].map((x) => x)),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "IdEmpresa": idEmpresa,
+        "Nombre": nombre,
+        "Telefono": telefono,
+        "Correo": correo,
+        "Estado": estado.toJson(),
+        "Logo": logo,
+        "Sucursales": List<dynamic>.from(sucursales.map((x) => x)),
     };
 }

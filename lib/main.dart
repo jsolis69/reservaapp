@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
+import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/paginas/Anfitrion/menuAnfitron_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misSucursales_page.dart';
 import 'package:reservaapp/paginas/ayuda_page.dart';
@@ -17,6 +18,7 @@ import 'package:reservaapp/paginas/registro_page.dart';
 import 'package:reservaapp/paginas/reserva_page.dart';
 import 'package:reservaapp/paginas/sucursales_page.dart';
 import 'package:reservaapp/providers/horario_provider.dart';
+import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/providers/tema_provider.dart';
 import 'package:reservaapp/providers/ubicaciones_provider.dart';
@@ -37,6 +39,8 @@ void main() async{
           ChangeNotifierProvider( create: (_)=>new SucursalesProvider()),
           ChangeNotifierProvider( create: (_)=>new UbicacionesProvider()),
           ChangeNotifierProvider( create: (_)=>new HorariosProvider()),
+          ChangeNotifierProvider( create: (_)=>new ReservaProvider()),
+          ChangeNotifierProvider( create: (_)=>new NotificacionModel()),
         ],
         child: MyApp(), 
       )
