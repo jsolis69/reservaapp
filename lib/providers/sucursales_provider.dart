@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:reservaapp/models/sucursales_model.dart';
@@ -7,8 +6,12 @@ import 'package:reservaapp/utils/utils.dart';
 class SucursalesProvider with ChangeNotifier{
 
 
-
-
+  int _sucursalSeleccionada = 0;
+  int get sucursalSeleccionada => _sucursalSeleccionada;
+  set sucursalSeleccionada(int valor){
+    _sucursalSeleccionada = valor;
+    notifyListeners();
+  }
 
   Future<SucursalesXUbicacionResponse> obtenerSucursalesPorUbicacion() async {
    

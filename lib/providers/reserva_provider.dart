@@ -9,6 +9,15 @@ import 'package:reservaapp/utils/utils.dart';
 
 class ReservaProvider with ChangeNotifier{
 
+  DateTime _fechaSeleccionada = DateTime.now();
+  DateTime get fechaSeleccionada => _fechaSeleccionada;
+  set fechaSeleccionada(DateTime valor){
+    _fechaSeleccionada = valor;
+    notifyListeners();
+  }
+
+
+
 
 InsertarReserva(Horario Horario, int IdSucursal) async {
 
@@ -39,7 +48,7 @@ final fSer = new DateFormat('yyyy-MM-dd');
 
   if (response.statusCode == 200) {
 
-    var reservaResponse =  insertarReservaResponseFromJson(response.body);
+    var reservaResponse =  reservaResponseFromJson(response.body);
 
     if(reservaResponse.codigoRespuesta == 0)
     {
@@ -51,9 +60,93 @@ final fSer = new DateFormat('yyyy-MM-dd');
     }
     return reservaResponse;
   } else {
-    throw Exception('Failed to create album.');
+    throw Exception('Error ejecutando el servicio.');
   }
 }
+
+
+
+
+
+ActualizarReserva(Horario Horario) async {
+
+final fSer = new DateFormat('yyyy-MM-dd');
+ var url = Uri.http( Utilitarios().urlWebapi, 'Reserva.API/api/Reserva/ActualizarReserva' );
+ final response = await http.post(url,
+  headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+ body: jsonEncode({
+  'IdHorario': Horario.idHorario,
+  'Reserva': 
+    {
+      'Fecha' : fSer.format(Horario.reserva.fecha),
+      'Equipo2':
+        { 
+          'IdUsuario': Horario.reserva.equipo2.idUsuario
+        },
+    }
+ }));
+ 
+  if (response.statusCode == 200) {
+
+    var reservaResponse =  reservaResponseFromJson(response.body);
+
+    if(reservaResponse.codigoRespuesta == 0)
+    {
+      //Se limpia la lista para volverla a cargar
+      //listaCanciones = [];
+      //listaCanciones = [...listaCanciones, ...cancionesResponse.listaGenerica];
+      notifyListeners();
+
+    }
+    return reservaResponse;
+  } else {
+    throw Exception('Error ejecutando el servicio.');
+  }
+}
+
+
+EliminarReserva(Horario Horario) async {
+
+ var url = Uri.http( Utilitarios().urlWebapi, 'Reserva.API/api/Reserva/EliminarReserva' );
+ final response = await http.post(url,
+  headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+ body: jsonEncode({
+  'Reserva': 
+    {
+      'IdReserva' : Horario.reserva.idReserva,
+      'Equipo1':
+        { 
+          'IdUsuario': Horario.reserva.equipo1.idUsuario
+        },
+      'Equipo2':
+        { 
+          'IdUsuario': Horario.reserva.equipo2.idUsuario
+        },
+    }
+ }));
+ 
+  if (response.statusCode == 200) {
+
+    var reservaResponse =  reservaResponseFromJson(response.body);
+
+    if(reservaResponse.codigoRespuesta == 0)
+    {
+      //Se limpia la lista para volverla a cargar
+      //listaCanciones = [];
+      //listaCanciones = [...listaCanciones, ...cancionesResponse.listaGenerica];
+      notifyListeners();
+
+    }
+    return reservaResponse;
+  } else {
+    throw Exception('Error ejecutando el servicio.');
+  }
+}
+
 
 
 

@@ -68,7 +68,8 @@ class _contenido extends StatelessWidget {
             subtitle:  Text(snapshot.data.listaGenerica[index].NombreEmpresa),
             //isThreeLine: true,
             onTap: (){
-              Navigator.pushNamed(context, 'Canchas', arguments: snapshot.data.listaGenerica[index].idSucursal);
+              sucursalesServices.sucursalSeleccionada = snapshot.data.listaGenerica[index].idSucursal;
+              Navigator.pushNamed(context, 'Canchas');
               
             },
             ),

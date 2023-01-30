@@ -1,15 +1,15 @@
 // To parse this JSON data, do
 //
-//     final insertarReservaResponse = insertarReservaResponseFromJson(jsonString);
+//     final reservaResponse = reservaResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-InsertarReservaResponse insertarReservaResponseFromJson(String str) => InsertarReservaResponse.fromJson(json.decode(str));
+ReservaResponse reservaResponseFromJson(String str) => ReservaResponse.fromJson(json.decode(str));
 
-String insertarReservaResponseToJson(InsertarReservaResponse data) => json.encode(data.toJson());
+String reservaResponseToJson(ReservaResponse data) => json.encode(data.toJson());
 
-class InsertarReservaResponse {
-    InsertarReservaResponse({
+class ReservaResponse {
+    ReservaResponse({
         required this.codigoRespuesta,
         required this.descripcionRespuesta,
         required this.listaGenerica,
@@ -21,7 +21,7 @@ class InsertarReservaResponse {
     List<dynamic> listaGenerica;
     String objeto;
 
-    factory InsertarReservaResponse.fromJson(Map<String, dynamic> json) => InsertarReservaResponse(
+    factory ReservaResponse.fromJson(Map<String, dynamic> json) => ReservaResponse(
         codigoRespuesta: json["CodigoRespuesta"],
         descripcionRespuesta: json["DescripcionRespuesta"]??'',
         listaGenerica: List<dynamic>.from(json["ListaGenerica"].map((x) => x)),

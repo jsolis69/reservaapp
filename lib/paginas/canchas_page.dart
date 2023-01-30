@@ -7,50 +7,64 @@ import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/providers/horario_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
+import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart';
 
 
-class CanchasPage extends StatefulWidget {
+class CanchasPage extends StatelessWidget {
 
-  @override
-  State<CanchasPage> createState() => _CanchasPageState();
-}
-
-class _CanchasPageState extends State<CanchasPage> {
-
-    DateTime selectedDate = DateTime.now();
-      Future<void> _seleccionarFecha(BuildContext context)async {
-            DateTime? pickedDate = await showDatePicker(
-              locale: const Locale("es", "ES"),
-              context: context, 
-              initialDate: selectedDate, 
-              firstDate: DateTime.now().add(const Duration(days: -30)), 
-              lastDate: DateTime.now().add(const Duration(days: 30 ))
-              );
-              setState(() {
-                selectedDate = pickedDate!;
-              });
-          }
+      //Future<void> _seleccionarFecha(BuildContext context)async {
+//
+      //  final reservaServices = Provider.of<ReservaProvider>(context);
+      // //final prueba = '';
+//
+      //      DateTime? pickedDate = await showDatePicker(
+      //        locale: const Locale("es", "ES"),
+      //        context: context, 
+      //        initialDate: reservaServices.fechaSeleccionada, 
+      //        firstDate: DateTime.now().add(const Duration(days: -30)), 
+      //        lastDate: DateTime.now().add(const Duration(days: 30 ))
+      //        );
+      //       
+      //       reservaServices.fechaSeleccionada = pickedDate!;
+      //    }
 
   @override
   Widget build(BuildContext context) {
+    
+        final reservaServices = Provider.of<ReservaProvider>(context);
   final f = new DateFormat('dd-MM-yyyy');
     return Scaffold(
       appBar: _appBar(f, context),
       body: Column(children:[
-         Expanded(child: _body(selectedDate: selectedDate)),
+         Expanded(child: _body(selectedDate: reservaServices.fechaSeleccionada)),
          const NotificacionWidget(),
          ]),
     );
   }
 
   AppBar _appBar(DateFormat f, BuildContext context) {
+    
+    final reservaServices = Provider.of<ReservaProvider>(context);
     return AppBar(
-    title: Center(child: Text(f.format(selectedDate))),
+    title: Center(child: Text(f.format(reservaServices.fechaSeleccionada))),
     actions: [
       IconButton(
-        onPressed: () {
-          _seleccionarFecha(context);
+        onPressed: () async {
+
+            DateTime? pickedDate = await showDatePicker(
+              locale: const Locale("es", "ES"),
+              context: context, 
+              initialDate: reservaServices.fechaSeleccionada, 
+              firstDate: DateTime.now().add(const Duration(days: -30)), 
+              lastDate: DateTime.now().add(const Duration(days: 30 ))
+              );
+             
+             reservaServices.fechaSeleccionada = pickedDate!;
+
+
+
+          //_seleccionarFecha(context);
         },
         icon: Icon(Icons.calendar_month),
         )
@@ -70,11 +84,12 @@ class _body extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final horariosServices = Provider.of<HorariosProvider>(context);
+    final sucursalesServices = Provider.of<SucursalesProvider>(context);
     final fSer = new DateFormat('yyyy-MM-dd');
 
 
     return FutureBuilder(
-    future: horariosServices.ObtenerHorarioPorSucursal(2, fSer.format(selectedDate)),
+    future: horariosServices.ObtenerHorarioPorSucursal(sucursalesServices.sucursalSeleccionada, fSer.format(selectedDate)),
     builder: (BuildContext context, AsyncSnapshot snapshot) {
       if (snapshot.connectionState == ConnectionState.done) {
         if (snapshot.hasError) {
@@ -147,7 +162,7 @@ class _horarios extends StatelessWidget {
     
   final reservaServices = Provider.of<ReservaProvider>(context);
   final notificacionModel = Provider.of<NotificacionModel>(context);
-
+  final sucursalesServices = Provider.of<SucursalesProvider>(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,12 +180,15 @@ class _horarios extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.calendar_month),
                 onPressed: (){
+
+                  //TODO hacer un dialog para validar si lleva ambos equipos
+                  //showDialog(context: context, builder: Container());
                   horario.reserva.equipo1.idUsuario = PreferenciasUsuario.usuarioLogueado;
                   horario.reserva.indLlevaDosEquipos = true;
-                  horario.reserva.fecha = DateTime.now();
+                  horario.reserva.fecha = reservaServices.fechaSeleccionada;
                   horario.reserva.equipo2.idUsuario = -1;
 
-                  reservaServices.InsertarReserva(horario, 2).then((value){
+                  reservaServices.InsertarReserva(horario, sucursalesServices.sucursalSeleccionada).then((value){
                     notificacionModel.codigo = value.codigoRespuesta;
                         if(value.codigoRespuesta == 0)
                         {
@@ -201,14 +219,75 @@ class _horarios extends StatelessWidget {
               (horario.reserva.equipo2.nombre?.isEmpty && horario.reserva.equipo1.idUsuario != PreferenciasUsuario.usuarioLogueado))
                IconButton(
                 icon: Icon(Icons.person),
-                onPressed: (){},),
+                onPressed: (){
+
+                  //TODO hacer un dialog para validar si lleva ambos equipos
+                  //showDialog(context: context, builder: Container());
+                  horario.reserva.fecha = reservaServices.fechaSeleccionada;
+                  horario.reserva.equipo2.idUsuario = PreferenciasUsuario.usuarioLogueado;
+
+                  reservaServices.ActualizarReserva(horario).then((value){
+                    notificacionModel.codigo = value.codigoRespuesta;
+                        if(value.codigoRespuesta == 0)
+                        {
+                          notificacionModel.descripcion = "Reserva actualizada satisfactoriamente";
+                          notificacionModel.mostrarAlerta = true;
+                          Timer(const Duration(seconds: 3), (() => { 
+                            notificacionModel.mostrarAlerta = false 
+                          } ));
+                        }
+                        else
+                        {
+                          notificacionModel.mostrarAlerta = true;
+                          notificacionModel.descripcion = value.descripcionRespuesta;
+                          Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+                        } 
+
+                  });
+
+
+
+                },),
 
             //si el usuario logueado es parte de la reserva, puede eliminar su reserva
             if((horario.reserva.equipo2.idUsuario == PreferenciasUsuario.usuarioLogueado)
             || (horario.reserva.equipo1.idUsuario == PreferenciasUsuario.usuarioLogueado))
               IconButton(
                 icon: Icon(Icons.dangerous),
-                onPressed: (){},),
+                onPressed: (){
+
+
+          
+                  if(horario.reserva.equipo1.idUsuario == PreferenciasUsuario.usuarioLogueado)
+                    horario.reserva.equipo2.idUsuario = 0;
+
+                  if(horario.reserva.equipo2.idUsuario == PreferenciasUsuario.usuarioLogueado)
+                    horario.reserva.equipo1.idUsuario = 0;
+
+                  reservaServices.EliminarReserva(horario).then((value){
+                    notificacionModel.codigo = value.codigoRespuesta;
+                        if(value.codigoRespuesta == 0)
+                        {
+                          notificacionModel.descripcion = "Reserva actualizada satisfactoriamente";
+                          notificacionModel.mostrarAlerta = true;
+                          Timer(const Duration(seconds: 3), (() => { 
+                            notificacionModel.mostrarAlerta = false 
+                          } ));
+                        }
+                        else
+                        {
+                          notificacionModel.mostrarAlerta = true;
+                          notificacionModel.descripcion = value.descripcionRespuesta;
+                          Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+                        } 
+
+                  });
+
+
+
+
+
+                },),
           ])
       ]
                 
