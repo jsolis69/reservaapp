@@ -7,7 +7,10 @@ import 'package:reservaapp/utils/utils.dart';
 
 class HorariosProvider with ChangeNotifier{
 
- Future<HorariosCanchaResponse> ObtenerHorarioPorSucursal(int idSucursal, String fecha) async {
+  List<Cancha> listaCanchas = [];
+
+
+ Future<List<Cancha>> ObtenerHorarioPorSucursal(int idSucursal, String fecha) async {
    
 
  var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorSucursal');
@@ -32,19 +35,12 @@ class HorariosProvider with ChangeNotifier{
  }));
 
 
-   //final resp = await http.post(
-   //   url,
-   //   body: datos
-   //   ,headers: Utilitarios().header
-   //);
-//if (response.statusCode == 200) {
 
+  var cancionesResponse = horariosCanchaResponseFromJson(response.body);
+  listaCanchas = [...listaCanchas, ...cancionesResponse.objeto.canchas];
 
-  return horariosCanchaResponseFromJson(response.body);
-  //}
-   //Map<String, dynamic> decodeResp = json.decode(resp.body);
+  return listaCanchas;
 
-   //return decodeResp;
   }
 
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
+import 'package:reservaapp/models/horariosCancha_model.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/providers/horario_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
@@ -97,7 +98,7 @@ class _body extends StatelessWidget {
         }
       else if (snapshot.hasData) {
         return CustomScrollView(
-          slivers: _sliverList(snapshot.data.objeto.canchas),
+          slivers: _sliverList(context),
         );
       }
     }
@@ -110,7 +111,10 @@ class _body extends StatelessWidget {
   }
 }
 
-List<Widget> _sliverList( dynamic canchas) {
+List<Widget> _sliverList( BuildContext context ) {
+
+    final horariosServices = Provider.of<HorariosProvider>(context);
+    var canchas = horariosServices.listaCanchas;
     var widgetList = <Widget>[];
     for (int contador = 0; contador < canchas.length; contador++)
       widgetList

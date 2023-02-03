@@ -40,45 +40,45 @@ class Objeto {
     Objeto({
         required this.idSucursal,
         required this.idEmpresa,
-        this.nombreEmpresa,
-        this.nombre,
-        this.direccionExacta,
+        required this.nombreEmpresa,
+        required this.nombre,
+        required this.direccionExacta,
         required this.latitud,
         required this.longitud,
-        this.telefono,
-        this.correo,
+        required this.telefono,
+        required this.correo,
         required this.estado,
-        this.imagen,
+        required this.imagen,
         required this.canchas,
         required this.atributos,
     });
 
     int idSucursal;
     int idEmpresa;
-    dynamic nombreEmpresa;
-    dynamic nombre;
-    dynamic direccionExacta;
-    int latitud;
-    int longitud;
-    dynamic telefono;
-    dynamic correo;
+    String nombreEmpresa;
+    String  nombre;
+    String  direccionExacta;
+    double latitud;
+    double longitud;
+    String  telefono;
+    String  correo;
     Estado estado;
-    dynamic imagen;
+    String  imagen;
     List<Cancha> canchas;
     List<dynamic> atributos;
 
     factory Objeto.fromJson(Map<String, dynamic> json) => Objeto(
         idSucursal: json["IdSucursal"],
         idEmpresa: json["IdEmpresa"],
-        nombreEmpresa: json["NombreEmpresa"],
-        nombre: json["Nombre"],
-        direccionExacta: json["DireccionExacta"],
+        nombreEmpresa: json["NombreEmpresa"]??'',
+        nombre: json["Nombre"]??'',
+        direccionExacta: json["DireccionExacta"]??'',
         latitud: json["Latitud"],
         longitud: json["Longitud"],
-        telefono: json["Telefono"],
-        correo: json["Correo"],
+        telefono: json["Telefono"]??'',
+        correo: json["Correo"]??'',
         estado: Estado.fromJson(json["Estado"]),
-        imagen: json["Imagen"],
+        imagen: json["Imagen"]??'',
         canchas: List<Cancha>.from(json["Canchas"].map((x) => Cancha.fromJson(x))),
         atributos: List<dynamic>.from(json["Atributos"].map((x) => x)),
     );

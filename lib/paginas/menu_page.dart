@@ -86,8 +86,8 @@ class _MenuPageState extends State<MenuPage> {
                 onTap: (){
 
                   final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: false);
-                  usuarioprovider.cambiarUsuario('');
-                  usuarioprovider.cambiarContrasenia('');
+                  usuarioprovider.usuario = '';
+                  usuarioprovider.contrasenia = '';
 
 
                   Navigator.pushReplacementNamed(context, 'Login');
