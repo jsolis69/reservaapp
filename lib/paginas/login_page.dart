@@ -21,8 +21,6 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     
     final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: true);
-    final TextEditingController usrCtr = TextEditingController();
-    final TextEditingController passCtr = TextEditingController();
     final notificacionModel = Provider.of<NotificacionModel>(context);
 
     return Scaffold(

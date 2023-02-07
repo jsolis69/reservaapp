@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:reservaapp/utils/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/providers/usuario_provider.dart';
+import 'package:reservaapp/widgets/boton_personalizado.dart';
+import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
+import 'package:reservaapp/widgets/input_personalizado.dart';
+import 'package:reservaapp/widgets/notificacion_widget.dart';
 
 class RegistroPage extends StatefulWidget {
 
@@ -12,22 +17,17 @@ class RegistroPage extends StatefulWidget {
 }
 
 class _RegistroPageState extends State<RegistroPage> {
-
-    // final usuarioprovider = new UsuarioProvider();
-
    int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          fondo(),
-          obtenerPantalla(context, _selectedIndex)
+          //fondo(),
+          obtenerPantalla(context, _selectedIndex),
           //_widgetOptions.elementAt(_selectedIndex),
           //_formulario(context)
+          const NotificacionWidget(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -64,13 +64,11 @@ class _RegistroPageState extends State<RegistroPage> {
     else if(index == 1){
       return Text(
       'Login Google',
-      style: optionStyle,
     );
     }
     else{
       return Text(
       'Login facebook',
-      style: optionStyle,
     );
     }
 
@@ -84,11 +82,9 @@ class _RegistroPageState extends State<RegistroPage> {
 
 
   Widget _formulario(BuildContext context) {
-    //final bloc = Provider.registroBloc(context);
-    final size = MediaQuery.of(context).size;
-
-    //final estiloTextos = TextStyle(color:  Color(0xff008000), fontSize: 20.0);
-
+    final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: true);
+    final notificacionModel = Provider.of<NotificacionModel>(context);
+    
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -97,47 +93,37 @@ class _RegistroPageState extends State<RegistroPage> {
               height: 10.0,
             ),
           ),
-          Container(
-            width: size.width * 0.90,
-            padding: EdgeInsets.symmetric(vertical: 50.0),
-            margin: EdgeInsets.symmetric( vertical: 30.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xff008000),
-                  blurRadius: 3.0,
-                  offset: Offset(0.0, 0.0),
-                  spreadRadius: 3.0 
-                )
-              ]
-            ),
-            child: Column(
-              children: [
-                crearTitulo('Registro', 20.0),
-                SizedBox(height: 30.0),
-               //_crearUsuario('Usuario','Digíte su usuario', Icons.account_box, false),
-               //SizedBox(height: 20.0),
-              // _crearContrasenia('Contraseña', 'Digíte la contraseña', Icons.lock_open, true),
-              // SizedBox(height: 20.0),
-              //_crearConfirmarContrasenia('Validar contraseña', 'Vuelva a digitar la contraseña'),
-              // SizedBox(height: 20.0),
-              // _crearNombre('Nombre', 'Digíte el nombre', Icons.lock_open, false),
-              // SizedBox(height: 20.0),
-              // _crearPrimerApellido('Primer apellido', 'Digíte el primer apellido', Icons.lock_open, false),
-              // SizedBox(height: 20.0),
-              // _crearSegundoApellido('Segundo apellido', 'Digíte el segundo apellido', Icons.lock_open, false),
-              // SizedBox(height: 20.0),
-              // _crearCorreo('Correo electrónico', 'Digíte el correo', Icons.lock_open, false),
-              // SizedBox(height: 20.0),
-              // _crearTelefono('Teléfono', 'Digíte el segundo teléfono', Icons.lock_open, false),
-              // SizedBox(height: 20.0),
-               //_crearDireccion('Dirección exacta', 'Digíte la dirección exacta', Icons.lock_open),
-               //SizedBox(height: 20.0),
-               //_crearBoton(),
-              ],
-            ),
+          Column(
+            children: [
+              EtiquetaPersonalizada(descripcion: 'Registro', tamano: 20.0 ),
+              //crearTitulo('Registro', 20.0),
+              SizedBox(height: 30.0),
+              InputPersonalizado(icono: Icons.account_box, placeholder: 'Dígite su usuario', onChange: (value) => { usuarioprovider.usuario = value  },),
+             //_crearUsuario('Usuario','Digíte su usuario', Icons.account_box, false),
+             //SizedBox(height: 20.0),
+             InputPersonalizado(icono: Icons.lock, placeholder: 'Dígite su contraseña', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
+            // _crearContrasenia('Contraseña', 'Digíte la contraseña', Icons.lock_open, true),
+             //SizedBox(height: 20.0),
+             InputPersonalizado(icono: Icons.lock, placeholder: 'Vuelva a digitar la contraseña', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
+            //_crearConfirmarContrasenia('Validar contraseña', 'Vuelva a digitar la contraseña'),
+             //SizedBox(height: 20.0),
+             InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su nombre completo', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.nombre = value  },),
+            // _crearNombre('Nombre', 'Digíte el nombre', Icons.lock_open, false),
+             //SizedBox(height: 20.0),
+            // _crearPrimerApellido('Primer apellido', 'Digíte el primer apellido', Icons.lock_open, false),
+            // SizedBox(height: 20.0),
+            // _crearSegundoApellido('Segundo apellido', 'Digíte el segundo apellido', Icons.lock_open, false),
+            // SizedBox(height: 20.0),
+            InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su correo', tipoTeclado: TextInputType.emailAddress, onChange: (value) => { usuarioprovider.correo = value  },),
+            // _crearCorreo('Correo electrónico', 'Digíte el correo', Icons.lock_open, false),
+             //SizedBox(height: 20.0),
+             InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su teléfono', tipoTeclado: TextInputType.phone, onChange: (value) => { usuarioprovider.telefono = value  },),
+            // _crearTelefono('Teléfono', 'Digíte el segundo teléfono', Icons.lock_open, false),
+            // SizedBox(height: 20.0),
+             //_crearDireccion('Dirección exacta', 'Digíte la dirección exacta', Icons.lock_open),
+             //SizedBox(height: 20.0),
+             _crearBoton(),
+            ],
           ),
           TextButton(
             onPressed: ()=> Navigator.pushReplacementNamed(context, 'Login'), 
@@ -146,6 +132,53 @@ class _RegistroPageState extends State<RegistroPage> {
         ],
       )
     );
+  }
+  
+  Widget _crearBoton() {
+    
+    final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: true);
+    final notificacionModel = Provider.of<NotificacionModel>(context);
+    
+    return BotonPersonalizado(
+      texto: 'Guardar',
+      onPressed: () {
+        
+              usuarioprovider.registrarUsuario().then((resp){ 
+                if(resp.codigoRespuesta == 0){
+                  Navigator.pushReplacementNamed(context, 'Login');
+                }
+                else{
+                    notificacionModel.mostrarAlerta = true;
+                    notificacionModel.descripcion = resp.descripcionRespuesta;
+                    notificacionModel.codigo = resp.codigoRespuesta;
+                    Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+                }
+                }
+                );
+
+      },
+      validador: _validarRegistro(context),
+    );
+      //texto: 'Ingresar', validador: (usuarioprovider.usuario.isNotEmpty && usuarioprovider.contrasenia.isNotEmpty),
+      //onPressed: 
+      //  if(usuarioprovider.usuario.isNotEmpty || usuarioprovider.contrasenia.isNotEmpty)
+      //  {
+      //    usuarioprovider.login().then((resp){ 
+      //  if(resp.codigoRespuesta == 0){
+      //    Navigator.pushReplacementNamed(context, 'Sucursales');
+      //  }
+      //  else{
+      //      notificacionModel.mostrarAlerta = true;
+      //      notificacionModel.descripcion = resp.descripcionRespuesta;
+      //      notificacionModel.codigo = resp.codigoRespuesta;
+      //      Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+      //    //mostrarAlerta(context, resp.descripcionRespuesta);
+      //  }
+      //  }
+      //  );
+    //
+      //  }
+      //}),
   }
 
 //  Widget _crearContrasenia(String label, String textoAyuda, IconData icono, bool esContrasena) {
@@ -374,4 +407,23 @@ class _RegistroPageState extends State<RegistroPage> {
    // }
 //
    // }
+}
+
+bool _validarRegistro(BuildContext context) { 
+  final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: true);
+
+  if(usuarioprovider.usuario.isEmpty)
+    return false;
+    if(usuarioprovider.contrasenia.isEmpty)
+  return false;
+    if(usuarioprovider.validarcontrasenia.isEmpty)
+  return false;
+    if(usuarioprovider.nombre.isEmpty)
+  return false;
+    if(usuarioprovider.correo.isEmpty)
+  return false;
+    if(usuarioprovider.telefono.isEmpty)
+  return false;
+
+  return true;
 }
