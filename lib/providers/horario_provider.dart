@@ -7,40 +7,36 @@ import 'package:reservaapp/utils/utils.dart';
 
 class HorariosProvider with ChangeNotifier{
 
-  List<Cancha> listaCanchas = [];
+  List<Horario> listaCanchas = [];
 
 
- Future<List<Cancha>> ObtenerHorarioPorSucursal(int idSucursal, String fecha) async {
+ ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
    
 
- var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorSucursal');
+ var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorCancha');
 
  final response = await http.post(url,
   headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
  body: jsonEncode({
-  'IdSucursal': idSucursal.toString(),
-  'Canchas': [
-    {
-      'Horarios':[
+  'IdCancha': idSucursal.toString(),
+  'Horarios':[
         { 
           'Reserva': { 
             'Fecha': fecha
           }
         }
       ]
-    }
-  ]
- }));
+    }));
 
 
 
-  var cancionesResponse = horariosCanchaResponseFromJson(response.body);
-  listaCanchas = [...listaCanchas, ...cancionesResponse.objeto.canchas];
-
+  var cancionesResponse = horariosResponseFromJson(response.body);
+  listaCanchas = [...listaCanchas, ...cancionesResponse.listaGenerica];
+  
   return listaCanchas;
-
+  //notifyListeners();
   }
 
 }

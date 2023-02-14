@@ -101,10 +101,10 @@ class _RegistroPageState extends State<RegistroPage> {
               InputPersonalizado(icono: Icons.account_box, placeholder: 'Dígite su usuario', onChange: (value) => { usuarioprovider.usuario = value  },),
              //_crearUsuario('Usuario','Digíte su usuario', Icons.account_box, false),
              //SizedBox(height: 20.0),
-             InputPersonalizado(icono: Icons.lock, placeholder: 'Dígite su contraseña', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
+             InputPersonalizado(icono: Icons.lock, placeholder: 'Dígite su contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
             // _crearContrasenia('Contraseña', 'Digíte la contraseña', Icons.lock_open, true),
              //SizedBox(height: 20.0),
-             InputPersonalizado(icono: Icons.lock, placeholder: 'Vuelva a digitar la contraseña', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
+             InputPersonalizado(icono: Icons.lock, placeholder: 'Vuelva a digitar la contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
             //_crearConfirmarContrasenia('Validar contraseña', 'Vuelva a digitar la contraseña'),
              //SizedBox(height: 20.0),
              InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su nombre completo', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.nombre = value  },),
@@ -143,18 +143,30 @@ class _RegistroPageState extends State<RegistroPage> {
       texto: 'Guardar',
       onPressed: () {
         
-              usuarioprovider.registrarUsuario().then((resp){ 
-                if(resp.codigoRespuesta == 0){
-                  Navigator.pushReplacementNamed(context, 'Login');
-                }
-                else{
-                    notificacionModel.mostrarAlerta = true;
-                    notificacionModel.descripcion = resp.descripcionRespuesta;
-                    notificacionModel.codigo = resp.codigoRespuesta;
-                    Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
-                }
-                }
-                );
+        if(usuarioprovider.contrasenia == usuarioprovider.validarcontrasenia)
+        {
+          usuarioprovider.registrarUsuario().then((resp)
+          { 
+            if(resp.codigoRespuesta == 0)
+            {
+              Navigator.pushReplacementNamed(context, 'Login');
+            }
+            else
+            {
+              notificacionModel.mostrarAlerta = true;
+              notificacionModel.descripcion = resp.descripcionRespuesta;
+              notificacionModel.codigo = resp.codigoRespuesta;
+              Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+            }
+          });
+        }
+        else
+        {
+          notificacionModel.mostrarAlerta = true;
+          notificacionModel.descripcion = 'Las contraseñas no coinciden, favor validar';
+          notificacionModel.codigo = 3;
+          Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+        }
 
       },
       validador: _validarRegistro(context),

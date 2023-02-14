@@ -5,21 +5,37 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
-import 'package:reservaapp/providers/canchas_provider.dart';
 import 'package:reservaapp/providers/horario_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart';
 
 
-class CanchasPage extends StatelessWidget {
+class HorariosPage extends StatelessWidget {
+
+      //Future<void> _seleccionarFecha(BuildContext context)async {
+//
+      //  final reservaServices = Provider.of<ReservaProvider>(context);
+      // //final prueba = '';
+//
+      //      DateTime? pickedDate = await showDatePicker(
+      //        locale: const Locale("es", "ES"),
+      //        context: context, 
+      //        initialDate: reservaServices.fechaSeleccionada, 
+      //        firstDate: DateTime.now().add(const Duration(days: -30)), 
+      //        lastDate: DateTime.now().add(const Duration(days: 30 ))
+      //        );
+      //       
+      //       reservaServices.fechaSeleccionada = pickedDate!;
+      //    }
 
   @override
   Widget build(BuildContext context) {
     
         final reservaServices = Provider.of<ReservaProvider>(context);
+  final f = new DateFormat('dd-MM-yyyy');
     return Scaffold(
-      appBar: AppBar(title: const Text('Canchas')),
+      appBar: _appBar(f, context),
       body: Column(children:[
          Expanded(child: _body(selectedDate: reservaServices.fechaSeleccionada)),
          const NotificacionWidget(),
@@ -27,7 +43,34 @@ class CanchasPage extends StatelessWidget {
     );
   }
 
+  AppBar _appBar(DateFormat f, BuildContext context) {
+    
+    final reservaServices = Provider.of<ReservaProvider>(context);
+    return AppBar(
+    title: Center(child: Text(f.format(reservaServices.fechaSeleccionada))),
+    actions: [
+      IconButton(
+        onPressed: () async {
 
+            DateTime? pickedDate = await showDatePicker(
+              locale: const Locale("es", "ES"),
+              context: context, 
+              initialDate: reservaServices.fechaSeleccionada, 
+              firstDate: DateTime.now().add(const Duration(days: -30)), 
+              lastDate: DateTime.now().add(const Duration(days: 30 ))
+              );
+             
+             reservaServices.fechaSeleccionada = pickedDate!;
+
+
+
+          //_seleccionarFecha(context);
+        },
+        icon: Icon(Icons.calendar_month),
+        )
+    ],
+  );
+  }
 }
 
 class _body extends StatelessWidget {
@@ -40,58 +83,51 @@ class _body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final canchasServices = Provider.of<CanchasProvider>(context);
+    final horariosServices = Provider.of<HorariosProvider>(context);
+    final sucursalesServices = Provider.of<SucursalesProvider>(context);
+    final fSer = new DateFormat('yyyy-MM-dd');
 
-    return Center(
-      child: FutureBuilder(
-      future: canchasServices.ObtenerCanchasPorSucursal(/*sucursalesServices.sucursalSeleccionada*/2),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
-          }
-        else if (snapshot.hasData) {
-          return CustomScrollView(
-            slivers: [_sliverList(context, snapshot.data)],
-          );
+
+    return FutureBuilder(
+    future: horariosServices.ObtenerHorarioPorCancha(1, fSer.format(selectedDate)),
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.hasError) {
+          return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
         }
+      else if (snapshot.hasData) {
+        return CustomScrollView(
+          slivers: [_sliverList(context)],
+        );
       }
-    
-    
-      return const Center(child: CircularProgressIndicator());
-    
-      }
-      ),
+    }
+
+
+    return const Center(child: CircularProgressIndicator());
+
+    }
     );
   }
 }
 
- _sliverList( BuildContext context, dynamic canchas ) {
+_sliverList( BuildContext context ) {
+
+    final horariosServices = Provider.of<HorariosProvider>(context);
+    var canchas = horariosServices.listaCanchas;
+    
+        return SliverList(
+          delegate:
+              SliverChildBuilderDelegate((BuildContext context, int index) {
+
+                final horario = canchas[index];
 
 
-   return SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: (){
-                  print(canchas[index].idCancha);
-                  Navigator.pushNamed(context, 'Horarios');
-                },
-                child: Center(
-                  child: Container(
-                          margin: const EdgeInsets.all(20),
-                          height: 40,
-                          alignment: Alignment.center,
-                          color: Colors.red,
-                          child: Text(canchas[index].nombre),
-                  ),
-                ),
-
-              );
-            },
-            childCount: canchas.length,
-          ),
-        );
+                return Padding(
+                  padding: EdgeInsets.only(left: 40, right: 40),
+                  child: _horarios(horario: horario),
+                );
+              }, 
+              childCount: canchas.length));
 }
 
 class _horarios extends StatelessWidget {
@@ -108,7 +144,6 @@ class _horarios extends StatelessWidget {
   final reservaServices = Provider.of<ReservaProvider>(context);
   final notificacionModel = Provider.of<NotificacionModel>(context);
   final sucursalesServices = Provider.of<SucursalesProvider>(context);
-  final horariosServices = Provider.of<HorariosProvider>(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

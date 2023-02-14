@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
               }),
               //_crearUsuario(context),
               SizedBox(height: 20.0),
-              InputPersonalizado(icono: Icons.lock, placeholder: 'Contraseña', onChange: (value){
+              InputPersonalizado(icono: Icons.lock, esPassword: true, tipoPassword: '◍', placeholder: 'Contraseña', onChange: (value){
                 usuarioprovider.contrasenia = value;
               }),
               //_crearContrasenia(context),
