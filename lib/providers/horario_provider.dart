@@ -31,7 +31,7 @@ class HorariosProvider with ChangeNotifier{
     }));
 
 
-
+  listaCanchas = [];
   var cancionesResponse = horariosResponseFromJson(response.body);
   listaCanchas = [...listaCanchas, ...cancionesResponse.listaGenerica];
   

@@ -10,6 +10,14 @@ import 'package:reservaapp/utils/utils.dart';
 class ReservaProvider with ChangeNotifier{
 
   DateTime _fechaSeleccionada = DateTime.now();
+  int _canhaSeleccionada = 0;
+
+  int get canchaSeleccionada => _canhaSeleccionada;
+  set canchaSeleccionada(int valor){
+    _canhaSeleccionada = valor;
+    notifyListeners();
+  }
+
   DateTime get fechaSeleccionada => _fechaSeleccionada;
   set fechaSeleccionada(DateTime valor){
     _fechaSeleccionada = valor;
@@ -48,7 +56,9 @@ final fSer = new DateFormat('yyyy-MM-dd');
 
   if (response.statusCode == 200) {
 
-    var reservaResponse =  reservaResponseFromJson(response.body);
+    //var reservaResponse =  reservaResponseFromJson(response.body);  
+    //listaCanchas = [];
+    var reservaResponse = horariosResponseFromJson(response.body);
 
     if(reservaResponse.codigoRespuesta == 0)
     {
@@ -90,7 +100,7 @@ final fSer = new DateFormat('yyyy-MM-dd');
  
   if (response.statusCode == 200) {
 
-    var reservaResponse =  reservaResponseFromJson(response.body);
+    var reservaResponse = horariosResponseFromJson(response.body);
 
     if(reservaResponse.codigoRespuesta == 0)
     {
@@ -131,7 +141,7 @@ EliminarReserva(Horario Horario) async {
  
   if (response.statusCode == 200) {
 
-    var reservaResponse =  reservaResponseFromJson(response.body);
+    var reservaResponse = horariosResponseFromJson(response.body);
 
     if(reservaResponse.codigoRespuesta == 0)
     {

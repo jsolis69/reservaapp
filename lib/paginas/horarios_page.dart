@@ -13,39 +13,42 @@ import 'package:reservaapp/widgets/notificacion_widget.dart';
 
 class HorariosPage extends StatelessWidget {
 
-      //Future<void> _seleccionarFecha(BuildContext context)async {
-//
-      //  final reservaServices = Provider.of<ReservaProvider>(context);
-      // //final prueba = '';
-//
-      //      DateTime? pickedDate = await showDatePicker(
-      //        locale: const Locale("es", "ES"),
-      //        context: context, 
-      //        initialDate: reservaServices.fechaSeleccionada, 
-      //        firstDate: DateTime.now().add(const Duration(days: -30)), 
-      //        lastDate: DateTime.now().add(const Duration(days: 30 ))
-      //        );
-      //       
-      //       reservaServices.fechaSeleccionada = pickedDate!;
-      //    }
 
   @override
   Widget build(BuildContext context) {
     
-        final reservaServices = Provider.of<ReservaProvider>(context);
-  final f = new DateFormat('dd-MM-yyyy');
+    final horariosServices = Provider.of<HorariosProvider>(context);
+    //var canchas = horariosServices.listaCanchas;
+    final reservaServices = Provider.of<ReservaProvider>(context);
+    final fSer = new DateFormat('yyyy-MM-dd');
+
+
     return Scaffold(
-      appBar: _appBar(f, context),
+      appBar: _appBar(context),
       body: Column(children:[
-         Expanded(child: _body(selectedDate: reservaServices.fechaSeleccionada)),
+         FutureBuilder(
+            future: horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada)),
+            builder: (context, snapshot){
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
+              }
+              else if (snapshot.hasData) {
+                return Expanded(child: ListaHorarios());
+              }
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+         ),
          const NotificacionWidget(),
-         ]),
+        ]),
     );
   }
 
-  AppBar _appBar(DateFormat f, BuildContext context) {
+  AppBar _appBar(BuildContext context) {
     
-    final reservaServices = Provider.of<ReservaProvider>(context);
+    final reservaServices = Provider.of<ReservaProvider>(context, listen: true);
+    final f = new DateFormat('dd-MM-yyyy');
     return AppBar(
     title: Center(child: Text(f.format(reservaServices.fechaSeleccionada))),
     actions: [
@@ -73,62 +76,39 @@ class HorariosPage extends StatelessWidget {
   }
 }
 
-class _body extends StatelessWidget {
-  const _body({
-    required this.selectedDate,
-  });
+class ListaHorarios extends StatefulWidget {
 
-  final DateTime selectedDate;
 
+  @override
+  State<ListaHorarios> createState() => _ListaHorariosState();
+}
+
+class _ListaHorariosState extends State<ListaHorarios> {
   @override
   Widget build(BuildContext context) {
 
     final horariosServices = Provider.of<HorariosProvider>(context);
-    final sucursalesServices = Provider.of<SucursalesProvider>(context);
-    final fSer = new DateFormat('yyyy-MM-dd');
 
-
-    return FutureBuilder(
-    future: horariosServices.ObtenerHorarioPorCancha(1, fSer.format(selectedDate)),
-    builder: (BuildContext context, AsyncSnapshot snapshot) {
-      if (snapshot.connectionState == ConnectionState.done) {
-        if (snapshot.hasError) {
-          return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
-        }
-      else if (snapshot.hasData) {
-        return CustomScrollView(
-          slivers: [_sliverList(context)],
-        );
-      }
-    }
-
-
-    return const Center(child: CircularProgressIndicator());
-
-    }
-    );
+    return 
+    //Container();
+   CustomScrollView(
+     slivers: [SliverList(
+     delegate:
+     SliverChildBuilderDelegate((BuildContext context, int index) {
+   
+       final horario = horariosServices.listaCanchas[index];
+   
+       return Padding(
+         padding: EdgeInsets.only(left: 40, right: 40),
+         child: _horarios(horario: horario),
+       );
+     }, 
+     childCount: horariosServices.listaCanchas.length))],
+       );
   }
 }
 
-_sliverList( BuildContext context ) {
 
-    final horariosServices = Provider.of<HorariosProvider>(context);
-    var canchas = horariosServices.listaCanchas;
-    
-        return SliverList(
-          delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
-
-                final horario = canchas[index];
-
-
-                return Padding(
-                  padding: EdgeInsets.only(left: 40, right: 40),
-                  child: _horarios(horario: horario),
-                );
-              }, 
-              childCount: canchas.length));
-}
 
 class _horarios extends StatelessWidget {
   const _horarios({
@@ -141,7 +121,7 @@ class _horarios extends StatelessWidget {
   Widget build(BuildContext context) {
 
     
-  final reservaServices = Provider.of<ReservaProvider>(context);
+  final reservaServices = Provider.of<ReservaProvider>(context, listen: true);
   final notificacionModel = Provider.of<NotificacionModel>(context);
   final sucursalesServices = Provider.of<SucursalesProvider>(context);
 

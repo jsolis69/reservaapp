@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
@@ -41,10 +40,10 @@ class _body extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final canchasServices = Provider.of<CanchasProvider>(context);
-
+    final sucursalesServices = Provider.of<SucursalesProvider>(context);
     return Center(
       child: FutureBuilder(
-      future: canchasServices.ObtenerCanchasPorSucursal(/*sucursalesServices.sucursalSeleccionada*/2),
+      future: canchasServices.ObtenerCanchasPorSucursal(sucursalesServices.sucursalSeleccionada),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
@@ -69,12 +68,13 @@ class _body extends StatelessWidget {
  _sliverList( BuildContext context, dynamic canchas ) {
 
 
+  final reservaServices = Provider.of<ReservaProvider>(context);
    return SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               return GestureDetector(
                 onTap: (){
-                  print(canchas[index].idCancha);
+                  reservaServices.canchaSeleccionada = canchas[index].idCancha;
                   Navigator.pushNamed(context, 'Horarios');
                 },
                 child: Center(
