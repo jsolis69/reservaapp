@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
-import 'package:reservaapp/providers/horario_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart';
@@ -17,29 +16,32 @@ class HorariosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final horariosServices = Provider.of<HorariosProvider>(context);
+    //final horariosServices = Provider.of<HorariosProvider>(context);
     //var canchas = horariosServices.listaCanchas;
-    final reservaServices = Provider.of<ReservaProvider>(context);
-    final fSer = new DateFormat('yyyy-MM-dd');
+    //final reservaServices = Provider.of<ReservaProvider>(context);
+    //final fSer = new DateFormat('yyyy-MM-dd');
 
 
     return Scaffold(
       appBar: _appBar(context),
       body: Column(children:[
-         FutureBuilder(
-            future: horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada)),
-            builder: (context, snapshot){
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
-              }
-              else if (snapshot.hasData) {
-                return Expanded(child: ListaHorarios());
-              }
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
-         ),
+        Expanded(child: 
+        //Container()),
+        ListaHorarios()),
+         //FutureBuilder(
+         //   future: horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada)),
+         //   builder: (context, snapshot){
+         //   if (snapshot.connectionState == ConnectionState.done) {
+         //     if (snapshot.hasError) {
+         //       return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
+         //     }
+         //     else if (snapshot.hasData) {
+         //       return Expanded(child: ListaHorarios());
+         //     }
+         //   }
+         //   return const Center(child: CircularProgressIndicator());
+         // },
+         //),
          const NotificacionWidget(),
         ]),
     );
@@ -76,18 +78,13 @@ class HorariosPage extends StatelessWidget {
   }
 }
 
-class ListaHorarios extends StatefulWidget {
+class ListaHorarios extends StatelessWidget {
 
 
-  @override
-  State<ListaHorarios> createState() => _ListaHorariosState();
-}
-
-class _ListaHorariosState extends State<ListaHorarios> {
   @override
   Widget build(BuildContext context) {
 
-    final horariosServices = Provider.of<HorariosProvider>(context);
+    final horariosServices = Provider.of<ReservaProvider>(context);
 
     return 
     //Container();
@@ -107,8 +104,6 @@ class _ListaHorariosState extends State<ListaHorarios> {
        );
   }
 }
-
-
 
 class _horarios extends StatelessWidget {
   const _horarios({

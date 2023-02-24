@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:reservaapp/models/horariosCancha_model.dart';
-import 'package:reservaapp/models/reserva_model.dart';
 import 'package:reservaapp/utils/utils.dart';
 
 class ReservaProvider with ChangeNotifier{
 
   DateTime _fechaSeleccionada = DateTime.now();
+  List<Horario> listaCanchas = [];
   int _canhaSeleccionada = 0;
 
   int get canchaSeleccionada => _canhaSeleccionada;
@@ -63,8 +63,8 @@ final fSer = new DateFormat('yyyy-MM-dd');
     if(reservaResponse.codigoRespuesta == 0)
     {
       //Se limpia la lista para volverla a cargar
-      //listaCanciones = [];
-      //listaCanciones = [...listaCanciones, ...cancionesResponse.listaGenerica];
+      listaCanchas = [];
+      listaCanchas = [...listaCanchas, ...reservaResponse.listaGenerica];
       notifyListeners();
 
     }
@@ -105,8 +105,8 @@ final fSer = new DateFormat('yyyy-MM-dd');
     if(reservaResponse.codigoRespuesta == 0)
     {
       //Se limpia la lista para volverla a cargar
-      //listaCanciones = [];
-      //listaCanciones = [...listaCanciones, ...cancionesResponse.listaGenerica];
+      listaCanchas = [];
+      listaCanchas = [...listaCanchas, ...reservaResponse.listaGenerica];
       notifyListeners();
 
     }
@@ -146,8 +146,8 @@ EliminarReserva(Horario Horario) async {
     if(reservaResponse.codigoRespuesta == 0)
     {
       //Se limpia la lista para volverla a cargar
-      //listaCanciones = [];
-      //listaCanciones = [...listaCanciones, ...cancionesResponse.listaGenerica];
+      listaCanchas = [];
+      listaCanchas = [...listaCanchas, ...reservaResponse.listaGenerica];
       notifyListeners();
 
     }
@@ -156,6 +156,38 @@ EliminarReserva(Horario Horario) async {
     throw Exception('Error ejecutando el servicio.');
   }
 }
+
+
+
+
+ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
+   
+
+ var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorCancha');
+
+ final response = await http.post(url,
+  headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+ body: jsonEncode({
+  'IdCancha': idSucursal.toString(),
+  'Horarios':[
+        { 
+          'Reserva': { 
+            'Fecha': fecha
+          }
+        }
+      ]
+    }));
+
+
+  listaCanchas = [];
+  var cancionesResponse = horariosResponseFromJson(response.body);
+  listaCanchas = [...listaCanchas, ...cancionesResponse.listaGenerica];
+  
+  //return listaCanchas;
+  notifyListeners();
+  }
 
 
 
