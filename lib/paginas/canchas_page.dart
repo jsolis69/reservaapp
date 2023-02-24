@@ -90,7 +90,7 @@ class _body extends StatelessWidget {
                           margin: const EdgeInsets.all(20),
                           height: 40,
                           alignment: Alignment.center,
-                          color: Colors.red,
+                          color: Colors.transparent,
                           child: Text(canchas[index].nombre),
                   ),
                 ),
