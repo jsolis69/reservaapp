@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
-
+import 'package:calendar_timeline/calendar_timeline.dart';
 
 class HorariosPage extends StatelessWidget {
 
@@ -11,7 +11,7 @@ class HorariosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      appBar: _appBar(context),
+      //appBar: _appBar(context),
       body: Column(children:[
           Expanded(child: ListaHorarios())
           //const NotificacionWidget(),
@@ -50,39 +50,109 @@ class HorariosPage extends StatelessWidget {
   }
 }
 
-class ListaHorarios extends StatelessWidget {
+class ListaHorarios extends StatefulWidget {
 
+  @override
+  State<ListaHorarios> createState() => _ListaHorariosState();
+}
+
+class _ListaHorariosState extends State<ListaHorarios> {
+  late DateTime _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _resetSelectedDate();
+  }
+
+  void _resetSelectedDate() {
+    _selectedDate = DateTime.now().add(const Duration(days: 2));
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    final horariosServices = Provider.of<ReservaProvider>(context);
-
-    return 
-    //Container();
-    CustomScrollView(
-      shrinkWrap: true,
-      slivers: <Widget>[
-        SliverGrid(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 20,
-            crossAxisSpacing:20,
-            childAspectRatio: 3.0
-          ),
-          delegate: SliverChildBuilderDelegate((context, index) {
-            final horario = horariosServices.listaCanchas[index];
-
-            return _horarios2(horario: horario);
+  
 
 
-          },
-          childCount: horariosServices.listaCanchas.length
-          ),
-        )
-      ],
+return Scaffold(
+      backgroundColor: const Color(0xFF333A47),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                'Calendar Timeline',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(color: Colors.tealAccent[100]),
+              ),
+            ),
+            CalendarTimeline(
+              //showYears: true,
+              initialDate: _selectedDate,
+              firstDate: DateTime.now(),
+              lastDate: DateTime.now().add(const Duration(days: 10)),
+              onDateSelected: (date) => setState(() => _selectedDate = date),
+              leftMargin: 20,
+              monthColor: Colors.white70,
+              dayColor: Colors.teal[200],
+              dayNameColor: const Color(0xFF333A47),
+              activeDayColor: Colors.white,
+              activeBackgroundDayColor: Colors.redAccent[100],
+              dotsColor: const Color(0xFF333A47),
+              selectableDayPredicate: (date) => date.day != 23,
+              locale: 'es',
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: _horariosNew()
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: Text(
+                'Selected date is $_selectedDate',
+                style: const TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
+
+  Widget _horariosNew() {
+      final horariosServices = Provider.of<ReservaProvider>(context);
+    return 
+  ////Container();
+  CustomScrollView(
+    shrinkWrap: true,
+    slivers: <Widget>[
+      SliverGrid(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 20,
+          crossAxisSpacing:20,
+          childAspectRatio: 3.0
+        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final horario = horariosServices.listaCanchas[index];
+          return _horarios2(horario: horario);
+        },
+        childCount: horariosServices.listaCanchas.length
+        ),
+      )
+    ],
+  );
+  
+  }
+
+
+  
 }
 
 

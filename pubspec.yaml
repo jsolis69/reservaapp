@@ -45,6 +45,7 @@ dependencies:
   place_picker: ^0.10.0
   flutter_localizations:
     sdk: flutter
+  calendar_timeline: ^1.1.1
 
 dev_dependencies:
   flutter_test:
