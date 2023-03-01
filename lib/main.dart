@@ -15,6 +15,7 @@ import 'package:reservaapp/paginas/horarios_page.dart';
 import 'package:reservaapp/paginas/login_page.dart';
 import 'package:reservaapp/paginas/menu_page.dart';
 import 'package:reservaapp/paginas/miPerfil_page.dart';
+import 'package:reservaapp/paginas/procesarReserva_page.dart';
 import 'package:reservaapp/paginas/registro_page.dart';
 import 'package:reservaapp/paginas/sucursales_page.dart';
 import 'package:reservaapp/providers/canchas_provider.dart';
@@ -72,7 +73,7 @@ class MyApp extends StatelessWidget {
         theme: temaActual,
         debugShowCheckedModeBanner: false,
         title: 'Fut5 Reservas',
-        initialRoute: 'Login',
+        initialRoute: PreferenciasUsuario.usuarioLogueado > 0 ? 'Sucursales' : 'Login',
         routes: {
           'Login': (BuildContext context) => LoginPage(),
           'Registro': (BuildContext context) => RegistroPage(),
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
           'Sucursales': (BuildContext context) => SucursalesPage(),
           'Horarios': (BuildContext context) => HorariosPage(),
           'Canchas': (BuildContext context) => CanchasPage(),
+          'ProcesarReserva':(BuildContext context) => ProcesarReservaPage(),
     
           //acá todas las relacionadas al anfitron
           'MisSucursales': (BuildContext context) => MisSucursalesPage(),
