@@ -11,6 +11,44 @@ class ReservaProvider with ChangeNotifier{
   DateTime _fechaSeleccionada = DateTime.now();
   List<Horario> listaCanchas = [];
   int _canhaSeleccionada = 0;
+  Horario horarioSeleccionado = new Horario(
+    idHorario: 0, 
+    diaSemana: 
+    new CatalogoGenerico(
+      codigo: 0
+    ), 
+    estado: new CatalogoGenerico(
+      codigo: 0
+    ), 
+    reserva: new Reserva(
+      idReserva: 0, 
+      estado: CatalogoGenerico(codigo: 0),
+      indLlevaDosEquipos: false,
+      fecha: DateTime.now(),
+      equipo1: new Equipo(
+        idUsuario: 0, 
+        estado: new CatalogoGenerico(codigo: 0), 
+        empresa: new Empresa(
+          idEmpresa: 0, 
+          estado: new CatalogoGenerico(codigo: 0), 
+          logo: 0,
+          sucursales: []
+        ),
+        permiteNotificar: false, 
+        indEsAdministrador: false
+      ), 
+      equipo2: new Equipo(
+        idUsuario: 0, 
+        estado: new CatalogoGenerico(codigo: 0), 
+        empresa: new Empresa(
+          idEmpresa: 0, 
+          estado: new CatalogoGenerico(codigo: 0), 
+          logo: 0,
+          sucursales: []
+        ),
+        permiteNotificar: false, 
+        indEsAdministrador: false
+        )));
 
   int get canchaSeleccionada => _canhaSeleccionada;
   set canchaSeleccionada(int valor){

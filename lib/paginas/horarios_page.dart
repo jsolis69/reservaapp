@@ -12,42 +12,43 @@ class HorariosPage extends StatelessWidget {
     
     return Scaffold(
       //appBar: _appBar(context),
-      body: Column(children:[
+      body: 
+      Column(children:[
           Expanded(child: ListaHorarios())
           //const NotificacionWidget(),
         ]),
     );
   }
 
-  AppBar _appBar(BuildContext context) {
-    
-    final reservaServices = Provider.of<ReservaProvider>(context, listen: true);
-    final f = new DateFormat('dd-MM-yyyy');
-    return AppBar(
-    title: Center(child: Text(f.format(reservaServices.fechaSeleccionada))),
-    actions: [
-      IconButton(
-        onPressed: () async {
+ //AppBar _appBar(BuildContext context) {
+ //  
+ //  final reservaServices = Provider.of<ReservaProvider>(context, listen: true);
+ //  final f = new DateFormat('dd-MM-yyyy');
+ //  return AppBar(
+ //  title: Center(child: Text(f.format(reservaServices.fechaSeleccionada))),
+ //  actions: [
+ //    IconButton(
+ //      onPressed: () async {
 
-            DateTime? pickedDate = await showDatePicker(
-              locale: const Locale("es", "ES"),
-              context: context, 
-              initialDate: reservaServices.fechaSeleccionada, 
-              firstDate: DateTime.now().add(const Duration(days: -30)), 
-              lastDate: DateTime.now().add(const Duration(days: 30 ))
-              );
-             
-             reservaServices.fechaSeleccionada = pickedDate!;
+ //          DateTime? pickedDate = await showDatePicker(
+ //            locale: const Locale("es", "ES"),
+ //            context: context, 
+ //            initialDate: reservaServices.fechaSeleccionada, 
+ //            firstDate: DateTime.now().add(const Duration(days: -30)), 
+ //            lastDate: DateTime.now().add(const Duration(days: 30 ))
+ //            );
+ //           
+ //           reservaServices.fechaSeleccionada = pickedDate!;
 
 
 
-          //_seleccionarFecha(context);
-        },
-        icon: Icon(Icons.calendar_month),
-        )
-    ],
-  );
-  }
+ //        //_seleccionarFecha(context);
+ //      },
+ //      icon: Icon(Icons.calendar_month),
+ //      )
+ //  ],
+ //);
+ //}
 }
 
 class ListaHorarios extends StatefulWidget {
@@ -66,7 +67,7 @@ class _ListaHorariosState extends State<ListaHorarios> {
   }
 
   void _resetSelectedDate() {
-    _selectedDate = DateTime.now().add(const Duration(days: 2));
+    _selectedDate = DateTime.now();
   }
 
   @override
@@ -74,6 +75,9 @@ class _ListaHorariosState extends State<ListaHorarios> {
 
   
 
+    final horariosServices = Provider.of<ReservaProvider>(context);
+    final reservaServices = Provider.of<ReservaProvider>(context);
+    final fSer = new DateFormat('yyyy-MM-dd');
 
 return Scaffold(
       backgroundColor: const Color(0xFF333A47),
@@ -87,7 +91,7 @@ return Scaffold(
                 'Calendar Timeline',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleLarge!
                     .copyWith(color: Colors.tealAccent[100]),
               ),
             ),
@@ -96,7 +100,17 @@ return Scaffold(
               initialDate: _selectedDate,
               firstDate: DateTime.now(),
               lastDate: DateTime.now().add(const Duration(days: 10)),
-              onDateSelected: (date) => setState(() => _selectedDate = date),
+              onDateSelected: (date)  
+              //setState(() => _selectedDate = date),
+              {
+                print(date);
+                _selectedDate = date;
+                reservaServices.fechaSeleccionada = date;
+                setState(() { });
+               
+               horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(date));
+               
+               },//setState(() => _selectedDate = date),
               leftMargin: 20,
               monthColor: Colors.white70,
               dayColor: Colors.teal[200],
@@ -107,18 +121,18 @@ return Scaffold(
               selectableDayPredicate: (date) => date.day != 23,
               locale: 'es',
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: _horariosNew()
             ),
-            const SizedBox(height: 20),
-            Center(
-              child: Text(
-                'Selected date is $_selectedDate',
-                style: const TextStyle(color: Colors.white),
-              ),
-            )
+            
+            //Center(
+            //  child: Text(
+            //    'Selected date is' + fSer.format(_selectedDate),
+            //    style: const TextStyle(color: Colors.white),
+            //  ),
+            //)
           ],
         ),
       ),
@@ -137,7 +151,7 @@ return Scaffold(
           crossAxisCount: 3,
           mainAxisSpacing: 20,
           crossAxisSpacing:20,
-          childAspectRatio: 3.0
+          childAspectRatio: 2.0
         ),
         delegate: SliverChildBuilderDelegate((context, index) {
           final horario = horariosServices.listaCanchas[index];
@@ -165,6 +179,8 @@ class _horarios2 extends StatelessWidget {
   final horario;
   @override
   Widget build(BuildContext context) {
+    final reservaServices = Provider.of<ReservaProvider>(context);
+
 
     Color colorHorario = Colors.green;
     var texto = 'Libre';
@@ -177,6 +193,8 @@ class _horarios2 extends StatelessWidget {
 
     return GestureDetector(
       onTap: (){
+          //print(horario.idHorario);
+          reservaServices.horarioSeleccionado = horario;
           Navigator.pushNamed(context, 'ProcesarReserva');
         },
       child: Container( 
@@ -184,17 +202,16 @@ class _horarios2 extends StatelessWidget {
         color: colorHorario,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        children: [
-          Text(horario.horaInicio.substring(0, 5) +' - ' + horario.horaFin.substring(0, 5)),
-    
-          Text(texto),
-            //Text((horario.reserva.equipo1.nombre?? '') + '-' + (horario.reserva.equipo2.nombre?.isEmpty ? 'Esperando reto' : horario.reserva.equipo2.nombre))
-            //:Text('Disponible'),
-    
-         
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text(horario.horaInicio.substring(0, 5) +' - ' + horario.horaFin.substring(0, 5)),
           
-        ],
+            Text(texto),
+            
+          ],
+        ),
       ),
       ),
     );

@@ -49,16 +49,16 @@ class Horario {
     int idHorario;
     String? horaInicio;
     String? horaFin;
-    DiaSemana diaSemana;
-    DiaSemana estado;
+    CatalogoGenerico diaSemana;
+    CatalogoGenerico estado;
     Reserva reserva;
 
     factory Horario.fromJson(Map<String, dynamic> json) => Horario(
         idHorario: json["IdHorario"],
         horaInicio: json["HoraInicio"],
         horaFin: json["HoraFin"],
-        diaSemana: DiaSemana.fromJson(json["DiaSemana"]),
-        estado: DiaSemana.fromJson(json["Estado"]),
+        diaSemana: CatalogoGenerico.fromJson(json["DiaSemana"]),
+        estado: CatalogoGenerico.fromJson(json["Estado"]),
         reserva: Reserva.fromJson(json["Reserva"]),
     );
 
@@ -72,8 +72,8 @@ class Horario {
     };
 }
 
-class DiaSemana {
-    DiaSemana({
+class CatalogoGenerico {
+    CatalogoGenerico({
         required this.codigo,
         this.descripcion,
     });
@@ -81,7 +81,7 @@ class DiaSemana {
     int codigo;
     dynamic descripcion;
 
-    factory DiaSemana.fromJson(Map<String, dynamic> json) => DiaSemana(
+    factory CatalogoGenerico.fromJson(Map<String, dynamic> json) => CatalogoGenerico(
         codigo: json["Codigo"],
         descripcion: json["Descripcion"],
     );
@@ -106,7 +106,7 @@ class Reserva {
     Equipo equipo1;
     Equipo equipo2;
     bool indLlevaDosEquipos;
-    DiaSemana estado;
+    CatalogoGenerico estado;
     DateTime fecha;
 
     factory Reserva.fromJson(Map<String, dynamic> json) => Reserva(
@@ -114,7 +114,7 @@ class Reserva {
         equipo1: Equipo.fromJson(json["Equipo1"]),
         equipo2: Equipo.fromJson(json["Equipo2"]),
         indLlevaDosEquipos: json["IndLlevaDosEquipos"],
-        estado: DiaSemana.fromJson(json["Estado"]),
+        estado: CatalogoGenerico.fromJson(json["Estado"]),
         fecha: DateTime.parse(json["Fecha"]),
     );
 
@@ -146,7 +146,7 @@ class Equipo {
     String? nombre;
     dynamic email;
     dynamic telefono;
-    DiaSemana estado;
+    CatalogoGenerico estado;
     dynamic codUsuario;
     dynamic contrasenia;
     Empresa empresa;
@@ -158,7 +158,7 @@ class Equipo {
         nombre: json["Nombre"],
         email: json["Email"],
         telefono: json["Telefono"],
-        estado: DiaSemana.fromJson(json["Estado"]),
+        estado: CatalogoGenerico.fromJson(json["Estado"]),
         codUsuario: json["CodUsuario"],
         contrasenia: json["Contrasenia"],
         empresa: Empresa.fromJson(json["Empresa"]),
@@ -195,7 +195,7 @@ class Empresa {
     dynamic nombre;
     dynamic telefono;
     dynamic correo;
-    DiaSemana estado;
+    CatalogoGenerico estado;
     int logo;
     List<dynamic> sucursales;
 
@@ -204,7 +204,7 @@ class Empresa {
         nombre: json["Nombre"],
         telefono: json["Telefono"],
         correo: json["Correo"],
-        estado: DiaSemana.fromJson(json["Estado"]),
+        estado: CatalogoGenerico.fromJson(json["Estado"]),
         logo: json["Logo"],
         sucursales: List<dynamic>.from(json["Sucursales"].map((x) => x)),
     );
