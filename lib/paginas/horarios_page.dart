@@ -11,11 +11,10 @@ class HorariosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      //appBar: _appBar(context),
+      //appBar: AppBar( ),
       body: 
       Column(children:[
-          Expanded(child: ListaHorarios())
-          //const NotificacionWidget(),
+          Expanded(child: ListaHorarios2())
         ]),
     );
   }
@@ -51,26 +50,10 @@ class HorariosPage extends StatelessWidget {
  //}
 }
 
-class ListaHorarios extends StatefulWidget {
+class ListaHorarios2 extends StatelessWidget {
+  const ListaHorarios2({super.key});
 
-  @override
-  State<ListaHorarios> createState() => _ListaHorariosState();
-}
-
-class _ListaHorariosState extends State<ListaHorarios> {
-  late DateTime _selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    _resetSelectedDate();
-  }
-
-  void _resetSelectedDate() {
-    _selectedDate = DateTime.now();
-  }
-
-  @override
+@override
   Widget build(BuildContext context) {
 
   
@@ -97,16 +80,16 @@ return Scaffold(
             ),
             CalendarTimeline(
               //showYears: true,
-              initialDate: _selectedDate,
+              initialDate: reservaServices.fechaSeleccionada,
               firstDate: DateTime.now(),
               lastDate: DateTime.now().add(const Duration(days: 10)),
               onDateSelected: (date)  
               //setState(() => _selectedDate = date),
               {
-                print(date);
-                _selectedDate = date;
+                //print(date);
+                //_selectedDate = date;
                 reservaServices.fechaSeleccionada = date;
-                setState(() { });
+                //setState(() { });
                
                horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(date));
                
@@ -124,7 +107,7 @@ return Scaffold(
             const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.only(left: 16),
-              child: _horariosNew()
+              child: _horariosNew(context)
             ),
             
             //Center(
@@ -138,8 +121,10 @@ return Scaffold(
       ),
     );
   }
+}
 
-  Widget _horariosNew() {
+
+  Widget _horariosNew(BuildContext context) {
       final horariosServices = Provider.of<ReservaProvider>(context);
     return 
   ////Container();
@@ -154,10 +139,10 @@ return Scaffold(
           childAspectRatio: 2.0
         ),
         delegate: SliverChildBuilderDelegate((context, index) {
-          final horario = horariosServices.listaCanchas[index];
+          final horario = horariosServices.listaHorarios[index];
           return _horarios2(horario: horario);
         },
-        childCount: horariosServices.listaCanchas.length
+        childCount: horariosServices.listaHorarios.length
         ),
       )
     ],
@@ -167,7 +152,7 @@ return Scaffold(
 
 
   
-}
+
 
 
 class _horarios2 extends StatelessWidget {
@@ -184,10 +169,10 @@ class _horarios2 extends StatelessWidget {
 
     Color colorHorario = Colors.green;
     var texto = 'Libre';
-    if(horario.reserva.equipo1.idUsuario != -1)
+    if(horario.reserva.equipo1.idUsuario > 0)
      { colorHorario = Colors.orange;
       texto = 'Reto';}
-    if(horario.reserva.equipo2.idUsuario != -1)
+    if(horario.reserva.equipo2.idUsuario > 0)
       {colorHorario = Colors.red;
       texto = 'Reservada';}
 

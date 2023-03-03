@@ -9,7 +9,7 @@ import 'package:reservaapp/utils/utils.dart';
 class ReservaProvider with ChangeNotifier{
 
   DateTime _fechaSeleccionada = DateTime.now();
-  List<Horario> listaCanchas = [];
+  List<Horario> listaHorarios = [];
   int _canhaSeleccionada = 0;
   Horario horarioSeleccionado = new Horario(
     idHorario: 0, 
@@ -101,8 +101,8 @@ final fSer = new DateFormat('yyyy-MM-dd');
     if(reservaResponse.codigoRespuesta == 0)
     {
       //Se limpia la lista para volverla a cargar
-      listaCanchas = [];
-      listaCanchas = [...listaCanchas, ...reservaResponse.listaGenerica];
+      listaHorarios = [];
+      listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
       notifyListeners();
 
     }
@@ -143,8 +143,8 @@ final fSer = new DateFormat('yyyy-MM-dd');
     if(reservaResponse.codigoRespuesta == 0)
     {
       //Se limpia la lista para volverla a cargar
-      listaCanchas = [];
-      listaCanchas = [...listaCanchas, ...reservaResponse.listaGenerica];
+      listaHorarios = [];
+      listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
       notifyListeners();
 
     }
@@ -184,8 +184,8 @@ EliminarReserva(Horario Horario) async {
     if(reservaResponse.codigoRespuesta == 0)
     {
       //Se limpia la lista para volverla a cargar
-      listaCanchas = [];
-      listaCanchas = [...listaCanchas, ...reservaResponse.listaGenerica];
+      listaHorarios = [];
+      listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
       notifyListeners();
 
     }
@@ -219,9 +219,9 @@ ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
     }));
 
 
-  listaCanchas = [];
-  var cancionesResponse = horariosResponseFromJson(response.body);
-  listaCanchas = [...listaCanchas, ...cancionesResponse.listaGenerica];
+  listaHorarios = [];
+  var HorariosResponse = horariosResponseFromJson(response.body);
+  listaHorarios = [...listaHorarios, ...HorariosResponse.listaGenerica];
   
   //return listaCanchas;
   notifyListeners();

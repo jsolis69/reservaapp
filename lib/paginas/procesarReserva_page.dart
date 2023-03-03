@@ -8,8 +8,8 @@ import 'package:reservaapp/models/horariosCancha_model.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
-import 'package:reservaapp/widgets/botonesNavegacion_widget.dart';
 import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
+import 'package:reservaapp/widgets/notificacion_widget.dart';
 
 class ProcesarReservaPage extends StatelessWidget {
   const ProcesarReservaPage({super.key});
@@ -21,7 +21,12 @@ class ProcesarReservaPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Procesar Reserva'),
       ),
-      body: _horario(),
+      body: Column(
+        children: [
+          _horario(),
+          const NotificacionWidget(),
+        ],
+      ),
       //bottomNavigationBar: BotonesNavegacion(seleccionado: 1,),
     );
   }
@@ -96,60 +101,7 @@ class _horario extends StatelessWidget {
                 else
                   Text(horario.reserva.equipo1.nombre! + ' vrs ' + (horario.reserva.equipo2.nombre!.isEmpty ? 'Necesita Reto' : horario.reserva.equipo2.nombre!)),
     
-
-Expanded(
-  child:   Row(
-  
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  
-            children: [
-  
-            ElevatedButton(onPressed: (){}, child: Row(
-  
-            children: [
-  
-              Text('Reservar'),
-  
-              Icon(Icons.calendar_month),
-  
-            ],
-  
-          ), ),
-  
-  
-  
-                 ElevatedButton(onPressed: (){}, child: Row(
-  
-            children: [
-  
-              Text('Retar'),
-  
-              Icon(Icons.person),
-  
-            ],
-  
-          ), ),
-  
-  
-  
-                 ElevatedButton(onPressed: (){}, child: Row(
-  
-            children: [
-  
-              Text('Cancelar'),
-  
-              Icon(Icons.dangerous),
-  
-            ],
-  
-          ), ),
-  
-            ],
-  
-          ),
-),
-
-        
+                _listaBotones1(horario: horario),
 
               ],
             ),
@@ -159,37 +111,192 @@ Expanded(
         ]
       ),
     );
-
-    //eturn Row(
-    //       children: [
-
-    //         Text(horario.reserva.equipo1.nombre.toString()),
-    //            //si equipo 1 es vació es porque no existe reserva
-    //         if(horario.reserva.equipo1.nombre!.isEmpty)
-    //           _iconoReservar(horario: horario),
-    //         
-    //         if((horario.reserva.equipo1.idUsuario != -1) &&
-    //         (horario.reserva.equipo2.nombre!.isEmpty && horario.reserva.equipo1.idUsuario != PreferenciasUsuario.usuarioLogueado))
-    //           _iconoRetar(),
-    //
-    //         //si el usuario logueado es parte de la reserva, puede eliminar su reserva
-    //         if((horario.reserva.equipo2.idUsuario == PreferenciasUsuario.usuarioLogueado)
-    //         || (horario.reserva.equipo1.idUsuario == PreferenciasUsuario.usuarioLogueado))
-    //         _iconoEliminar(),
-    //
-    //
-    //         if(PreferenciasUsuario.esPropietario)
-    //           _iconoNotificar(),
-    //       ],
-    //     );
   }
 
-  //IconButton _iconoReservar() => IconButton(onPressed: (){}, icon: Icon(Icons.calendar_month));
 
-  IconButton _iconoRetar() => IconButton(onPressed: (){}, icon: Icon(Icons.person));
-  IconButton _iconoEliminar() => IconButton(onPressed: (){}, icon: Icon(Icons.dangerous));
-  IconButton _iconoNotificar() => IconButton(onPressed: (){}, icon: Icon(Icons.send));
 }
+
+class _listaBotones1 extends StatelessWidget {
+  const _listaBotones1({
+    required this.horario,
+  });
+
+  
+  final horario;
+  
+  
+  @override
+  Widget build(BuildContext context) {
+
+
+  final reservaServices = Provider.of<ReservaProvider>(context, listen: true);
+    //Horario horario = reservaServices.horarioSeleccionado;
+
+  final notificacionModel = Provider.of<NotificacionModel>(context);
+  final sucursalesServices = Provider.of<SucursalesProvider>(context);
+
+    return Expanded(
+  child:   Row(
+  
+            mainAxisAlignment: MainAxisAlignment.center,
+  
+            children: [
+  
+          if(horario.reserva.equipo1.idUsuario <= 0)
+            ElevatedButton(onPressed: (){
+
+ //TODO hacer un dialog para validar si lleva ambos equipos
+                  //showDialog(context: context, builder: Container());
+                  horario.reserva.equipo1.idUsuario = PreferenciasUsuario.usuarioLogueado;
+                  horario.reserva.indLlevaDosEquipos = true;
+                  horario.reserva.fecha = reservaServices.fechaSeleccionada;
+                  horario.reserva.equipo2.idUsuario = -1;
+
+                  reservaServices.InsertarReserva(horario, sucursalesServices.sucursalSeleccionada).then((value){
+                    notificacionModel.codigo = value.codigoRespuesta;
+                        if(value.codigoRespuesta == 0)
+                        {
+                          reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
+                          
+                          //final prueba = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first();
+
+                
+                          notificacionModel.descripcion = "Reserva agregada satisfactoriamente";
+                          notificacionModel.mostrarAlerta = true;
+                          Timer(const Duration(seconds: 3), (() => { 
+                            notificacionModel.mostrarAlerta = false 
+                          } ));
+                        }
+                        else
+                        {
+                          notificacionModel.mostrarAlerta = true;
+                          notificacionModel.descripcion = value.descripcionRespuesta;
+                          Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+                        } 
+
+                  });
+
+                
+
+
+            }, child: Row(
+            children: [
+              Text('Reservar'),
+              Icon(Icons.calendar_month),
+            ],
+  
+          ), ),
+  
+  
+            if((horario.reserva.equipo1.idUsuario > 0) &&
+             (horario.reserva.equipo2.idUsuario <= 0 && horario.reserva.equipo1.idUsuario != PreferenciasUsuario.usuarioLogueado))
+                 ElevatedButton(onPressed: (){
+
+ //TODO hacer un dialog para validar si lleva ambos equipos
+                  //showDialog(context: context, builder: Container());
+                  horario.reserva.fecha = reservaServices.fechaSeleccionada;
+                  horario.reserva.equipo2.idUsuario = PreferenciasUsuario.usuarioLogueado;
+
+                  reservaServices.ActualizarReserva(horario).then((value){
+                    notificacionModel.codigo = value.codigoRespuesta;
+                        if(value.codigoRespuesta == 0)
+                        {
+                          reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
+                          notificacionModel.descripcion = "Reserva actualizada satisfactoriamente";
+                          notificacionModel.mostrarAlerta = true;
+                          Timer(const Duration(seconds: 3), (() => { 
+                            notificacionModel.mostrarAlerta = false 
+                          } ));
+                        }
+                        else
+                        {
+                          notificacionModel.mostrarAlerta = true;
+                          notificacionModel.descripcion = value.descripcionRespuesta;
+                          Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+                        } 
+
+                  });
+
+
+                 }, child: Row(
+                children: [
+              Text('Retar'),
+              Icon(Icons.person),
+            ],
+  
+          ), ),
+  
+  
+          //si el usuario logueado es parte de la reserva, puede eliminar su reserva
+             if((horario.reserva.equipo2.idUsuario == PreferenciasUsuario.usuarioLogueado)
+             || (horario.reserva.equipo1.idUsuario == PreferenciasUsuario.usuarioLogueado))
+                 ElevatedButton(onPressed: (){
+
+
+
+          
+                  if(horario.reserva.equipo1.idUsuario == PreferenciasUsuario.usuarioLogueado)
+                    horario.reserva.equipo2.idUsuario = 0;
+                    //horario.reserva.equipo1.idUsuario = 0;
+
+                  if(horario.reserva.equipo2.idUsuario == PreferenciasUsuario.usuarioLogueado)
+                    horario.reserva.equipo1.idUsuario = 0;
+                    //horario.reserva.equipo2.idUsuario = 0;
+
+
+                  reservaServices.EliminarReserva(horario).then((value){
+                    notificacionModel.codigo = value.codigoRespuesta;
+                        if(value.codigoRespuesta == 0)
+                        {
+                          reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
+                          //reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
+                          
+                          //horario = reservaServices.horarioSeleccionado;
+                          //var horarioresp = value.listaGenerica.where((i) => i.idHorario = horario.idHorario).first();
+                          //horario.reserva.equipo1.idUsuario = horarioresp.reserva.equipo1.idUsuario;
+                          //horario.reserva.equipo2.idUsuario = horarioresp.reserva.equipo2.idUsuario;
+                          notificacionModel.descripcion = "Reserva actualizada satisfactoriamente";
+                          notificacionModel.mostrarAlerta = true;
+                          Timer(const Duration(seconds: 3), (() => { 
+                            notificacionModel.mostrarAlerta = false 
+                          } ));
+                        }
+                        else
+                        {
+                          notificacionModel.mostrarAlerta = true;
+                          notificacionModel.descripcion = value.descripcionRespuesta;
+                          Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+                        } 
+
+                  });
+
+
+
+
+
+                 }, child: Row(
+            children: [
+              Text('Cancelar'),
+              Icon(Icons.dangerous),
+            ],
+  
+          ), ),
+
+
+      //Se comenta para buscar la forma de obtener si es propietario de cual comercio
+      //ahorita sale solo como es propietario, pero no se sabe de cual comercio
+      //si es propieratio tiene la posibilidad de notificar
+      //if(PreferenciasUsuario.esPropietario)
+      //      ElevatedButton(onPressed: (){}, child: Row(children: [Text('Notificar'), Icon(Icons.send)],),),
+          
+  
+            ],
+  
+          ),
+);
+  }
+}
+  
 
 
 class _iconoReservar extends StatelessWidget {

@@ -12,11 +12,11 @@ class CanchasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-        final reservaServices = Provider.of<ReservaProvider>(context);
+        //final reservaServices = Provider.of<ReservaProvider>(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Canchas')),
       body: Column(children:[
-         Expanded(child: _body(selectedDate: reservaServices.fechaSeleccionada)),
+         Expanded(child: _body()),
          const NotificacionWidget(),
          ]),
     );
@@ -26,11 +26,7 @@ class CanchasPage extends StatelessWidget {
 }
 
 class _body extends StatelessWidget {
-  const _body({
-    required this.selectedDate,
-  });
 
-  final DateTime selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +59,12 @@ class _body extends StatelessWidget {
 
  _sliverList( BuildContext context, dynamic canchas ) {
 
-    final horariosServices = Provider.of<ReservaProvider>(context);
-    final fSer = new DateFormat('yyyy-MM-dd');
-
+  final horariosServices = Provider.of<ReservaProvider>(context);
+  final fSer = new DateFormat('yyyy-MM-dd');
   final reservaServices = Provider.of<ReservaProvider>(context);
-   return SliverList(
+
+
+  return SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               return GestureDetector(
