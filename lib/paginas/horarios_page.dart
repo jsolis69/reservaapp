@@ -11,11 +11,12 @@ class HorariosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      //appBar: AppBar( ),
+      backgroundColor: const Color(0xFF333A47),
+      appBar: AppBar( title: Text('Horarios'), ),
       body: 
-      Column(children:[
-          Expanded(child: ListaHorarios2())
-        ]),
+      SafeArea(
+        child: Expanded(child: HorariosxDia()),
+      ),
     );
   }
 
@@ -50,8 +51,8 @@ class HorariosPage extends StatelessWidget {
  //}
 }
 
-class ListaHorarios2 extends StatelessWidget {
-  const ListaHorarios2({super.key});
+class HorariosxDia extends StatelessWidget {
+  const HorariosxDia({super.key});
 
 @override
   Widget build(BuildContext context) {
@@ -62,69 +63,43 @@ class ListaHorarios2 extends StatelessWidget {
     final reservaServices = Provider.of<ReservaProvider>(context);
     final fSer = new DateFormat('yyyy-MM-dd');
 
-return Scaffold(
-      backgroundColor: const Color(0xFF333A47),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                'Calendar Timeline',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Colors.tealAccent[100]),
+return SingleChildScrollView(
+  child:   Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CalendarTimeline(
+                initialDate: reservaServices.fechaSeleccionada,
+                firstDate: DateTime.now(),
+                lastDate: DateTime.now().add(const Duration(days: 10)),
+                onDateSelected: (date)  
+                {
+                  reservaServices.fechaSeleccionada = date;
+                 horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(date));
+                },
+                leftMargin: 20,
+                monthColor: Colors.white70,
+                dayColor: Colors.teal[200],
+                dayNameColor: const Color(0xFF333A47),
+                activeDayColor: Colors.white,
+                activeBackgroundDayColor: Colors.redAccent[100],
+                dotsColor: const Color(0xFF333A47),
+                selectableDayPredicate: (date) => date.day != 23,
+                locale: 'es',
               ),
-            ),
-            CalendarTimeline(
-              //showYears: true,
-              initialDate: reservaServices.fechaSeleccionada,
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(const Duration(days: 10)),
-              onDateSelected: (date)  
-              //setState(() => _selectedDate = date),
-              {
-                //print(date);
-                //_selectedDate = date;
-                reservaServices.fechaSeleccionada = date;
-                //setState(() { });
-               
-               horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(date));
-               
-               },//setState(() => _selectedDate = date),
-              leftMargin: 20,
-              monthColor: Colors.white70,
-              dayColor: Colors.teal[200],
-              dayNameColor: const Color(0xFF333A47),
-              activeDayColor: Colors.white,
-              activeBackgroundDayColor: Colors.redAccent[100],
-              dotsColor: const Color(0xFF333A47),
-              selectableDayPredicate: (date) => date.day != 23,
-              locale: 'es',
-            ),
-            const SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: _horariosNew(context)
-            ),
-            
-            //Center(
-            //  child: Text(
-            //    'Selected date is' + fSer.format(_selectedDate),
-            //    style: const TextStyle(color: Colors.white),
-            //  ),
-            //)
-          ],
-        ),
-      ),
-    );
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: _listaHorarios(context)
+              ),
+            ],
+  
+          ),
+);
   }
 }
 
 
-  Widget _horariosNew(BuildContext context) {
+  Widget _listaHorarios(BuildContext context) {
       final horariosServices = Provider.of<ReservaProvider>(context);
     return 
   ////Container();
@@ -140,7 +115,7 @@ return Scaffold(
         ),
         delegate: SliverChildBuilderDelegate((context, index) {
           final horario = horariosServices.listaHorarios[index];
-          return _horarios2(horario: horario);
+          return _horas(horario: horario);
         },
         childCount: horariosServices.listaHorarios.length
         ),
@@ -155,8 +130,8 @@ return Scaffold(
 
 
 
-class _horarios2 extends StatelessWidget {
-  const _horarios2({
+class _horas extends StatelessWidget {
+  const _horas({
     required this.horario,
   });
 
@@ -172,7 +147,7 @@ class _horarios2 extends StatelessWidget {
     if(horario.reserva.equipo1.idUsuario > 0)
      { colorHorario = Colors.orange;
       texto = 'Reto';}
-    if(horario.reserva.equipo2.idUsuario > 0)
+    if(horario.reserva.equipo2.idUsuario > 0 || horario.reserva.indLlevaDosEquipos)
       {colorHorario = Colors.red;
       texto = 'Reservada';}
 

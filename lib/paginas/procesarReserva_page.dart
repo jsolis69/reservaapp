@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
-import 'package:reservaapp/models/horariosCancha_model.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
@@ -38,7 +37,7 @@ class _horario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final reservaService = Provider.of<ReservaProvider>(context);
+    final reservaService = Provider.of<ReservaProvider>(context, listen: true);
     final horario = reservaService.horarioSeleccionado;
     final f = new DateFormat('dd-MM-yyyy');
     
@@ -94,13 +93,27 @@ class _horario extends StatelessWidget {
                   ],
                 ),
                   SizedBox(height: 40,),
-                  
-                
+              
                 if(horario.reserva.equipo1.nombre!.isEmpty)
                   EtiquetaPersonalizada(descripcion: 'Disponible', tamano: 15,)
+                else if (horario.reserva.indLlevaDosEquipos)
+                  EtiquetaPersonalizada(descripcion: 'Cancha reservada por: ${horario.reserva.equipo1.nombre}', tamano: 15,)
                 else
                   Text(horario.reserva.equipo1.nombre! + ' vrs ' + (horario.reserva.equipo2.nombre!.isEmpty ? 'Necesita Reto' : horario.reserva.equipo2.nombre!)),
     
+               SwitchListTile(
+                    value: reservaService.horarioSeleccionado.reserva.indLlevaDosEquipos, 
+                    onChanged: horario.reserva.equipo1.nombre!.isNotEmpty ? null : (value){
+                    //print(value);
+                    horario.reserva.indLlevaDosEquipos = value;
+                    reservaService.horarioSeleccionado = horario;
+                    },
+                    title: EtiquetaPersonalizada(descripcion: 'Lleva los dos equipos', tamano: 15),
+                    activeColor:Colors.amber,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    inactiveThumbColor: horario.reserva.equipo1.nombre!.isNotEmpty ? Colors.red :Colors.amber,
+                  ),
+
                 _listaBotones1(horario: horario),
 
               ],
@@ -144,11 +157,7 @@ class _listaBotones1 extends StatelessWidget {
   
           if(horario.reserva.equipo1.idUsuario <= 0)
             ElevatedButton(onPressed: (){
-
- //TODO hacer un dialog para validar si lleva ambos equipos
-                  //showDialog(context: context, builder: Container());
                   horario.reserva.equipo1.idUsuario = PreferenciasUsuario.usuarioLogueado;
-                  horario.reserva.indLlevaDosEquipos = true;
                   horario.reserva.fecha = reservaServices.fechaSeleccionada;
                   horario.reserva.equipo2.idUsuario = -1;
 
@@ -158,9 +167,7 @@ class _listaBotones1 extends StatelessWidget {
                         {
                           reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
                           
-                          //final prueba = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first();
-
-                
+    
                           notificacionModel.descripcion = "Reserva agregada satisfactoriamente";
                           notificacionModel.mostrarAlerta = true;
                           Timer(const Duration(seconds: 3), (() => { 
@@ -189,11 +196,11 @@ class _listaBotones1 extends StatelessWidget {
   
   
             if((horario.reserva.equipo1.idUsuario > 0) &&
-             (horario.reserva.equipo2.idUsuario <= 0 && horario.reserva.equipo1.idUsuario != PreferenciasUsuario.usuarioLogueado))
+             (horario.reserva.equipo2.idUsuario <= 0 && horario.reserva.equipo1.idUsuario != PreferenciasUsuario.usuarioLogueado)
+             && !horario.reserva.indLlevaDosEquipos
+             )
                  ElevatedButton(onPressed: (){
 
- //TODO hacer un dialog para validar si lleva ambos equipos
-                  //showDialog(context: context, builder: Container());
                   horario.reserva.fecha = reservaServices.fechaSeleccionada;
                   horario.reserva.equipo2.idUsuario = PreferenciasUsuario.usuarioLogueado;
 

@@ -11,7 +11,7 @@ class ReservaProvider with ChangeNotifier{
   DateTime _fechaSeleccionada = DateTime.now();
   List<Horario> listaHorarios = [];
   int _canhaSeleccionada = 0;
-  Horario horarioSeleccionado = new Horario(
+  Horario _horarioSeleccionado = new Horario(
     idHorario: 0, 
     diaSemana: 
     new CatalogoGenerico(
@@ -55,6 +55,12 @@ class ReservaProvider with ChangeNotifier{
     _canhaSeleccionada = valor;
     notifyListeners();
   }
+
+  Horario get horarioSeleccionado => _horarioSeleccionado;
+  set horarioSeleccionado(Horario horario){
+    _horarioSeleccionado = horario;
+    notifyListeners();
+    }
 
   DateTime get fechaSeleccionada => _fechaSeleccionada;
   set fechaSeleccionada(DateTime valor){
