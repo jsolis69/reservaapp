@@ -17,17 +17,19 @@ class SucursalesPage extends StatelessWidget {
 
   
     return Scaffold(
-      body: Stack(
-        children: [
-          
-          _contenido(),
-          HeaderWidget(
-            icono: FontAwesomeIcons.calendarDay, 
-            titulo: titulo,
-            color1: colorPrimario,
-            color2: colorSecundario
-          )
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            
+            _contenido(),
+            HeaderWidget(
+              icono: FontAwesomeIcons.calendarDay, 
+              titulo: titulo,
+              color1: colorPrimario,
+              color2: colorSecundario
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: BotonesNavegacion(seleccionado: 1,)
     );

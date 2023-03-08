@@ -22,16 +22,18 @@ class _MiPerfilPageState extends State<MiPerfilPage> {
     Color colorSecundario = Color(0xff35AD3E);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(),
-          HeaderWidget(
-            icono: icono, 
-            titulo: titulo,
-            color1: colorPrimario,
-            color2: colorSecundario
-          )
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(),
+            HeaderWidget(
+              icono: icono, 
+              titulo: titulo,
+              color1: colorPrimario,
+              color2: colorSecundario
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: BotonesNavegacion(seleccionado: 0),  
     );

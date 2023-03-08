@@ -30,11 +30,11 @@ class HeaderWidget extends StatelessWidget {
         Positioned(
           top: -5,
           right: -20,
-          child: FaIcon(this.icono, size: 120, color: Colors.white.withOpacity(0.2),)),
+          child: FaIcon(this.icono, size: 90, color: Colors.white.withOpacity(0.2),)),
 
         Column(
           children: [
-            SizedBox(height: 80, width: double.infinity,),
+            SizedBox(height: 40, width: double.infinity,),
             Text(titulo, style: TextStyle(fontSize: 20, color: _color)),
             SizedBox(height: 20),
             //Text(texto, style: TextStyle(fontSize: 20, color: _color),)
@@ -59,12 +59,12 @@ class _FondoHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 150,
+      height: 90,
       decoration: BoxDecoration(
         color: Colors.red,
-        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(80)),
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(60)),
         gradient: LinearGradient(
-          begin: Alignment.topCenter,
+          begin: Alignment.centerLeft,
           colors: <Color>[
             this.color1
             ,this.color2

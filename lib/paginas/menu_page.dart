@@ -26,83 +26,85 @@ class _MenuPageState extends State<MenuPage> {
 
   
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 200),
-            child: ListView(
-            children: [
-
-              if(PreferenciasUsuario.esPropietario)...[
-              Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Cambiar a modo anfitrión'),
-                trailing: FaIcon(FontAwesomeIcons.exchangeAlt),
-                onTap: (){
-                  Navigator.pushNamed(context, 'MisSucursales');
-                },
-              ),
-              ],
-              
-   
-              Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Ayuda'),
-                trailing: FaIcon(FontAwesomeIcons.question),
-                onTap: (){
-                  Navigator.pushReplacementNamed(context, 'Ayuda');
-                },
-              ),
-              Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Envíanos tus comentarios'),
-                trailing: FaIcon(FontAwesomeIcons.comment),
-                onTap: (){
-                  Navigator.pushNamed(context, 'Comentarios');
-                },
-                ),
-
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 200),
+              child: ListView(
+              children: [
+      
+                if(PreferenciasUsuario.esPropietario)...[
                 Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Modo oscuro'),
-                trailing: Switch.adaptive(
-                  value: PreferenciasUsuario.esModoOscuro, 
-                  //activeColor: PreferenciasUsuario.temaActual.accentColor,
-                  onChanged: (value){
-                    PreferenciasUsuario.esModoOscuro = value;
-                    final temaServicio = Provider.of<TemaServicio>(context, listen: false);
-                    value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
-                    setState(() {
-                    });
-                  }
-                  )
+                ListTile(
+                  title: Text('Cambiar a modo anfitrión'),
+                  trailing: FaIcon(FontAwesomeIcons.exchangeAlt),
+                  onTap: (){
+                    Navigator.pushNamed(context, 'MisSucursales');
+                  },
                 ),
-
-              Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Cerrar sesión'),
-                trailing: FaIcon(FontAwesomeIcons.signOutAlt),
-                onTap: (){
-
-                  final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: false);
-                  usuarioprovider.usuario = '';
-                  usuarioprovider.contrasenia = '';
-
-
-                  Navigator.pushReplacementNamed(context, 'Login');
-                },
-                )
-            ],
-          ),
-          ),
-          
-          HeaderWidget(
-            icono: icono, 
-            titulo: titulo,
-            color1: colorPrimario,
-            color2: colorSecundario
-          )
-        ],
+                ],
+                
+         
+                Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('Ayuda'),
+                  trailing: FaIcon(FontAwesomeIcons.question),
+                  onTap: (){
+                    Navigator.pushReplacementNamed(context, 'Ayuda');
+                  },
+                ),
+                Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('Envíanos tus comentarios'),
+                  trailing: FaIcon(FontAwesomeIcons.comment),
+                  onTap: (){
+                    Navigator.pushNamed(context, 'Comentarios');
+                  },
+                  ),
+      
+                  Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('Modo oscuro'),
+                  trailing: Switch.adaptive(
+                    value: PreferenciasUsuario.esModoOscuro, 
+                    //activeColor: PreferenciasUsuario.temaActual.accentColor,
+                    onChanged: (value){
+                      PreferenciasUsuario.esModoOscuro = value;
+                      final temaServicio = Provider.of<TemaServicio>(context, listen: false);
+                      value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
+                      setState(() {
+                      });
+                    }
+                    )
+                  ),
+      
+                Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('Cerrar sesión'),
+                  trailing: FaIcon(FontAwesomeIcons.signOutAlt),
+                  onTap: (){
+      
+                    final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: false);
+                    usuarioprovider.usuario = '';
+                    usuarioprovider.contrasenia = '';
+      
+      
+                    Navigator.pushReplacementNamed(context, 'Login');
+                  },
+                  )
+              ],
+            ),
+            ),
+            
+            HeaderWidget(
+              icono: icono, 
+              titulo: titulo,
+              color1: colorPrimario,
+              color2: colorSecundario
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: BotonesNavegacion(seleccionado: 2),  
     );

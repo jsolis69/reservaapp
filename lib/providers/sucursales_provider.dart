@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:reservaapp/models/sucursales_model.dart';
@@ -18,22 +20,27 @@ class SucursalesProvider with ChangeNotifier{
 
  var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Sucursal/ObtenerSucursalesPorUbicacion');
 
- final response = await http.get(url);
-
-
-   //final resp = await http.post(
-   //   url,
-   //   body: datos
-   //   ,headers: Utilitarios().header
-   //);
-//if (response.statusCode == 200) {
-
+  final response = await http.get(url);
 
   return sucursalesXUbicacionResponseFromJson(response.body);
-  //}
-   //Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-   //return decodeResp;
+  }
+
+   Future<SucursalesXUbicacionResponse> ObtenerSucursalesPorPropietario(idUsurio) async {
+   
+
+ var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Sucursal/ObtenerSucursalesPorPropietario');
+
+  final response = await http.post(url,
+  headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+ body: jsonEncode({
+  'IdUsuario': idUsurio.toString(),
+  }));
+
+  return sucursalesXUbicacionResponseFromJson(response.body);
+
   }
 
   

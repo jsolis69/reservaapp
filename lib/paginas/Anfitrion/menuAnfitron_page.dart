@@ -26,74 +26,76 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
 
  
 
-      body: Stack(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 200),
-            child: ListView(
-            children: [
-              Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Cambiar a modo mejenguero'),
-                trailing: FaIcon(FontAwesomeIcons.exchangeAlt),
-                onTap: (){
-                  Navigator.pushReplacementNamed(context, 'Sucursales');
-                },
-              ),
-              Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Ayuda'),
-                trailing: FaIcon(FontAwesomeIcons.question),
-                onTap: (){
-                  Navigator.pushNamed(context, 'Ayuda', arguments: 'Anfitrion');
-                },
-              ),
-              Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Envíanos tus comentarios'),
-                trailing: FaIcon(FontAwesomeIcons.comment),
-                onTap: (){
-                  Navigator.pushNamed(context, 'Comentarios', arguments: 'Anfitrion');
-                },
-                ),
-
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 200),
+              child: ListView(
+              children: [
                 Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Modo oscuro'),
-                trailing: Switch.adaptive(
-                  //activeColor: temaAplicacion.temaActual.accentColor,
-                  value: PreferenciasUsuario.esModoOscuro, 
-                  onChanged: (value){
-                    
-                    PreferenciasUsuario.esModoOscuro = value;
-                    final temaServicio = Provider.of<TemaServicio>(context, listen: false);
-                    value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
-                    setState(() {
-                    });
-
-                  }
-                  )
+                ListTile(
+                  title: Text('Cambiar a modo mejenguero'),
+                  trailing: FaIcon(FontAwesomeIcons.exchangeAlt),
+                  onTap: (){
+                    Navigator.pushReplacementNamed(context, 'Sucursales');
+                  },
                 ),
-              Divider(height: 20, color: Colors.red, thickness: 1,),
-              ListTile(
-                title: Text('Cerrar sesión'),
-                trailing: FaIcon(FontAwesomeIcons.signOutAlt),
-                onTap: (){
-
-                  Navigator.pushReplacementNamed(context, 'Login');
-                },
-                )
-            ],
-          ),
-          ),
-          
-          HeaderWidget(
-            icono: icono, 
-            titulo: titulo,
-            color1: colorPrimario,
-            color2: colorSecundario
-          )
-        ],
+                Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('Ayuda'),
+                  trailing: FaIcon(FontAwesomeIcons.question),
+                  onTap: (){
+                    Navigator.pushNamed(context, 'Ayuda', arguments: 'Anfitrion');
+                  },
+                ),
+                Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('Envíanos tus comentarios'),
+                  trailing: FaIcon(FontAwesomeIcons.comment),
+                  onTap: (){
+                    Navigator.pushNamed(context, 'Comentarios', arguments: 'Anfitrion');
+                  },
+                  ),
+      
+                  Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('Modo oscuro'),
+                  trailing: Switch.adaptive(
+                    //activeColor: temaAplicacion.temaActual.accentColor,
+                    value: PreferenciasUsuario.esModoOscuro, 
+                    onChanged: (value){
+                      
+                      PreferenciasUsuario.esModoOscuro = value;
+                      final temaServicio = Provider.of<TemaServicio>(context, listen: false);
+                      value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
+                      setState(() {
+                      });
+      
+                    }
+                    )
+                  ),
+                Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('Cerrar sesión'),
+                  trailing: FaIcon(FontAwesomeIcons.signOutAlt),
+                  onTap: (){
+      
+                    Navigator.pushReplacementNamed(context, 'Login');
+                  },
+                  )
+              ],
+            ),
+            ),
+            
+            HeaderWidget(
+              icono: icono, 
+              titulo: titulo,
+              color1: colorPrimario,
+              color2: colorSecundario
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: BotonesNavegacionAnfitron(seleccionado: 1),  
     );
