@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
+import 'package:reservaapp/providers/canchas_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/botonesNavegacionAnfitrion.dart';
 import 'package:reservaapp/widgets/header.dart';
 import 'package:reservaapp/widgets/tarjeta_widget.dart';
 
-class MisSucursalesPage extends StatelessWidget {
+class MisCanchasPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //appBar: AppBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your onPressed code here!
         },
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blue[600],
         child: const FaIcon(FontAwesomeIcons.plus),
       ),
       body: SafeArea(
@@ -25,10 +26,11 @@ class MisSucursalesPage extends StatelessWidget {
           children: [
             _listaScurusales(),
             HeaderWidget(
-            icono: FontAwesomeIcons.calendarDay, 
-            titulo: 'Sucursales',
-            color1: Colors.green,
-            color2: Colors.grey
+            icono: FontAwesomeIcons.footballBall, 
+            titulo: 'Canchas',
+            color1: Colors.blue,
+            color2: Colors.grey,
+            paginaReturn: 'MisSucursales',
           ),
             
             
@@ -48,9 +50,11 @@ class _listaScurusales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+  final canchasServices = Provider.of<CanchasProvider>(context);
   final sucursalesServices = Provider.of<SucursalesProvider>(context);
+  
     return FutureBuilder(
-      future: sucursalesServices.ObtenerSucursalesPorPropietario(PreferenciasUsuario.usuarioLogueado),
+      future: canchasServices.ObtenerCanchasPorSucursal(sucursalesServices.sucursalSeleccionada),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         
         if (snapshot.connectionState == ConnectionState.done) {
@@ -62,17 +66,17 @@ class _listaScurusales extends StatelessWidget {
         return ListView.builder(
           padding: EdgeInsets.only(top: 110),
           //itemExtent: 50,
-          itemCount: snapshot.data.listaGenerica.length,
+          itemCount: snapshot.data.length,
           itemBuilder: (BuildContext context, int index) {
             return TarjetaWidget(
              ancho: double.infinity,
               alto: 120.0,
               color1: Colors.grey,
               color2: Colors.grey.shade400,
-              titulo: snapshot.data.listaGenerica[index].nombre,
+              titulo: snapshot.data[index].nombre,
               ontap: (){ 
-                sucursalesServices.sucursalSeleccionada = snapshot.data.listaGenerica[index].idSucursal;
-                Navigator.pushNamed(context, 'MisCanchas');
+                canchasServices.canchaSeleccionada = snapshot.data[index].idCancha;
+                //print(snapshot.data[index].nombre); 
                 },
           );
           },

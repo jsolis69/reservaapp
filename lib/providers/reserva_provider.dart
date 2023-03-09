@@ -10,7 +10,7 @@ class ReservaProvider with ChangeNotifier{
 
   DateTime _fechaSeleccionada = DateTime.now();
   List<Horario> listaHorarios = [];
-  int _canhaSeleccionada = 0;
+  
   Horario _horarioSeleccionado = new Horario(
     idHorario: 0, 
     diaSemana: 
@@ -49,12 +49,6 @@ class ReservaProvider with ChangeNotifier{
         permiteNotificar: false, 
         indEsAdministrador: false
         )));
-
-  int get canchaSeleccionada => _canhaSeleccionada;
-  set canchaSeleccionada(int valor){
-    _canhaSeleccionada = valor;
-    notifyListeners();
-  }
 
   Horario get horarioSeleccionado => _horarioSeleccionado;
   set horarioSeleccionado(Horario horario){

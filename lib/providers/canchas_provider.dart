@@ -3,14 +3,19 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:reservaapp/models/cancha_model.dart';
-import 'package:reservaapp/models/horariosCancha_model.dart';
 import 'package:reservaapp/utils/utils.dart';
 
 
 class CanchasProvider with ChangeNotifier{
 
   List<Cancha> listaCanchas = [];
-
+  
+  int _canhaSeleccionada = 0;
+  int get canchaSeleccionada => _canhaSeleccionada;
+  set canchaSeleccionada(int valor){
+    _canhaSeleccionada = valor;
+    notifyListeners();
+  }
 
 ObtenerCanchasPorSucursal(int idSucursal) async {
    

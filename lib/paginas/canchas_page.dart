@@ -62,6 +62,7 @@ class _body extends StatelessWidget {
   final horariosServices = Provider.of<ReservaProvider>(context);
   final fSer = new DateFormat('yyyy-MM-dd');
   final reservaServices = Provider.of<ReservaProvider>(context);
+  final canchasServices = Provider.of<CanchasProvider>(context);
 
 
   return SliverList(
@@ -69,9 +70,9 @@ class _body extends StatelessWidget {
             (BuildContext context, int index) {
               return GestureDetector(
                 onTap: (){
-                  reservaServices.canchaSeleccionada = canchas[index].idCancha;
+                  canchasServices.canchaSeleccionada = canchas[index].idCancha;
 
-                  horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada));
+                  horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada));
                   //.then((value){
                   //if(value.codigoRespuesta == 0)
                   //{

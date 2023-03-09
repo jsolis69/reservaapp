@@ -8,6 +8,7 @@ class TarjetaWidget extends StatelessWidget {
   final Color color2;
   final Image imagen;
   final String titulo;
+  final VoidCallback ontap;
 
   const TarjetaWidget({
       this.ancho = 150.0, 
@@ -15,7 +16,8 @@ class TarjetaWidget extends StatelessWidget {
       this.color1 = Colors.greenAccent, 
       this.color2 = Colors.green, 
       this.imagen = const Image(image: AssetImage('assets/img/canchafutbol.jpg')), 
-      required this.titulo
+      required this.titulo, 
+      required this.ontap
     });
   //const TarjetaWidget({Key? key}) : super(key: key);
 
@@ -29,7 +31,8 @@ class TarjetaWidget extends StatelessWidget {
             ancho: this.ancho, 
             alto: this.alto, 
             color1: this.color1, 
-            color2: this.color2),
+            color2: this.color2,
+            ontap: this.ontap),
            Row(
                children: [
                 Container(
@@ -61,12 +64,14 @@ class _TarjetaFondo extends StatelessWidget {
   final double alto;
   final Color color1;
   final Color color2;
+  final VoidCallback ontap;
 
   const _TarjetaFondo({
     required this.ancho,
     required this.alto,
     required this.color1,
-    required this.color2
+    required this.color2, 
+    required this.ontap
   });
 
   @override
@@ -74,6 +79,9 @@ class _TarjetaFondo extends StatelessWidget {
     return Container(
       width: ancho,
       height: alto,
+      child: GestureDetector(
+        onTap: this.ontap,
+      ),
       decoration: BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.all(Radius.circular(20.0)),

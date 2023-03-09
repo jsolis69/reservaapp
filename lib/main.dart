@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/paginas/Anfitrion/menuAnfitron_page.dart';
+import 'package:reservaapp/paginas/Anfitrion/misCanchas_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misSucursales_page.dart';
 import 'package:reservaapp/paginas/ayuda_page.dart';
 import 'package:reservaapp/paginas/canchas_page.dart';
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
     
           //acá todas las relacionadas al anfitron
           'MisSucursales': (BuildContext context) => MisSucursalesPage(),
+          'MisCanchas': (BuildContext context) => MisCanchasPage(),
           'MenuAnfitrion': (BuildContext context) => MenuAnfitrionPage(),
     
           //acá genericas

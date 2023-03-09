@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reservaapp/providers/canchas_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 
@@ -61,6 +62,7 @@ class HorariosxDia extends StatelessWidget {
 
     final horariosServices = Provider.of<ReservaProvider>(context);
     final reservaServices = Provider.of<ReservaProvider>(context);
+    final canchasServices = Provider.of<CanchasProvider>(context);
     final fSer = new DateFormat('yyyy-MM-dd');
 
 return SingleChildScrollView(
@@ -74,7 +76,7 @@ return SingleChildScrollView(
                 onDateSelected: (date)  
                 {
                   reservaServices.fechaSeleccionada = date;
-                 horariosServices.ObtenerHorarioPorCancha(reservaServices.canchaSeleccionada, fSer.format(date));
+                 horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(date));
                 },
                 leftMargin: 20,
                 monthColor: Colors.white70,

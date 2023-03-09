@@ -9,13 +9,15 @@ class HeaderWidget extends StatelessWidget {
   final String subTitulo;
   final Color color1;
   final Color color2;
+  final String paginaReturn;
 
   const HeaderWidget({ 
   required this.icono, 
   required this.titulo, 
   this.subTitulo = '',
   this.color1 = Colors.greenAccent,
-  this.color2 = Colors.green
+  this.color2 = Colors.green, 
+  this.paginaReturn = ''
   });
 
   @override
@@ -31,14 +33,20 @@ class HeaderWidget extends StatelessWidget {
           top: -5,
           right: -20,
           child: FaIcon(this.icono, size: 90, color: Colors.white.withOpacity(0.2),)),
-
+        if(paginaReturn.isNotEmpty)
+        Positioned(
+          top: 20,
+          left: 10,
+          child: GestureDetector(onTap: (){
+            Navigator.pushNamed(context, paginaReturn);
+          }, child: FaIcon(Icons.arrow_back, size: 40, color: Colors.grey),) ),
         Column(
           children: [
             SizedBox(height: 40, width: double.infinity,),
             Text(titulo, style: TextStyle(fontSize: 20, color: _color)),
             SizedBox(height: 20),
             //Text(texto, style: TextStyle(fontSize: 20, color: _color),)
-          ],
+          ], 
         )
       ],
     );
