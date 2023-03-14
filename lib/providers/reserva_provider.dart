@@ -13,6 +13,7 @@ class ReservaProvider with ChangeNotifier{
   
   Horario _horarioSeleccionado = new Horario(
     idHorario: 0, 
+    seleccionado: false,
     diaSemana: 
     new CatalogoGenerico(
       codigo: 0

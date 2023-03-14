@@ -103,9 +103,13 @@ return SingleChildScrollView(
 
   Widget _listaHorarios(BuildContext context) {
       final horariosServices = Provider.of<ReservaProvider>(context);
-    return 
+
+
+      if(horariosServices.listaHorarios.length <= 0)
+    return Container();
+    else
   ////Container();
-  CustomScrollView(
+  return CustomScrollView(
     shrinkWrap: true,
     slivers: <Widget>[
       SliverGrid(

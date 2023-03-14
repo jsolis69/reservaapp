@@ -44,6 +44,7 @@ class Horario {
         required this.diaSemana,
         required this.estado,
         required this.reserva,
+        required this.seleccionado,
     });
 
     int idHorario;
@@ -52,6 +53,7 @@ class Horario {
     CatalogoGenerico diaSemana;
     CatalogoGenerico estado;
     Reserva reserva;
+    bool seleccionado;
 
     factory Horario.fromJson(Map<String, dynamic> json) => Horario(
         idHorario: json["IdHorario"],
@@ -60,6 +62,7 @@ class Horario {
         diaSemana: CatalogoGenerico.fromJson(json["DiaSemana"]),
         estado: CatalogoGenerico.fromJson(json["Estado"]),
         reserva: Reserva.fromJson(json["Reserva"]),
+        seleccionado: json["Seleccionado"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -69,6 +72,7 @@ class Horario {
         "DiaSemana": diaSemana.toJson(),
         "Estado": estado.toJson(),
         "Reserva": reserva.toJson(),
+        "Seleccionado": seleccionado,
     };
 }
 

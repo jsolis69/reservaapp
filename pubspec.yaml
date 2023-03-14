@@ -46,6 +46,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   calendar_timeline: ^1.1.1
+  grouped_list: ^5.1.2
+
 
 dev_dependencies:
   flutter_test:

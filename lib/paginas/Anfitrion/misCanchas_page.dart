@@ -77,6 +77,7 @@ class _listaScurusales extends StatelessWidget {
               ontap: (){ 
                 canchasServices.canchaSeleccionada = snapshot.data[index].idCancha;
                 //print(snapshot.data[index].nombre); 
+                Navigator.pushNamed(context, 'MisHorarios');
                 },
           );
           },
