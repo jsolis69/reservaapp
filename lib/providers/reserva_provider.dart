@@ -9,53 +9,9 @@ import 'package:reservaapp/utils/utils.dart';
 class ReservaProvider with ChangeNotifier{
 
   DateTime _fechaSeleccionada = DateTime.now();
-  List<Horario> listaHorarios = [];
-  
-  Horario _horarioSeleccionado = new Horario(
-    idHorario: 0, 
-    seleccionado: false,
-    diaSemana: 
-    new CatalogoGenerico(
-      codigo: 0
-    ), 
-    estado: new CatalogoGenerico(
-      codigo: 0
-    ), 
-    reserva: new Reserva(
-      idReserva: 0, 
-      estado: CatalogoGenerico(codigo: 0),
-      indLlevaDosEquipos: false,
-      fecha: DateTime.now(),
-      equipo1: new Equipo(
-        idUsuario: 0, 
-        estado: new CatalogoGenerico(codigo: 0), 
-        empresa: new Empresa(
-          idEmpresa: 0, 
-          estado: new CatalogoGenerico(codigo: 0), 
-          logo: 0,
-          sucursales: []
-        ),
-        permiteNotificar: false, 
-        indEsAdministrador: false
-      ), 
-      equipo2: new Equipo(
-        idUsuario: 0, 
-        estado: new CatalogoGenerico(codigo: 0), 
-        empresa: new Empresa(
-          idEmpresa: 0, 
-          estado: new CatalogoGenerico(codigo: 0), 
-          logo: 0,
-          sucursales: []
-        ),
-        permiteNotificar: false, 
-        indEsAdministrador: false
-        )));
 
-  Horario get horarioSeleccionado => _horarioSeleccionado;
-  set horarioSeleccionado(Horario horario){
-    _horarioSeleccionado = horario;
-    notifyListeners();
-    }
+  
+
 
   DateTime get fechaSeleccionada => _fechaSeleccionada;
   set fechaSeleccionada(DateTime valor){
@@ -99,14 +55,14 @@ final fSer = new DateFormat('yyyy-MM-dd');
     //listaCanchas = [];
     var reservaResponse = horariosResponseFromJson(response.body);
 
-    if(reservaResponse.codigoRespuesta == 0)
-    {
-      //Se limpia la lista para volverla a cargar
-      listaHorarios = [];
-      listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
-      notifyListeners();
-
-    }
+    //if(reservaResponse.codigoRespuesta == 0)
+    //{
+    //  //Se limpia la lista para volverla a cargar
+    //  listaHorarios = [];
+    //  listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
+    //  notifyListeners();
+//
+    //}
     return reservaResponse;
   } else {
     throw Exception('Error ejecutando el servicio.');
@@ -141,14 +97,14 @@ final fSer = new DateFormat('yyyy-MM-dd');
 
     var reservaResponse = horariosResponseFromJson(response.body);
 
-    if(reservaResponse.codigoRespuesta == 0)
-    {
-      //Se limpia la lista para volverla a cargar
-      listaHorarios = [];
-      listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
-      notifyListeners();
-
-    }
+    //if(reservaResponse.codigoRespuesta == 0)
+    //{
+    //  //Se limpia la lista para volverla a cargar
+    //  listaHorarios = [];
+    //  listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
+    //  notifyListeners();
+//
+    //}
     return reservaResponse;
   } else {
     throw Exception('Error ejecutando el servicio.');
@@ -182,51 +138,19 @@ EliminarReserva(Horario Horario) async {
 
     var reservaResponse = horariosResponseFromJson(response.body);
 
-    if(reservaResponse.codigoRespuesta == 0)
-    {
+    //if(reservaResponse.codigoRespuesta == 0)
+    //{
       //Se limpia la lista para volverla a cargar
-      listaHorarios = [];
-      listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
-      notifyListeners();
+      //listaHorarios = [];
+      //listaHorarios = [...listaHorarios, ...reservaResponse.listaGenerica];
+      //notifyListeners();
 
-    }
+    //}
     return reservaResponse;
   } else {
     throw Exception('Error ejecutando el servicio.');
   }
 }
-
-
-
-
-ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
-   
-
- var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorCancha');
-
- final response = await http.post(url,
-  headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
- body: jsonEncode({
-  'IdCancha': idSucursal.toString(),
-  'Horarios':[
-        { 
-          'Reserva': { 
-            'Fecha': fecha
-          }
-        }
-      ]
-    }));
-
-
-  listaHorarios = [];
-  var HorariosResponse = horariosResponseFromJson(response.body);
-  listaHorarios = [...listaHorarios, ...HorariosResponse.listaGenerica];
-  
-  //return listaCanchas;
-  notifyListeners();
-  }
 
 
 

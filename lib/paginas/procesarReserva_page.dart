@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
+import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
@@ -38,7 +39,8 @@ class _horario extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final reservaService = Provider.of<ReservaProvider>(context, listen: true);
-    final horario = reservaService.horarioSeleccionado;
+    final horarioService = Provider.of<HorarioProvider>(context);
+    final horario = horarioService.horarioSeleccionado;
     final f = new DateFormat('dd-MM-yyyy');
     
     return SingleChildScrollView (
@@ -102,11 +104,11 @@ class _horario extends StatelessWidget {
                   Text(horario.reserva.equipo1.nombre! + ' vrs ' + (horario.reserva.equipo2.nombre!.isEmpty ? 'Necesita Reto' : horario.reserva.equipo2.nombre!)),
     
                SwitchListTile(
-                    value: reservaService.horarioSeleccionado.reserva.indLlevaDosEquipos, 
+                    value: horarioService.horarioSeleccionado.reserva.indLlevaDosEquipos, 
                     onChanged: horario.reserva.equipo1.nombre!.isNotEmpty ? null : (value){
                     //print(value);
                     horario.reserva.indLlevaDosEquipos = value;
-                    reservaService.horarioSeleccionado = horario;
+                    horarioService.horarioSeleccionado = horario;
                     },
                     title: EtiquetaPersonalizada(descripcion: 'Lleva los dos equipos', tamano: 15),
                     activeColor:Colors.amber,
@@ -143,6 +145,7 @@ class _listaBotones1 extends StatelessWidget {
 
 
   final reservaServices = Provider.of<ReservaProvider>(context, listen: true);
+  final horarioServices = Provider.of<HorarioProvider>(context);
     //Horario horario = reservaServices.horarioSeleccionado;
 
   final notificacionModel = Provider.of<NotificacionModel>(context);
@@ -165,7 +168,7 @@ class _listaBotones1 extends StatelessWidget {
                     notificacionModel.codigo = value.codigoRespuesta;
                         if(value.codigoRespuesta == 0)
                         {
-                          reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
+                          horarioServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
                           
     
                           notificacionModel.descripcion = "Reserva agregada satisfactoriamente";
@@ -208,7 +211,7 @@ class _listaBotones1 extends StatelessWidget {
                     notificacionModel.codigo = value.codigoRespuesta;
                         if(value.codigoRespuesta == 0)
                         {
-                          reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
+                          horarioServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
                           notificacionModel.descripcion = "Reserva actualizada satisfactoriamente";
                           notificacionModel.mostrarAlerta = true;
                           Timer(const Duration(seconds: 3), (() => { 
@@ -255,7 +258,7 @@ class _listaBotones1 extends StatelessWidget {
                     notificacionModel.codigo = value.codigoRespuesta;
                         if(value.codigoRespuesta == 0)
                         {
-                          reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
+                          horarioServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
                           //reservaServices.horarioSeleccionado = value.listaGenerica.where((i) => i.idHorario == horario.idHorario).first;
                           
                           //horario = reservaServices.horarioSeleccionado;

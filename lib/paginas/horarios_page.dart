@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/canchas_provider.dart';
+import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 
@@ -10,46 +11,25 @@ class HorariosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final horariosServices = Provider.of<HorarioProvider>(context);
+  final fSer = new DateFormat('yyyy-MM-dd');
+  final reservaServices = Provider.of<ReservaProvider>(context);
+  final canchasServices = Provider.of<CanchasProvider>(context);
+  horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada));
     
+
+
     return Scaffold(
       backgroundColor: const Color(0xFF333A47),
       appBar: AppBar( title: Text('Horarios'), ),
       body: 
       SafeArea(
-        child: Expanded(child: HorariosxDia()),
+        child: horariosServices.horariosXReserva.length == 0
+    ? const Center(child: CircularProgressIndicator())
+    : HorariosxDia(),
       ),
     );
   }
-
- //AppBar _appBar(BuildContext context) {
- //  
- //  final reservaServices = Provider.of<ReservaProvider>(context, listen: true);
- //  final f = new DateFormat('dd-MM-yyyy');
- //  return AppBar(
- //  title: Center(child: Text(f.format(reservaServices.fechaSeleccionada))),
- //  actions: [
- //    IconButton(
- //      onPressed: () async {
-
- //          DateTime? pickedDate = await showDatePicker(
- //            locale: const Locale("es", "ES"),
- //            context: context, 
- //            initialDate: reservaServices.fechaSeleccionada, 
- //            firstDate: DateTime.now().add(const Duration(days: -30)), 
- //            lastDate: DateTime.now().add(const Duration(days: 30 ))
- //            );
- //           
- //           reservaServices.fechaSeleccionada = pickedDate!;
-
-
-
- //        //_seleccionarFecha(context);
- //      },
- //      icon: Icon(Icons.calendar_month),
- //      )
- //  ],
- //);
- //}
 }
 
 class HorariosxDia extends StatelessWidget {
@@ -60,9 +40,10 @@ class HorariosxDia extends StatelessWidget {
 
   
 
-    final horariosServices = Provider.of<ReservaProvider>(context);
+    final canchaServices = Provider.of<CanchasProvider>(context);
+    final horarioServices = Provider.of<HorarioProvider>(context);
     final reservaServices = Provider.of<ReservaProvider>(context);
-    final canchasServices = Provider.of<CanchasProvider>(context);
+
     final fSer = new DateFormat('yyyy-MM-dd');
 
 return SingleChildScrollView(
@@ -76,7 +57,7 @@ return SingleChildScrollView(
                 onDateSelected: (date)  
                 {
                   reservaServices.fechaSeleccionada = date;
-                 horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(date));
+                  horarioServices.ObtenerHorarioPorCancha(canchaServices.canchaSeleccionada, fSer.format(date));
                 },
                 leftMargin: 20,
                 monthColor: Colors.white70,
@@ -85,7 +66,7 @@ return SingleChildScrollView(
                 activeDayColor: Colors.white,
                 activeBackgroundDayColor: Colors.redAccent[100],
                 dotsColor: const Color(0xFF333A47),
-                selectableDayPredicate: (date) => date.day != 23,
+                //selectableDayPredicate: (date) => date.day != 23,
                 locale: 'es',
               ),
               const SizedBox(height: 40),
@@ -102,10 +83,11 @@ return SingleChildScrollView(
 
 
   Widget _listaHorarios(BuildContext context) {
-      final horariosServices = Provider.of<ReservaProvider>(context);
+      
+       final horariosServices = Provider.of<HorarioProvider>(context);
 
 
-      if(horariosServices.listaHorarios.length <= 0)
+      if(horariosServices.horariosXReserva.length <= 0)
     return Container();
     else
   ////Container();
@@ -120,10 +102,10 @@ return SingleChildScrollView(
           childAspectRatio: 2.0
         ),
         delegate: SliverChildBuilderDelegate((context, index) {
-          final horario = horariosServices.listaHorarios[index];
+          final horario = horariosServices.horariosXReserva[index];
           return _horas(horario: horario);
         },
-        childCount: horariosServices.listaHorarios.length
+        childCount: horariosServices.horariosXReserva.length
         ),
       )
     ],
@@ -145,7 +127,7 @@ class _horas extends StatelessWidget {
   final horario;
   @override
   Widget build(BuildContext context) {
-    final reservaServices = Provider.of<ReservaProvider>(context);
+    final reservaServices = Provider.of<HorarioProvider>(context);
 
 
     Color colorHorario = Colors.green;

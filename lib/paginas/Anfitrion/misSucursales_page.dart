@@ -6,6 +6,7 @@ import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/botonesNavegacionAnfitrion.dart';
 import 'package:reservaapp/widgets/header.dart';
 import 'package:reservaapp/widgets/tarjeta_widget.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MisSucursalesPage extends StatelessWidget {
 
@@ -64,17 +65,29 @@ class _listaScurusales extends StatelessWidget {
           //itemExtent: 50,
           itemCount: snapshot.data.listaGenerica.length,
           itemBuilder: (BuildContext context, int index) {
-            return TarjetaWidget(
-             ancho: double.infinity,
-              alto: 120.0,
-              color1: Colors.grey,
-              color2: Colors.grey.shade400,
-              titulo: snapshot.data.listaGenerica[index].nombre,
-              ontap: (){ 
-                sucursalesServices.sucursalSeleccionada = snapshot.data.listaGenerica[index].idSucursal;
-                Navigator.pushNamed(context, 'MisCanchas');
-                },
-          );
+            return Slidable(
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(), 
+                children: [
+                  SlidableAction(
+                    onPressed: (value){print(value);},
+                    label: 'Borrar',
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,)
+                ]),
+              child: TarjetaWidget(
+               ancho: double.infinity,
+                alto: 120.0,
+                color1: Colors.grey,
+                color2: Colors.grey.shade400,
+                titulo: snapshot.data.listaGenerica[index].nombre,
+                ontap: (){ 
+                  sucursalesServices.sucursalSeleccionada = snapshot.data.listaGenerica[index].idSucursal;
+                  Navigator.pushNamed(context, 'MisCanchas');
+                  },
+                      ),
+            );
           },
         
         );

@@ -10,10 +10,10 @@ class CanchasProvider with ChangeNotifier{
 
   List<Cancha> listaCanchas = [];
   
-  int _canhaSeleccionada = 0;
-  int get canchaSeleccionada => _canhaSeleccionada;
+   int _canchaSeleccionada = 0;
+  int get canchaSeleccionada => _canchaSeleccionada;
   set canchaSeleccionada(int valor){
-    _canhaSeleccionada = valor;
+    _canchaSeleccionada = valor;
     notifyListeners();
   }
 

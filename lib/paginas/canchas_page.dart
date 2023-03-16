@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/canchas_provider.dart';
+import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart';
@@ -59,7 +60,7 @@ class _body extends StatelessWidget {
 
  _sliverList( BuildContext context, dynamic canchas ) {
 
-  final horariosServices = Provider.of<ReservaProvider>(context);
+  final horariosServices = Provider.of<HorarioProvider>(context, listen: false);
   final fSer = new DateFormat('yyyy-MM-dd');
   final reservaServices = Provider.of<ReservaProvider>(context);
   final canchasServices = Provider.of<CanchasProvider>(context);
@@ -72,12 +73,13 @@ class _body extends StatelessWidget {
                 onTap: (){
                   canchasServices.canchaSeleccionada = canchas[index].idCancha;
 
-                  horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada));
+                  //horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada))
                   //.then((value){
                   //if(value.codigoRespuesta == 0)
                   //{
-                  Navigator.pushNamed(context, 'Horarios');
-                  //}
+                  //if(horariosServices.horariosXReserva.length > 0)
+                    Navigator.pushNamed(context, 'Horarios');
+                 // }
                   //});
 
 
