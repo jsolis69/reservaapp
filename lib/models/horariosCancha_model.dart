@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:reservaapp/models/estado_model.dart';
+
 HorariosResponse horariosResponseFromJson(String str) => HorariosResponse.fromJson(json.decode(str));
 
 String horariosResponseToJson(HorariosResponse data) => json.encode(data.toJson());
@@ -50,8 +52,8 @@ class Horario {
     int idHorario;
     String? horaInicio;
     String? horaFin;
-    CatalogoGenerico diaSemana;
-    CatalogoGenerico estado;
+    Estado diaSemana;
+    Estado estado;
     Reserva reserva;
     bool seleccionado;
 
@@ -59,8 +61,8 @@ class Horario {
         idHorario: json["IdHorario"],
         horaInicio: json["HoraInicio"],
         horaFin: json["HoraFin"],
-        diaSemana: CatalogoGenerico.fromJson(json["DiaSemana"]),
-        estado: CatalogoGenerico.fromJson(json["Estado"]),
+        diaSemana: Estado.fromJson(json["DiaSemana"]),
+        estado: Estado.fromJson(json["Estado"]),
         reserva: Reserva.fromJson(json["Reserva"]),
         seleccionado: json["Seleccionado"],
     );
@@ -73,26 +75,6 @@ class Horario {
         "Estado": estado.toJson(),
         "Reserva": reserva.toJson(),
         "Seleccionado": seleccionado,
-    };
-}
-
-class CatalogoGenerico {
-    CatalogoGenerico({
-        required this.codigo,
-        this.descripcion,
-    });
-
-    int codigo;
-    dynamic descripcion;
-
-    factory CatalogoGenerico.fromJson(Map<String, dynamic> json) => CatalogoGenerico(
-        codigo: json["Codigo"],
-        descripcion: json["Descripcion"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "Codigo": codigo,
-        "Descripcion": descripcion,
     };
 }
 
@@ -110,7 +92,7 @@ class Reserva {
     Equipo equipo1;
     Equipo equipo2;
     bool indLlevaDosEquipos;
-    CatalogoGenerico estado;
+    Estado estado;
     DateTime fecha;
 
     factory Reserva.fromJson(Map<String, dynamic> json) => Reserva(
@@ -118,7 +100,7 @@ class Reserva {
         equipo1: Equipo.fromJson(json["Equipo1"]),
         equipo2: Equipo.fromJson(json["Equipo2"]),
         indLlevaDosEquipos: json["IndLlevaDosEquipos"],
-        estado: CatalogoGenerico.fromJson(json["Estado"]),
+        estado: Estado.fromJson(json["Estado"]),
         fecha: DateTime.parse(json["Fecha"]),
     );
 
@@ -150,7 +132,7 @@ class Equipo {
     String? nombre;
     dynamic email;
     dynamic telefono;
-    CatalogoGenerico estado;
+    Estado estado;
     dynamic codUsuario;
     dynamic contrasenia;
     Empresa empresa;
@@ -162,7 +144,7 @@ class Equipo {
         nombre: json["Nombre"],
         email: json["Email"],
         telefono: json["Telefono"],
-        estado: CatalogoGenerico.fromJson(json["Estado"]),
+        estado: Estado.fromJson(json["Estado"]),
         codUsuario: json["CodUsuario"],
         contrasenia: json["Contrasenia"],
         empresa: Empresa.fromJson(json["Empresa"]),
@@ -199,7 +181,7 @@ class Empresa {
     dynamic nombre;
     dynamic telefono;
     dynamic correo;
-    CatalogoGenerico estado;
+    Estado estado;
     int logo;
     List<dynamic> sucursales;
 
@@ -208,7 +190,7 @@ class Empresa {
         nombre: json["Nombre"],
         telefono: json["Telefono"],
         correo: json["Correo"],
-        estado: CatalogoGenerico.fromJson(json["Estado"]),
+        estado: Estado.fromJson(json["Estado"]),
         logo: json["Logo"],
         sucursales: List<dynamic>.from(json["Sucursales"].map((x) => x)),
     );

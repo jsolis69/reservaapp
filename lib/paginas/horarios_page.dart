@@ -41,7 +41,7 @@ class HorariosxDia extends StatelessWidget {
   
 
     final canchaServices = Provider.of<CanchasProvider>(context);
-    final horarioServices = Provider.of<HorarioProvider>(context);
+    final horarioServices = Provider.of<HorarioProvider>(context, listen: false);
     final reservaServices = Provider.of<ReservaProvider>(context);
 
     final fSer = new DateFormat('yyyy-MM-dd');

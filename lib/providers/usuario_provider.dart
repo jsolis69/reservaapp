@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/utils/utils.dart';
-import 'package:reservaapp/models/autenticar_model.dart';
+import 'package:reservaapp/models/usuario_model.dart';
 
 class UsuarioProvider with ChangeNotifier{
 
@@ -105,7 +105,7 @@ class UsuarioProvider with ChangeNotifier{
 
 
 
-  Future<AutenticarResponse> login( ) async {
+  Future<UsuarioResponse> login( ) async {
     
 
    final autData = {
@@ -128,7 +128,7 @@ class UsuarioProvider with ChangeNotifier{
 
    if(resp.statusCode == 200)
    {
-      AutenticarResponse autenticar = autenticarResponseFromJson(resp.body);
+      UsuarioResponse autenticar = usuarioResponseFromJson(resp.body);
 
       PreferenciasUsuario.esPropietario = autenticar.objeto.indEsAdministrador;
       PreferenciasUsuario.usuarioLogueado = autenticar.objeto.idUsuario;
@@ -146,7 +146,7 @@ class UsuarioProvider with ChangeNotifier{
   }
 
 
-Future<AutenticarResponse> registrarUsuario( ) async {
+Future<UsuarioResponse> registrarUsuario( ) async {
 
 
  final autData = {
@@ -171,7 +171,7 @@ Future<AutenticarResponse> registrarUsuario( ) async {
 
    if(resp.statusCode == 200)
    {
-      AutenticarResponse autenticar = autenticarResponseFromJson(resp.body);
+      UsuarioResponse autenticar = usuarioResponseFromJson(resp.body);
       //PreferenciasUsuario.esPropietario = autenticar.objeto.indEsAdministrador;
       //PreferenciasUsuario.usuarioLogueado = autenticar.objeto.idUsuario;
       return autenticar;

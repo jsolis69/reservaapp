@@ -9,6 +9,7 @@ import 'package:reservaapp/paginas/Anfitrion/menuAnfitron_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misCanchas_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misHorarios_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misSucursales_page.dart';
+import 'package:reservaapp/paginas/Anfitrion/registrarEmpresa_page.dart';
 import 'package:reservaapp/paginas/ayuda_page.dart';
 import 'package:reservaapp/paginas/canchas_page.dart';
 import 'package:reservaapp/paginas/comentarios_page.dart';
@@ -21,6 +22,7 @@ import 'package:reservaapp/paginas/procesarReserva_page.dart';
 import 'package:reservaapp/paginas/registro_page.dart';
 import 'package:reservaapp/paginas/sucursales_page.dart';
 import 'package:reservaapp/providers/canchas_provider.dart';
+import 'package:reservaapp/providers/empresa_provider.dart';
 import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
@@ -46,6 +48,7 @@ void main() async{
           ChangeNotifierProvider( create: (_)=>new NotificacionModel()),
           ChangeNotifierProvider( create: (_)=>new CanchasProvider()),
           ChangeNotifierProvider( create: (_)=>new HorarioProvider()),
+          ChangeNotifierProvider( create: (_)=>new EmpresaProvider()),
         ],
         child: MyApp(), 
       )
@@ -94,6 +97,7 @@ class MyApp extends StatelessWidget {
           'MisCanchas': (BuildContext context) => MisCanchasPage(),
           'MenuAnfitrion': (BuildContext context) => MenuAnfitrionPage(),
           'MisHorarios': (BuildContext context) => MisHorariosPage(),
+          'RegistrarEmpresa': (BuildContext context) => RegistrarEmpresaPage(),
     
           //acá genericas
           'Ayuda': (BuildContext context) => AyudaPage(),

@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:reservaapp/models/estado_model.dart';
+
 CanchaResponse canchaResponseFromJson(String str) => CanchaResponse.fromJson(json.decode(str));
 
 String canchaResponseToJson(CanchaResponse data) => json.encode(data.toJson());
@@ -64,22 +66,4 @@ class Cancha {
     };
 }
 
-class Estado {
-    Estado({
-        required this.codigo,
-        this.descripcion,
-    });
 
-    int codigo;
-    dynamic descripcion;
-
-    factory Estado.fromJson(Map<String, dynamic> json) => Estado(
-        codigo: json["Codigo"],
-        descripcion: json["Descripcion"]??'',
-    );
-
-    Map<String, dynamic> toJson() => {
-        "Codigo": codigo,
-        "Descripcion": descripcion,
-    };
-}

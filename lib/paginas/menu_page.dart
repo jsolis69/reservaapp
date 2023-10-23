@@ -43,6 +43,16 @@ class _MenuPageState extends State<MenuPage> {
                     Navigator.pushNamed(context, 'MisSucursales');
                   },
                 ),
+                ]
+                else...[
+                Divider(height: 20, color: Colors.red, thickness: 1,),
+                ListTile(
+                  title: Text('¿Quieres ser anfitrión?'),
+                  trailing: FaIcon(FontAwesomeIcons.school),
+                  onTap: (){
+                    Navigator.pushNamed(context, 'RegistrarEmpresa');
+                  },
+                ),
                 ],
                 
          

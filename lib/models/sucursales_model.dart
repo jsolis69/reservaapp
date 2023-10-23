@@ -18,13 +18,13 @@ class SucursalesXUbicacionResponse {
 
     int codigoRespuesta;
     String descripcionRespuesta;
-    List<ListaSucursales> listaGenerica;
+    List<Sucursal> listaGenerica;
     dynamic objeto;
 
     factory SucursalesXUbicacionResponse.fromJson(Map<String, dynamic> json) => SucursalesXUbicacionResponse(
         codigoRespuesta: json["CodigoRespuesta"],
         descripcionRespuesta: json["DescripcionRespuesta"],
-        listaGenerica: List<ListaSucursales>.from(json["ListaGenerica"].map((x) => ListaSucursales.fromJson(x))),
+        listaGenerica: List<Sucursal>.from(json["ListaGenerica"].map((x) => Sucursal.fromJson(x))),
         objeto: json["Objeto"],
     );
 
@@ -36,8 +36,8 @@ class SucursalesXUbicacionResponse {
     };
 }
 
-class ListaSucursales {
-    ListaSucursales({
+class Sucursal {
+    Sucursal({
         required this.idSucursal,
         required this.idEmpresa,
         required this.NombreEmpresa,
@@ -67,7 +67,7 @@ class ListaSucursales {
     //int imagen;
     dynamic canchas;
 
-    factory ListaSucursales.fromJson(Map<String, dynamic> json) => ListaSucursales(
+    factory Sucursal.fromJson(Map<String, dynamic> json) => Sucursal(
         idSucursal: json["IdSucursal"],
         idEmpresa: json["IdEmpresa"],
         NombreEmpresa: json["NombreEmpresa"]??'',

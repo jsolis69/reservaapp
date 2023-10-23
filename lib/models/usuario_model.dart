@@ -1,15 +1,17 @@
 // To parse this JSON data, do
 //
-//     final autenticarResponse = autenticarResponseFromJson(jsonString);
+//     final UsuarioResponse = UsuarioResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-AutenticarResponse autenticarResponseFromJson(String str) => AutenticarResponse.fromJson(json.decode(str));
+import 'package:reservaapp/models/estado_model.dart';
 
-String autenticarResponseToJson(AutenticarResponse data) => json.encode(data.toJson());
+UsuarioResponse usuarioResponseFromJson(String str) => UsuarioResponse.fromJson(json.decode(str));
 
-class AutenticarResponse {
-    AutenticarResponse({
+String usuarioResponseToJson(UsuarioResponse data) => json.encode(data.toJson());
+
+class UsuarioResponse {
+    UsuarioResponse({
         required this.codigoRespuesta,
         required this.descripcionRespuesta,
         required this.listaGenerica,
@@ -23,7 +25,7 @@ class AutenticarResponse {
     Objeto objeto;
     String infoAdicional;
 
-    factory AutenticarResponse.fromJson(Map<String, dynamic> json) => AutenticarResponse(
+    factory UsuarioResponse.fromJson(Map<String, dynamic> json) => UsuarioResponse(
         codigoRespuesta: json["CodigoRespuesta"],
         descripcionRespuesta: json["DescripcionRespuesta"]??'',
         listaGenerica: List<Objeto>.from(json["ListaGenerica"].map((x) => x)),
@@ -111,7 +113,7 @@ class Empresa {
         required this.telefono,
         required this.correo,
         required this.estado,
-        required this.logo,
+        //required this.logo,
         required this.sucursales,
     });
 
@@ -120,7 +122,7 @@ class Empresa {
     String telefono;
     String correo;
     Estado estado;
-    int logo;
+    //int logo;
     List<dynamic> sucursales;
 
     factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
@@ -129,7 +131,7 @@ class Empresa {
         telefono: json["Telefono"]??'',
         correo: json["Correo"]??'',
         estado: Estado.fromJson(json["Estado"]),
-        logo: json["Logo"]??'',
+        //logo: json["Logo"]??'',
         sucursales: List<dynamic>.from(json["Sucursales"].map((x) => x)),
     );
 
@@ -139,27 +141,9 @@ class Empresa {
         "Telefono": telefono,
         "Correo": correo,
         "Estado": estado.toJson(),
-        "Logo": logo,
+        //"Logo": logo,
         "Sucursales": List<dynamic>.from(sucursales.map((x) => x)),
     };
 }
 
-class Estado {
-    Estado({
-        required this.codigo,
-        required this.descripcion,
-    });
 
-    int codigo;
-    String descripcion;
-
-    factory Estado.fromJson(Map<String, dynamic> json) => Estado(
-        codigo: json["Codigo"],
-        descripcion: json["Descripcion"]??'',
-    );
-
-    Map<String, dynamic> toJson() => {
-        "Codigo": codigo,
-        "Descripcion": descripcion,
-    };
-}

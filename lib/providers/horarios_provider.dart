@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
+//import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:reservaapp/models/estado_model.dart';
 import 'package:reservaapp/models/horariosCancha_model.dart';
 import 'package:reservaapp/utils/utils.dart';
 import 'package:http/http.dart' as http;
@@ -20,23 +21,23 @@ class HorarioProvider with ChangeNotifier
     idHorario: 0, 
     seleccionado: false,
     diaSemana: 
-    new CatalogoGenerico(
+    new Estado(
       codigo: 0
     ), 
-    estado: new CatalogoGenerico(
+    estado: new Estado(
       codigo: 0
     ), 
     reserva: new Reserva(
       idReserva: 0, 
-      estado: CatalogoGenerico(codigo: 0),
+      estado: Estado(codigo: 0),
       indLlevaDosEquipos: false,
       fecha: DateTime.now(),
       equipo1: new Equipo(
         idUsuario: 0, 
-        estado: new CatalogoGenerico(codigo: 0), 
+        estado: new Estado(codigo: 0), 
         empresa: new Empresa(
           idEmpresa: 0, 
-          estado: new CatalogoGenerico(codigo: 0), 
+          estado: new Estado(codigo: 0), 
           logo: 0,
           sucursales: []
         ),
@@ -45,10 +46,10 @@ class HorarioProvider with ChangeNotifier
       ), 
       equipo2: new Equipo(
         idUsuario: 0, 
-        estado: new CatalogoGenerico(codigo: 0), 
+        estado: new Estado(codigo: 0), 
         empresa: new Empresa(
           idEmpresa: 0, 
-          estado: new CatalogoGenerico(codigo: 0), 
+          estado: new Estado(codigo: 0), 
           logo: 0,
           sucursales: []
         ),
