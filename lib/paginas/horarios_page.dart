@@ -11,7 +11,7 @@ class HorariosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final horariosServices = Provider.of<HorarioProvider>(context);
+      final horariosServices = Provider.of<HorarioProvider>(context, listen: true);
   final fSer = new DateFormat('yyyy-MM-dd');
   final reservaServices = Provider.of<ReservaProvider>(context);
   final canchasServices = Provider.of<CanchasProvider>(context);
@@ -25,7 +25,7 @@ class HorariosPage extends StatelessWidget {
       body: 
       SafeArea(
         child: horariosServices.horariosXReserva.length == 0
-    ? const Center(child: CircularProgressIndicator())
+    ? const Center(child: Text('No se encontraron horarios disponibles'))
     : HorariosxDia(),
       ),
     );
@@ -40,11 +40,11 @@ class HorariosxDia extends StatelessWidget {
 
   
 
-    final canchaServices = Provider.of<CanchasProvider>(context);
-    final horarioServices = Provider.of<HorarioProvider>(context, listen: false);
+    //final canchaServices = Provider.of<CanchasProvider>(context);
+    //final horarioServices = Provider.of<HorarioProvider>(context, listen: false);
     final reservaServices = Provider.of<ReservaProvider>(context);
 
-    final fSer = new DateFormat('yyyy-MM-dd');
+    //final fSer = new DateFormat('yyyy-MM-dd');
 
 return SingleChildScrollView(
   child:   Column(
@@ -57,7 +57,7 @@ return SingleChildScrollView(
                 onDateSelected: (date)  
                 {
                   reservaServices.fechaSeleccionada = date;
-                  horarioServices.ObtenerHorarioPorCancha(canchaServices.canchaSeleccionada, fSer.format(date));
+                  //horarioServices.ObtenerHorarioPorCancha(canchaServices.canchaSeleccionada, fSer.format(date));
                 },
                 leftMargin: 20,
                 monthColor: Colors.white70,

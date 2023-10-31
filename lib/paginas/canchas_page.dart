@@ -32,8 +32,8 @@ class _body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final canchasServices = Provider.of<CanchasProvider>(context);
-    final sucursalesServices = Provider.of<SucursalesProvider>(context);
+    final canchasServices = Provider.of<CanchasProvider>(context, listen: false);
+    final sucursalesServices = Provider.of<SucursalesProvider>(context, listen: false);
     return Center(
       child: FutureBuilder(
       future: canchasServices.ObtenerCanchasPorSucursal(sucursalesServices.sucursalSeleccionada),

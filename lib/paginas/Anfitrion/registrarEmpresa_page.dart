@@ -30,13 +30,14 @@ Widget _formulario(BuildContext context) {
     //final notificacionModel = Provider.of<NotificacionModel>(context);
     
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          SafeArea(
-            child: Container(
-              height: 10.0,
-            ),
-          ),
+      child: 
+      //Column(
+        //children: <Widget>[
+        //  SafeArea(
+        //    child: Container(
+        //      height: 10.0,
+        //    ),
+        //  ),
           Column(
             children: [
               EtiquetaPersonalizada(descripcion: 'Crear empresa', tamano: 20.0 ),
@@ -52,8 +53,8 @@ Widget _formulario(BuildContext context) {
              _crearBoton(context),
             ],
           ),
-        ],
-      )
+       // ],
+      //)
     );
 
     

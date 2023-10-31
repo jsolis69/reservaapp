@@ -13,8 +13,8 @@ String empresaResponseToJson(EmpresaResponse data) => json.encode(data.toJson())
 class EmpresaResponse {
     int codigoRespuesta;
     String descripcionRespuesta;
-    List<Objeto> listaGenerica;
-    Objeto objeto;
+    List<Empresa> listaGenerica;
+    Empresa objeto;
 
     EmpresaResponse({
         required this.codigoRespuesta,
@@ -26,8 +26,8 @@ class EmpresaResponse {
     factory EmpresaResponse.fromJson(Map<String, dynamic> json) => EmpresaResponse(
         codigoRespuesta: json["CodigoRespuesta"],
         descripcionRespuesta: json["DescripcionRespuesta"],
-        listaGenerica: List<Objeto>.from(json["ListaGenerica"].map((x) => Objeto.fromJson(x))),
-        objeto: Objeto.fromJson(json["Objeto"]),
+        listaGenerica: List<Empresa>.from(json["ListaGenerica"].map((x) => Empresa.fromJson(x))),
+        objeto: Empresa.fromJson(json["Objeto"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -38,7 +38,7 @@ class EmpresaResponse {
     };
 }
 
-class Objeto {
+class Empresa {
     int idEmpresa;
     String? nombre;
     String? telefono;
@@ -47,7 +47,7 @@ class Objeto {
     dynamic logo;
     List<dynamic> sucursales;
 
-    Objeto({
+    Empresa({
         required this.idEmpresa,
         required this.nombre,
         required this.telefono,
@@ -57,7 +57,7 @@ class Objeto {
         required this.sucursales,
     });
 
-    factory Objeto.fromJson(Map<String, dynamic> json) => Objeto(
+    factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
         idEmpresa: json["IdEmpresa"],
         nombre: json["Nombre"],
         telefono: json["Telefono"],

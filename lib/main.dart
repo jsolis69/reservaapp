@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
+import 'package:reservaapp/paginas/Anfitrion/agregarSucursal_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/menuAnfitron_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misCanchas_page.dart';
 import 'package:reservaapp/paginas/Anfitrion/misHorarios_page.dart';
@@ -16,6 +17,7 @@ import 'package:reservaapp/paginas/comentarios_page.dart';
 import 'package:reservaapp/paginas/configuracion_page.dart';
 import 'package:reservaapp/paginas/horarios_page.dart';
 import 'package:reservaapp/paginas/login_page.dart';
+import 'package:reservaapp/paginas/mapaPantallaCompleta_page.dart';
 import 'package:reservaapp/paginas/menu_page.dart';
 import 'package:reservaapp/paginas/miPerfil_page.dart';
 import 'package:reservaapp/paginas/procesarReserva_page.dart';
@@ -80,7 +82,7 @@ class MyApp extends StatelessWidget {
         theme: temaActual,
         debugShowCheckedModeBanner: false,
         title: 'Fut5 Reservas',
-        initialRoute: PreferenciasUsuario.usuarioLogueado > 0 ? 'Sucursales' : 'Login',
+        initialRoute: 'MapaPantallaCompleta',//PreferenciasUsuario.usuarioLogueado > 0 ? 'Sucursales' : 'Login',
         routes: {
           'Login': (BuildContext context) => LoginPage(),
           'Registro': (BuildContext context) => RegistroPage(),
@@ -98,6 +100,8 @@ class MyApp extends StatelessWidget {
           'MenuAnfitrion': (BuildContext context) => MenuAnfitrionPage(),
           'MisHorarios': (BuildContext context) => MisHorariosPage(),
           'RegistrarEmpresa': (BuildContext context) => RegistrarEmpresaPage(),
+          'AgregarSucursal': (BuildContext context) => AgregarSucursalPage(),
+          'MapaPantallaCompleta': (BuildContext context) => MapaPantallaCompleto(),
     
           //acá genericas
           'Ayuda': (BuildContext context) => AyudaPage(),

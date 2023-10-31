@@ -12,13 +12,7 @@ class AyudaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-  final args = ModalRoute.of(context)!.settings.arguments as String;
-  String menu = "Menu";
-  if(args == "Anfitrion")
-  
-  {
-    menu = "MenuAnfitrion";
-  }
+  final menu = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
         //appBar: AppBar(),
@@ -57,6 +51,8 @@ Widget _crearFormulario(BuildContext context) {
     colorPrimario: PreferenciasUsuario.esModoOscuro ? Colors.black : Colors.red,
     //colorSecundario: Colors.purple,
     slides: <Widget>[
+        Container(color: Colors.red),
+        Container(color: Colors.blue),
         SvgPicture.asset('assets/svgs/svg1.svg'),
         SvgPicture.asset('assets/svgs/svg2.svg')
     ], 

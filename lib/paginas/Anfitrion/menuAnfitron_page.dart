@@ -46,7 +46,7 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
                   title: Text('Ayuda'),
                   trailing: FaIcon(FontAwesomeIcons.question),
                   onTap: (){
-                    Navigator.pushNamed(context, 'Ayuda', arguments: 'Anfitrion');
+                    Navigator.pushNamed(context, 'Ayuda', arguments: 'MenuAnfitrion');
                   },
                 ),
                 Divider(height: 20, color: Colors.red, thickness: 1,),
@@ -54,7 +54,7 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
                   title: Text('Envíanos tus comentarios'),
                   trailing: FaIcon(FontAwesomeIcons.comment),
                   onTap: (){
-                    Navigator.pushNamed(context, 'Comentarios', arguments: 'Anfitrion');
+                    Navigator.pushNamed(context, 'Comentarios', arguments: 'MenuAnfitrion');
                   },
                   ),
       

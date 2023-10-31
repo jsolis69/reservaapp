@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:reservaapp/models/empresa_model.dart';
 import 'package:reservaapp/models/estado_model.dart';
 
 HorariosResponse horariosResponseFromJson(String str) => HorariosResponse.fromJson(json.decode(str));
@@ -166,42 +167,3 @@ class Equipo {
     };
 }
 
-class Empresa {
-    Empresa({
-        required this.idEmpresa,
-        this.nombre,
-        this.telefono,
-        this.correo,
-        required this.estado,
-        required this.logo,
-        required this.sucursales,
-    });
-
-    int idEmpresa;
-    dynamic nombre;
-    dynamic telefono;
-    dynamic correo;
-    Estado estado;
-    int logo;
-    List<dynamic> sucursales;
-
-    factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
-        idEmpresa: json["IdEmpresa"],
-        nombre: json["Nombre"],
-        telefono: json["Telefono"],
-        correo: json["Correo"],
-        estado: Estado.fromJson(json["Estado"]),
-        logo: json["Logo"],
-        sucursales: List<dynamic>.from(json["Sucursales"].map((x) => x)),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "IdEmpresa": idEmpresa,
-        "Nombre": nombre,
-        "Telefono": telefono,
-        "Correo": correo,
-        "Estado": estado.toJson(),
-        "Logo": logo,
-        "Sucursales": List<dynamic>.from(sucursales.map((x) => x)),
-    };
-}

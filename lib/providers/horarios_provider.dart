@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-//import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';import 'package:flutter/material.dart';
+import 'package:reservaapp/models/empresa_model.dart';
 import 'package:reservaapp/models/estado_model.dart';
 import 'package:reservaapp/models/horariosCancha_model.dart';
 import 'package:reservaapp/utils/utils.dart';
@@ -36,6 +34,9 @@ class HorarioProvider with ChangeNotifier
         idUsuario: 0, 
         estado: new Estado(codigo: 0), 
         empresa: new Empresa(
+          nombre: '',
+          telefono: '',
+          correo: '',
           idEmpresa: 0, 
           estado: new Estado(codigo: 0), 
           logo: 0,
@@ -48,6 +49,9 @@ class HorarioProvider with ChangeNotifier
         idUsuario: 0, 
         estado: new Estado(codigo: 0), 
         empresa: new Empresa(
+          nombre: '',
+          telefono: '',
+          correo: '',
           idEmpresa: 0, 
           estado: new Estado(codigo: 0), 
           logo: 0,
@@ -132,7 +136,7 @@ var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/InsertarH
   //misHorarios = [...misHorarios, ...HorariosResponse.listaGenerica];
   
   //return listaCanchas;
-  notifyListeners();
+  //notifyListeners();
   }
 
 
@@ -160,7 +164,7 @@ ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
   horariosXReserva = [];
   var HorariosResponse = horariosResponseFromJson(response.body);
   horariosXReserva = HorariosResponse.listaGenerica;
-  notifyListeners();
+  //notifyListeners();
   //return HorariosResponse;
   
   }

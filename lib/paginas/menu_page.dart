@@ -61,7 +61,7 @@ class _MenuPageState extends State<MenuPage> {
                   title: Text('Ayuda'),
                   trailing: FaIcon(FontAwesomeIcons.question),
                   onTap: (){
-                    Navigator.pushReplacementNamed(context, 'Ayuda');
+                    Navigator.pushReplacementNamed(context, 'Ayuda', arguments: 'Menu');
                   },
                 ),
                 Divider(height: 20, color: Colors.red, thickness: 1,),
@@ -69,7 +69,7 @@ class _MenuPageState extends State<MenuPage> {
                   title: Text('Envíanos tus comentarios'),
                   trailing: FaIcon(FontAwesomeIcons.comment),
                   onTap: (){
-                    Navigator.pushNamed(context, 'Comentarios');
+                    Navigator.pushNamed(context, 'Comentarios', arguments: 'Menu');
                   },
                   ),
       

@@ -16,6 +16,7 @@ class MisSucursalesPage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          Navigator.pushNamed(context, 'AgregarSucursal');
           // Add your onPressed code here!
         },
         backgroundColor: Colors.green,

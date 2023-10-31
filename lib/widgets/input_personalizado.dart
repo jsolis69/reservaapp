@@ -28,7 +28,7 @@ class InputPersonalizado extends StatelessWidget {
        margin: const EdgeInsets.only(bottom: 20),
        decoration: BoxDecoration(
          color: Colors.white,
-         borderRadius: BorderRadius.circular(30),
+         borderRadius: BorderRadius.circular(20),
          boxShadow: <BoxShadow>[
            BoxShadow(color: Colors.black.withOpacity(0.05)
            , offset: const Offset(0, 5),

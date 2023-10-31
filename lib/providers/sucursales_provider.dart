@@ -15,6 +15,30 @@ class SucursalesProvider with ChangeNotifier{
     notifyListeners();
   }
 
+
+  String _nombre = '';
+  String get nombre => _nombre;
+  set nombre(String valor){
+    _nombre = valor;
+    notifyListeners();
+  }
+
+    String _telefono = '';
+  String get TableBorder => _telefono;
+  set telefono(String valor){
+    _telefono = valor;
+    notifyListeners();
+  }
+
+  String _correo = '';
+  String get correo => _correo;
+  set correo(String valor){
+    _correo = valor;
+    notifyListeners();
+  }
+
+
+
   Future<SucursalesXUbicacionResponse> obtenerSucursalesPorUbicacion() async {
    
 
