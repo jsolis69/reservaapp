@@ -92,22 +92,22 @@ class ListaItems extends StatelessWidget {
     return Padding(
           padding: const EdgeInsets.only(top: 110),
           child: GroupedListView<dynamic, String>(
-            useStickyGroupSeparators: true,
-            stickyHeaderBackgroundColor: Colors.red,
+            //useStickyGroupSeparators: true,
+            //stickyHeaderBackgroundColor: Colors.red,
             //padding: EdgeInsets.only(top: 110),
             elements: HorariosServices.horariosXCancha,
-            groupBy: (element) => element.diaSemana.descripcion.toString(),
+            groupBy: (element) => element.diaSemana.codigo.toString(),
             groupComparator: (value1, value2) => value2.compareTo(value1),
             itemComparator: (item1, item2) =>
                 item1.idHorario.compareTo(item2.idHorario),
-            order: GroupedListOrder.ASC,
+            order: GroupedListOrder.DESC,
             //floatingHeader: true,
             //sort: true,
             //useStickyGroupSeparators: true,
             groupSeparatorBuilder: (String value) => Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                value,
+                ObtenerNombreDia(value),
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
@@ -115,22 +115,21 @@ class ListaItems extends StatelessWidget {
             itemBuilder: (c, element) {
               return Card(
                 //elevation: 19.0,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                 child: SizedBox(
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10.0),
-                    leading: const Icon(Icons.account_circle),
-                    title: Text(element.horaInicio),
-                    trailing: Checkbox(
-                      value: element.seleccionado, 
-                      onChanged: (_value){ 
-                        //print(element.idHorario);
-                        HorariosServices.InsertarHorarioCancha(canchasServices.canchaSeleccionada, element.idHorario, _value);
-                      },
-                      splashRadius: 15.0,
-                      //shape: OutlinedBorder.lerp(OutlinedBorder., b, t),
+                      horizontal: 20.0, vertical: 10.0),
+                      leading: const Icon(FontAwesomeIcons.solidClock),
+                      title: Text(element.horaInicio),
+                      trailing: Checkbox(
+                        value: element.seleccionado, 
+                        onChanged: (_value){ 
+                          //print(element.idHorario);
+                          HorariosServices.InsertarHorarioCancha(canchasServices.canchaSeleccionada, element.idHorario, _value);
+                        },
+                        //splashRadius: 50.0,
+                      //shape: OutlinedBorder.lerp() lerp(OutlinedBorder., b, t),
                       ),/// const Icon(Icons.arrow_forward),
                   ),
                 ),
@@ -139,3 +138,34 @@ class ListaItems extends StatelessWidget {
         );
   }
 }
+
+String ObtenerNombreDia(String value) {
+
+  var diaSemana;
+  switch (value) {
+    case '1':
+      diaSemana = 'Lunes';
+      break;
+    case '2':
+      diaSemana = 'Martes';
+      break;
+    case '3':
+      diaSemana = 'Miércoles';
+      break;
+    case '4':
+      diaSemana = 'Jueves';
+      break;
+    case '5':
+      diaSemana = 'Viernes';
+      break;
+    case '6':
+      diaSemana = 'Sábado';
+      break;
+    default:
+      diaSemana = 'Domingo';
+      break;
+  }
+
+  return diaSemana;
+}
+

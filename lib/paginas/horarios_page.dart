@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/canchas_provider.dart';
 import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
+import 'package:reservaapp/widgets/header.dart';
 
 class HorariosPage extends StatelessWidget {
 
@@ -17,18 +20,36 @@ class HorariosPage extends StatelessWidget {
   final canchasServices = Provider.of<CanchasProvider>(context);
   horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada));
     
+    String titulo = 'Horarios';
+    Color colorPrimario = Color(0xff08088A);
+    Color colorSecundario = Color(0xff5858FA);
 
 
     return Scaffold(
-      backgroundColor: const Color(0xFF333A47),
-      appBar: AppBar( title: Text('Horarios'), ),
-      body: 
-      SafeArea(
-        child: horariosServices.horariosXReserva.length == 0
-    ? const Center(child: Text('No se encontraron horarios disponibles'))
-    : HorariosxDia(),
-      ),
-    );
+      backgroundColor:  const Color(0xFF333A47),
+      //appBar: AppBar( title: Text('Horarios'), ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            
+            horariosServices.respuestaServicio == 97
+            ? const Center(child: CircularProgressIndicator())
+            : HorariosxDia(),
+
+            HeaderWidget(
+              icono: FontAwesomeIcons.calendarDay, 
+              titulo: titulo,
+              color1: colorPrimario,
+              color2: colorSecundario,
+              paginaReturn: 'Canchas',
+            )
+      
+          ],
+        ),
+      ) 
+      
+
+      );
   }
 }
 
@@ -46,11 +67,16 @@ class HorariosxDia extends StatelessWidget {
 
     //final fSer = new DateFormat('yyyy-MM-dd');
 
-return SingleChildScrollView(
+return Padding(
+  padding: const EdgeInsets.only(left: 20.0),
   child:   Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 100,),
+              EtiquetaPersonalizada(descripcion: 'Seleccione la fecha del partido'),
+              SizedBox(height: 20,),
               CalendarTimeline(
+                //showYears: true,
                 initialDate: reservaServices.fechaSeleccionada,
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(const Duration(days: 10)),
@@ -59,7 +85,6 @@ return SingleChildScrollView(
                   reservaServices.fechaSeleccionada = date;
                   //horarioServices.ObtenerHorarioPorCancha(canchaServices.canchaSeleccionada, fSer.format(date));
                 },
-                leftMargin: 20,
                 monthColor: Colors.white70,
                 dayColor: Colors.teal[200],
                 dayNameColor: const Color(0xFF333A47),
@@ -69,12 +94,19 @@ return SingleChildScrollView(
                 //selectableDayPredicate: (date) => date.day != 23,
                 locale: 'es',
               ),
-              const SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: _listaHorarios(context)
+              //const SizedBox(height: 40),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: _listaHorarios(context)
+  
+                ),
+  
               ),
+  
             ],
+  
+  
   
           ),
 );
@@ -88,7 +120,7 @@ return SingleChildScrollView(
 
 
       if(horariosServices.horariosXReserva.length <= 0)
-    return Container();
+    return Center(child: Text('No existen horarios para esta fecha'));
     else
   ////Container();
   return CustomScrollView(

@@ -94,6 +94,7 @@ return bandera;
 class Utilitarios {
 
   final urlWebapi = '192.168.100.6';
+  final msjErrorGenerico = 'No se pudo procesar la transacción';
   
 
   final header = {

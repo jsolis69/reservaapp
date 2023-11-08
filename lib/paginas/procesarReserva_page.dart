@@ -23,7 +23,7 @@ class ProcesarReservaPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          _horario(),
+          Expanded(child: _horario()),
           const NotificacionWidget(),
         ],
       ),

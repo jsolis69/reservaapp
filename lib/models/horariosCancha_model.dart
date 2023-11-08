@@ -1,11 +1,8 @@
-// To parse this JSON data, do
-//
-//     final horariosResponse = horariosResponseFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:reservaapp/models/empresa_model.dart';
 import 'package:reservaapp/models/estado_model.dart';
+import 'package:reservaapp/utils/utils.dart';
 
 HorariosResponse horariosResponseFromJson(String str) => HorariosResponse.fromJson(json.decode(str));
 
@@ -26,7 +23,7 @@ class HorariosResponse {
 
     factory HorariosResponse.fromJson(Map<String, dynamic> json) => HorariosResponse(
         codigoRespuesta: json["CodigoRespuesta"],
-        descripcionRespuesta: json["DescripcionRespuesta"],
+        descripcionRespuesta: json["CodigoRespuesta"] == 99 ? Utilitarios().msjErrorGenerico : json["DescripcionRespuesta"],
         listaGenerica: List<Horario>.from(json["ListaGenerica"].map((x) => Horario.fromJson(x))),
         objeto: Horario.fromJson(json["Objeto"]),
     );

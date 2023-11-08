@@ -29,13 +29,13 @@ class _MenuPageState extends State<MenuPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              margin: EdgeInsets.only(top: 200),
+            Padding(
+              padding: const EdgeInsets.only(top: 120.0),
               child: ListView(
               children: [
-      
+                  
                 if(PreferenciasUsuario.esPropietario)...[
-                Divider(height: 20, color: Colors.red, thickness: 1,),
+                //Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Cambiar a modo anfitrión'),
                   trailing: FaIcon(FontAwesomeIcons.exchangeAlt),
@@ -45,7 +45,7 @@ class _MenuPageState extends State<MenuPage> {
                 ),
                 ]
                 else...[
-                Divider(height: 20, color: Colors.red, thickness: 1,),
+                //Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('¿Quieres ser anfitrión?'),
                   trailing: FaIcon(FontAwesomeIcons.school),
@@ -55,7 +55,7 @@ class _MenuPageState extends State<MenuPage> {
                 ),
                 ],
                 
-         
+                     
                 Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Ayuda'),
@@ -72,7 +72,7 @@ class _MenuPageState extends State<MenuPage> {
                     Navigator.pushNamed(context, 'Comentarios', arguments: 'Menu');
                   },
                   ),
-      
+                  
                   Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Modo oscuro'),
@@ -88,23 +88,23 @@ class _MenuPageState extends State<MenuPage> {
                     }
                     )
                   ),
-      
+                  
                 Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Cerrar sesión'),
                   trailing: FaIcon(FontAwesomeIcons.signOutAlt),
                   onTap: (){
-      
+                  
                     final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: false);
                     usuarioprovider.usuario = '';
                     usuarioprovider.contrasenia = '';
-      
-      
+                  
+                  
                     Navigator.pushReplacementNamed(context, 'Login');
                   },
                   )
               ],
-            ),
+              ),
             ),
             
             HeaderWidget(

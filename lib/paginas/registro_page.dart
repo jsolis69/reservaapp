@@ -7,6 +7,7 @@ import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/providers/usuario_provider.dart';
 import 'package:reservaapp/widgets/boton_personalizado.dart';
 import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
+import 'package:reservaapp/widgets/header.dart';
 import 'package:reservaapp/widgets/input_personalizado.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart';
 
@@ -17,119 +18,102 @@ class RegistroPage extends StatefulWidget {
 }
 
 class _RegistroPageState extends State<RegistroPage> {
-   int _selectedIndex = 0;
+   //int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          //fondo(),
-          obtenerPantalla(context, _selectedIndex),
-          //_widgetOptions.elementAt(_selectedIndex),
-          //_formulario(context)
-          const NotificacionWidget(),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            HeaderWidget(
+            icono: FontAwesomeIcons.registered, 
+            titulo: 'Registro',
+            color1: Colors.green,
+            color2: Colors.grey
+          ),
+            _formulario(context),
+            //_widgetOptions.elementAt(_selectedIndex),
+            //_formulario(context)
+            const NotificacionWidget(),
+          ],
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.personBooth),
-            label: 'Registro',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.facebook),
-            label: 'Facebook',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.instagram),
-            label: 'Instagram',
-          ),
-          //BottomNavigationBarItem(
-          //  icon: FaIcon(FontAwesomeIcons.google),
-          //  label: 'Google',
-          //),
-        ],
-        currentIndex: _selectedIndex,
-        //selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
+      //bottomNavigationBar: BottomNavigationBar(
+      //  items: const <BottomNavigationBarItem>[
+      //    BottomNavigationBarItem(
+      //      icon: FaIcon(FontAwesomeIcons.personBooth),
+      //      label: 'Registro',
+      //    ),
+      //    BottomNavigationBarItem(
+      //      icon: FaIcon(FontAwesomeIcons.facebook),
+      //      label: 'Facebook',
+      //    ),
+      //    BottomNavigationBarItem(
+      //      icon: FaIcon(FontAwesomeIcons.instagram),
+      //      label: 'Instagram',
+      //    ),
+      //    //BottomNavigationBarItem(
+      //    //  icon: FaIcon(FontAwesomeIcons.google),
+      //    //  label: 'Google',
+      //    //),
+      //  ],
+      //  currentIndex: _selectedIndex,
+      //  //selectedItemColor: Colors.amber[800],
+      //  onTap: _onItemTapped,
+      //),
     );
   }
 
-  Widget obtenerPantalla(BuildContext context, int index){
-    if(index == 0)
-    {
-     return  _formulario(context);
-    }
-    else if(index == 1){
-      return Text(
-      'Login Google',
-    );
-    }
-    else{
-      return Text(
-      'Login facebook',
-    );
-    }
-
-  }
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  //Widget obtenerPantalla(BuildContext context, int index){
+  //  if(index == 0)
+  //  {
+  //   return  _formulario(context);
+  //  }
+  //  else if(index == 1){
+  //    return Text(
+  //    'Login Google',
+  //  );
+  //  }
+  //  else{
+  //    return Text(
+  //    'Login facebook',
+  //  );
+  //  }
+//
+  //}
+  //void _onItemTapped(int index) {
+  //  setState(() {
+  //    _selectedIndex = index;
+  //  });
+  //}
 
 
 
   Widget _formulario(BuildContext context) {
     final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: true);
-    final notificacionModel = Provider.of<NotificacionModel>(context);
+    //final notificacionModel = Provider.of<NotificacionModel>(context);
     
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          SafeArea(
-            child: Container(
-              height: 10.0,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 120.0, left: 30.0, right: 30.0),
+        child: Column(
+              children: [
+                //EtiquetaPersonalizada(descripcion: 'Registro', tamano: 20.0 ),
+                //SizedBox(height: 120.0),
+                InputPersonalizado(icono: Icons.text_fields, placeholder: 'Nombre', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.nombre = value  },),
+                InputPersonalizado(icono: Icons.account_box, placeholder: 'Usuario', onChange: (value) => { usuarioprovider.usuario = value  },),
+                InputPersonalizado(icono: Icons.lock, placeholder: 'Contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
+                InputPersonalizado(icono: Icons.lock, placeholder: 'Reingresar Contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
+                InputPersonalizado(icono: Icons.text_fields, placeholder: 'Correo', tipoTeclado: TextInputType.emailAddress, onChange: (value) => { usuarioprovider.correo = value  },),
+                InputPersonalizado(icono: Icons.text_fields, placeholder: 'Teléfono', tipoTeclado: TextInputType.phone, onChange: (value) => { usuarioprovider.telefono = value  },),
+                _crearBoton(),
+              
+            
+            TextButton(
+              onPressed: ()=> Navigator.pushReplacementNamed(context, 'Login'), 
+              child: Text('Ya tienes cuenta? Login')//, style: estiloTextos)
             ),
-          ),
-          Column(
-            children: [
-              EtiquetaPersonalizada(descripcion: 'Registro', tamano: 20.0 ),
-              //crearTitulo('Registro', 20.0),
-              SizedBox(height: 30.0),
-              InputPersonalizado(icono: Icons.account_box, placeholder: 'Dígite su usuario', onChange: (value) => { usuarioprovider.usuario = value  },),
-             //_crearUsuario('Usuario','Digíte su usuario', Icons.account_box, false),
-             //SizedBox(height: 20.0),
-             InputPersonalizado(icono: Icons.lock, placeholder: 'Dígite su contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
-            // _crearContrasenia('Contraseña', 'Digíte la contraseña', Icons.lock_open, true),
-             //SizedBox(height: 20.0),
-             InputPersonalizado(icono: Icons.lock, placeholder: 'Vuelva a digitar la contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
-            //_crearConfirmarContrasenia('Validar contraseña', 'Vuelva a digitar la contraseña'),
-             //SizedBox(height: 20.0),
-             InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su nombre completo', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.nombre = value  },),
-            // _crearNombre('Nombre', 'Digíte el nombre', Icons.lock_open, false),
-             //SizedBox(height: 20.0),
-            // _crearPrimerApellido('Primer apellido', 'Digíte el primer apellido', Icons.lock_open, false),
-            // SizedBox(height: 20.0),
-            // _crearSegundoApellido('Segundo apellido', 'Digíte el segundo apellido', Icons.lock_open, false),
-            // SizedBox(height: 20.0),
-            InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su correo', tipoTeclado: TextInputType.emailAddress, onChange: (value) => { usuarioprovider.correo = value  },),
-            // _crearCorreo('Correo electrónico', 'Digíte el correo', Icons.lock_open, false),
-             //SizedBox(height: 20.0),
-             InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su teléfono', tipoTeclado: TextInputType.phone, onChange: (value) => { usuarioprovider.telefono = value  },),
-            // _crearTelefono('Teléfono', 'Digíte el segundo teléfono', Icons.lock_open, false),
-            // SizedBox(height: 20.0),
-             //_crearDireccion('Dirección exacta', 'Digíte la dirección exacta', Icons.lock_open),
-             //SizedBox(height: 20.0),
-             _crearBoton(),
-            ],
-          ),
-          TextButton(
-            onPressed: ()=> Navigator.pushReplacementNamed(context, 'Login'), 
-            child: Text('Ya tienes cuenta? Login')//, style: estiloTextos)
-          ),
-        ],
+        ]),
       )
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/providers/canchas_provider.dart';
 import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
@@ -27,7 +28,7 @@ class MisCanchasPage extends StatelessWidget {
           children: [
             _listaScurusales(),
             HeaderWidget(
-            icono: FontAwesomeIcons.footballBall, 
+            icono: FontAwesomeIcons.solidFutbol, 
             titulo: 'Canchas',
             color1: Colors.blue,
             color2: Colors.grey,
@@ -72,9 +73,10 @@ class _listaScurusales extends StatelessWidget {
             return TarjetaWidget(
              ancho: double.infinity,
               alto: 120.0,
-              color1: Colors.grey,
-              color2: Colors.grey.shade400,
+              color1: PreferenciasUsuario.esModoOscuro ? Colors.grey.shade800 : Colors.white,
+              color2: Colors.blue,
               titulo: snapshot.data[index].nombre,
+              icono: FontAwesomeIcons.solidFutbol,
               ontap: (){ 
                 canchasServices.canchaSeleccionada = snapshot.data[index].idCancha;
                 //print(snapshot.data[index].nombre); 

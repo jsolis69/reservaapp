@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
         theme: temaActual,
         debugShowCheckedModeBanner: false,
         title: 'Fut5 Reservas',
-        initialRoute: 'MapaPantallaCompleta',//PreferenciasUsuario.usuarioLogueado > 0 ? 'Sucursales' : 'Login',
+        initialRoute: PreferenciasUsuario.usuarioLogueado > 0 ? 'Sucursales' : 'Login',
         routes: {
           'Login': (BuildContext context) => LoginPage(),
           'Registro': (BuildContext context) => RegistroPage(),

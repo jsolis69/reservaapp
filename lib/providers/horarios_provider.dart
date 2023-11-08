@@ -12,6 +12,12 @@ class HorarioProvider with ChangeNotifier
   //List<Horario> misHorarios = [];
    List<Horario> _horariosXCancha = [];
    List<Horario> _horariosXReserva = [];
+   int _respuestaServicio = 97; //procesando
+   int get respuestaServicio => _respuestaServicio;
+   set respuestaServicio(int resp){
+    _respuestaServicio = resp;
+    notifyListeners();
+   }
 
 
 
@@ -163,7 +169,12 @@ ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
 
   horariosXReserva = [];
   var HorariosResponse = horariosResponseFromJson(response.body);
-  horariosXReserva = HorariosResponse.listaGenerica;
+
+  if(HorariosResponse.codigoRespuesta == 0)
+  {
+    respuestaServicio = HorariosResponse.codigoRespuesta;
+    horariosXReserva = HorariosResponse.listaGenerica;
+  }
   //notifyListeners();
   //return HorariosResponse;
   

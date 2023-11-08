@@ -28,67 +28,61 @@ class LoginPage extends StatelessWidget {
       //  title: Text('hola'),
       //),
       body: SingleChildScrollView(
-          child: Column(
-            children: [
-              _logo(),
-              const EtiquetaPersonalizada(descripcion: 'Ingresar a tu cuenta', tamano: 25),
-              SizedBox(height: 30.0),
-              InputPersonalizado(icono: Icons.home, placeholder: 'Usuario', onChange: (value){
-                usuarioprovider.usuario = value;
-              }),
-              //_crearUsuario(context),
-              SizedBox(height: 20.0),
-              InputPersonalizado(icono: Icons.lock, esPassword: true, tipoPassword: '◍', placeholder: 'Contraseña', onChange: (value){
-                usuarioprovider.contrasenia = value;
-              }),
-              //_crearContrasenia(context),
-              SizedBox(height: 20.0),
-              BotonPersonalizado(texto: 'Ingresar', validador: (usuarioprovider.usuario.isNotEmpty && usuarioprovider.contrasenia.isNotEmpty),
-              onPressed: (){
-
-                if(usuarioprovider.usuario.isNotEmpty || usuarioprovider.contrasenia.isNotEmpty)
-                {
-                  usuarioprovider.login().then((resp){ 
-                if(resp.codigoRespuesta == 0){
-                  Navigator.pushReplacementNamed(context, 'Sucursales');
-                }
-                else{
-                    notificacionModel.mostrarAlerta = true;
-                    notificacionModel.descripcion = resp.descripcionRespuesta;
-                    notificacionModel.codigo = resp.codigoRespuesta;
-                    Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
-                  //mostrarAlerta(context, resp.descripcionRespuesta);
-                }
-                }
-                );
-            
-                }
-              }),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 40.0, left: 30.0, right: 30.0),
+            child: Column(
+              children: [
+                _logo(),
+                const EtiquetaPersonalizada(descripcion: 'Ingresar a tu cuenta', tamano: 25),
+                SizedBox(height: 30.0),
+                InputPersonalizado(icono: Icons.person, placeholder: 'Usuario', onChange: (value){
+                  usuarioprovider.usuario = value;
+                }),
+                //_crearUsuario(context),
+                SizedBox(height: 20.0),
+                InputPersonalizado(icono: Icons.lock, esPassword: true, tipoPassword: '◍', placeholder: 'Contraseña', onChange: (value){
+                  usuarioprovider.contrasenia = value;
+                }),
+                //_crearContrasenia(context),
+                SizedBox(height: 20.0),
+                BotonPersonalizado(texto: 'Ingresar', validador: (usuarioprovider.usuario.isNotEmpty && usuarioprovider.contrasenia.isNotEmpty),
+                onPressed: (){
+          
+                  if(usuarioprovider.usuario.isNotEmpty || usuarioprovider.contrasenia.isNotEmpty)
+                  {
+                    usuarioprovider.login().then((resp){ 
+                  if(resp.codigoRespuesta == 0){
+                    Navigator.pushReplacementNamed(context, 'Sucursales');
+                  }
+                  else{
+                      notificacionModel.mostrarAlerta = true;
+                      notificacionModel.descripcion = resp.descripcionRespuesta;
+                      notificacionModel.codigo = resp.codigoRespuesta;
+                      Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+                    //mostrarAlerta(context, resp.descripcionRespuesta);
+                  }
+                  }
+                  );
               
-              //if(usuarioprovider.usuario.isEmpty && usuarioprovider.contrasenia.isEmpty)
-              //BotonPersonalizado(texto: 'Ingresar', validador: false, onPressed: (){}),
-              //_crearBoton(context),
-              SizedBox(height: 20.0),
-              _crearBotonesLogin(),
-              SizedBox(height: 20.0),
-        
-        
-              TextButton(
-              onPressed: ()=> Navigator.pushReplacementNamed(context, 'Sucursales'), 
-              child: Text('Entrar')),//, style: estiloTextos)
-        
-        
-              //Expanded(
-                //child: 
-                TextButton(
-                onPressed: ()=> Navigator.pushReplacementNamed(context, 'Registro'), 
+                  }
+                }),
                 
-                child: crearTitulo('Registrarse', 20.0)
-                          ),
-                          
-         const NotificacionWidget(),
-              //),
-            ],
+                //if(usuarioprovider.usuario.isEmpty && usuarioprovider.contrasenia.isEmpty)
+                //BotonPersonalizado(texto: 'Ingresar', validador: false, onPressed: (){}),
+                //_crearBoton(context),
+                SizedBox(height: 20.0),
+                //_crearBotonesLogin(),
+                //SizedBox(height: 20.0),
+                  TextButton(
+                  onPressed: ()=> Navigator.pushReplacementNamed(context, 'Registro'), 
+                  
+                  child: crearTitulo('Registrarse', 20.0)
+                            ),
+                            
+                   const NotificacionWidget(),
+                //),
+              ],
+            ),
           ),
 
       )
@@ -98,7 +92,7 @@ class LoginPage extends StatelessWidget {
 
   Widget _logo() {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 40.0),
+    padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 60.0),
     child: Container(
       width: double.infinity,
       height: 80,

@@ -9,7 +9,7 @@ class EtiquetaPersonalizada extends StatelessWidget {
     super.key, 
   required this.descripcion, 
   this.color, 
-  required this.tamano});
+  this.tamano = 15});
 
   @override
   Widget build(BuildContext context) {

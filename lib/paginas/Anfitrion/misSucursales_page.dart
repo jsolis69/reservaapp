@@ -27,7 +27,7 @@ class MisSucursalesPage extends StatelessWidget {
           children: [
             _listaScurusales(),
             HeaderWidget(
-            icono: FontAwesomeIcons.calendarDay, 
+            icono: FontAwesomeIcons.building, 
             titulo: 'Sucursales',
             color1: Colors.green,
             color2: Colors.grey
@@ -80,13 +80,14 @@ class _listaScurusales extends StatelessWidget {
               child: TarjetaWidget(
                ancho: double.infinity,
                 alto: 120.0,
-                color1: Colors.grey,
-                color2: Colors.grey.shade400,
+                color1: PreferenciasUsuario.esModoOscuro ? Colors.grey.shade800 : Colors.white,
+                color2: Colors.green,
                 titulo: snapshot.data.listaGenerica[index].nombre,
                 ontap: (){ 
                   sucursalesServices.sucursalSeleccionada = snapshot.data.listaGenerica[index].idSucursal;
                   Navigator.pushNamed(context, 'MisCanchas');
                   },
+                  icono: FontAwesomeIcons.building,
                       ),
             );
           },

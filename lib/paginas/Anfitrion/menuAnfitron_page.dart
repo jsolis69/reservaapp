@@ -23,17 +23,14 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
 
      //final temaAplicacion = Provider.of<TemaServicio>(context);
     return Scaffold(
-
- 
-
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              margin: EdgeInsets.only(top: 200),
+            Padding(
+              padding: const EdgeInsets.only(top: 120.0),
               child: ListView(
               children: [
-                Divider(height: 20, color: Colors.red, thickness: 1,),
+                //Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Cambiar a modo mejenguero'),
                   trailing: FaIcon(FontAwesomeIcons.exchangeAlt),
@@ -57,7 +54,7 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
                     Navigator.pushNamed(context, 'Comentarios', arguments: 'MenuAnfitrion');
                   },
                   ),
-      
+                  
                   Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Modo oscuro'),
@@ -71,7 +68,7 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
                       value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
                       setState(() {
                       });
-      
+                  
                     }
                     )
                   ),
@@ -80,12 +77,12 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
                   title: Text('Cerrar sesión'),
                   trailing: FaIcon(FontAwesomeIcons.signOutAlt),
                   onTap: (){
-      
+                  
                     Navigator.pushReplacementNamed(context, 'Login');
                   },
                   )
               ],
-            ),
+              ),
             ),
             
             HeaderWidget(

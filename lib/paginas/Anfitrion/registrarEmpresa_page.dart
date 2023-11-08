@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/providers/empresa_provider.dart';
 import 'package:reservaapp/widgets/boton_personalizado.dart';
 import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
+import 'package:reservaapp/widgets/header.dart';
 import 'package:reservaapp/widgets/input_personalizado.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart';
 
@@ -16,11 +18,19 @@ class RegistrarEmpresaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [ 
-          _formulario(context),
-          const NotificacionWidget()
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [ 
+            HeaderWidget(
+            icono: FontAwesomeIcons.registered, 
+            titulo: 'Registrar Empresa',
+            color1: Colors.green,
+            color2: Colors.grey
+          ),
+            _formulario(context),
+            const NotificacionWidget()
+          ],
+        ),
       ),
     );
   }
@@ -38,20 +48,23 @@ Widget _formulario(BuildContext context) {
         //      height: 10.0,
         //    ),
         //  ),
-          Column(
-            children: [
-              EtiquetaPersonalizada(descripcion: 'Crear empresa', tamano: 20.0 ),
-              SizedBox(height: 30.0),
-              InputPersonalizado(icono: Icons.account_box, placeholder: 'Digíte el nombre de su empresa', onChange: (value) => { empresaprovider.nombre = value  },),
-              InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su teléfono', tipoTeclado: TextInputType.phone, onChange: (value) => { empresaprovider.telefono = value  },),
-              InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su correo', tipoTeclado: TextInputType.emailAddress, onChange: (value) => { empresaprovider.correo = value  },),
-              //InputPersonalizado(icono: Icons.lock, placeholder: 'Dígite su contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
-              //InputPersonalizado(icono: Icons.lock, placeholder: 'Vuelva a digitar la contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
-              //InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su nombre completo', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.nombre = value  },),
-              
-              
-             _crearBoton(context),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 120.0, left: 30.0, right: 30.0),
+            child: Column(
+              children: [
+                //EtiquetaPersonalizada(descripcion: 'Crear empresa', tamano: 20.0 ),
+                SizedBox(height: 30.0),
+                InputPersonalizado(icono: Icons.account_box, placeholder: 'Digíte el nombre de su empresa', onChange: (value) => { empresaprovider.nombre = value  },),
+                InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su teléfono', tipoTeclado: TextInputType.phone, onChange: (value) => { empresaprovider.telefono = value  },),
+                InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su correo', tipoTeclado: TextInputType.emailAddress, onChange: (value) => { empresaprovider.correo = value  },),
+                //InputPersonalizado(icono: Icons.lock, placeholder: 'Dígite su contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
+                //InputPersonalizado(icono: Icons.lock, placeholder: 'Vuelva a digitar la contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
+                //InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su nombre completo', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.nombre = value  },),
+                
+                
+               _crearBoton(context),
+              ],
+            ),
           ),
        // ],
       //)
