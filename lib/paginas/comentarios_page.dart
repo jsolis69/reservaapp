@@ -17,19 +17,21 @@ class ComentariosPage extends StatelessWidget {
 
     return Scaffold(
       //appBar: AppBar(),
-      body: Stack(
-        children:[ 
-            HeaderWidget(
-            icono: FontAwesomeIcons.comment, 
-            titulo: 'Comentarios',
-            color1: Color(0xffFA5858),
-            color2: Color(0xffDF0101)
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(onPressed: () => Navigator.pushNamed(context, menu), icon: FaIcon(FontAwesomeIcons.arrowLeft, color: Colors.white, size: 40,) ),
-          )
-        ]
+      body: SafeArea(
+        child: Stack(
+          children:[ 
+              HeaderWidget(
+              icono: FontAwesomeIcons.comment, 
+              titulo: 'Comentarios',
+              color1: Color(0xffFA5858),
+              color2: Color(0xffDF0101)
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(onPressed: () => Navigator.pushNamed(context, menu), icon: FaIcon(FontAwesomeIcons.arrowLeft, color: Colors.white, size: 40,) ),
+            )
+          ]
+        ),
       ),
     );
   }

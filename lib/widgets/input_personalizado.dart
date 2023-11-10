@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class InputPersonalizado extends StatelessWidget {
   final IconData icono;
   final String placeholder;
@@ -9,6 +8,8 @@ class InputPersonalizado extends StatelessWidget {
   final TextInputType tipoTeclado;
   final bool esPassword;
   final String tipoPassword;
+  final bool estaHabilitado;
+  final String valorDefecto;
 
   const InputPersonalizado({super.key, 
     required this.icono, 
@@ -17,7 +18,9 @@ class InputPersonalizado extends StatelessWidget {
     //required this.textController, 
     this.tipoTeclado = TextInputType.text,
     this.esPassword = false, 
-    this.tipoPassword = '*'
+    this.tipoPassword = '*',
+    this.estaHabilitado = true,
+    this.valorDefecto = ''
   }); 
   
   
@@ -27,7 +30,7 @@ class InputPersonalizado extends StatelessWidget {
        padding: const EdgeInsets.only(top: 5, left: 5, bottom: 5, right: 20),
        margin: const EdgeInsets.only(bottom: 20),
        decoration: BoxDecoration(
-         color: Colors.white,
+         color: estaHabilitado ? Colors.white : Colors.grey.shade400,
          borderRadius: BorderRadius.circular(20),
          boxShadow: <BoxShadow>[
            BoxShadow(color: Colors.black.withOpacity(0.05)
@@ -36,9 +39,12 @@ class InputPersonalizado extends StatelessWidget {
            )
          ]
        ),
-       child: TextField(
+       child: TextFormField(
+        initialValue: valorDefecto,
         style: const TextStyle( color: Colors.black45),
-        //controller: textController,
+        //controller: TextEditingController(text: valorDefecto),
+          //readOnly: true,
+          enabled: estaHabilitado ? true : false,
          autocorrect: false,
          keyboardType: tipoTeclado,
          obscureText: esPassword,

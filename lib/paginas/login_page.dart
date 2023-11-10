@@ -52,6 +52,11 @@ class LoginPage extends StatelessWidget {
                   {
                     usuarioprovider.login().then((resp){ 
                   if(resp.codigoRespuesta == 0){
+                    usuarioprovider.idUsuario = resp.objeto.idUsuario;
+                    usuarioprovider.nombre = resp.objeto.nombre;
+                    usuarioprovider.correo = resp.objeto.email;
+                    usuarioprovider.telefono = resp.objeto.telefono;
+
                     Navigator.pushReplacementNamed(context, 'Sucursales');
                   }
                   else{

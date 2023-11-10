@@ -21,13 +21,15 @@ class RegistrarEmpresaPage extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [ 
+             _formulario(context),
             HeaderWidget(
             icono: FontAwesomeIcons.registered, 
             titulo: 'Registrar Empresa',
             color1: Colors.green,
-            color2: Colors.grey
+            color2: Colors.grey,
+            paginaReturn: 'Menu',
           ),
-            _formulario(context),
+           
             const NotificacionWidget()
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
@@ -26,7 +27,7 @@ class MisCanchasPage extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            _listaScurusales(),
+            _listaCanchas(),
             HeaderWidget(
             icono: FontAwesomeIcons.solidFutbol, 
             titulo: 'Canchas',
@@ -47,7 +48,7 @@ class MisCanchasPage extends StatelessWidget {
   
 }
 
-class _listaScurusales extends StatelessWidget {
+class _listaCanchas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,18 @@ class _listaScurusales extends StatelessWidget {
           //itemExtent: 50,
           itemCount: snapshot.data.length,
           itemBuilder: (BuildContext context, int index) {
-            return TarjetaWidget(
+            return Slidable(
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(), 
+                children: [
+                  SlidableAction(
+                    onPressed: (value){print(value);},
+                    label: 'Borrar',
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,)
+                ]),
+              child: TarjetaWidget(
              ancho: double.infinity,
               alto: 120.0,
               color1: PreferenciasUsuario.esModoOscuro ? Colors.grey.shade800 : Colors.white,
@@ -82,7 +94,8 @@ class _listaScurusales extends StatelessWidget {
                 //print(snapshot.data[index].nombre); 
                 Navigator.pushNamed(context, 'MisHorarios');
                 },
-          );
+          ),
+            );
           },
         
         );

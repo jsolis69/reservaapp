@@ -16,28 +16,30 @@ class AyudaPage extends StatelessWidget {
 
     return Scaffold(
         //appBar: AppBar(),
-        body: Stack(
-          children:[ 
-            Container(
-              margin: EdgeInsets.only(top: 170),
-              child: Stack(
-                children: [
-                  _crearFormulario(context),
-                  SizedBox(height: 100),
-                ],
+        body: SafeArea(
+          child: Stack(
+            children:[ 
+              Container(
+                margin: EdgeInsets.only(top: 170),
+                child: Stack(
+                  children: [
+                    _crearFormulario(context),
+                    SizedBox(height: 100),
+                  ],
+                ),
               ),
-            ),
-              HeaderWidget(
-              icono: FontAwesomeIcons.question, 
-              titulo: 'Ayuda',
-              color1: Color(0xffFA5858) ,
-              color2: Color(0xffDF0101)
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(onPressed: () => Navigator.pushNamed(context, menu), icon: FaIcon(FontAwesomeIcons.arrowLeft, color: Colors.white, size: 40,) ),
-            )
-          ]
+                HeaderWidget(
+                icono: FontAwesomeIcons.question, 
+                titulo: 'Ayuda',
+                color1: Color(0xffFA5858) ,
+                color2: Color(0xffDF0101)
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(onPressed: () => Navigator.pushNamed(context, menu), icon: FaIcon(FontAwesomeIcons.arrowLeft, color: Colors.white, size: 40,) ),
+              )
+            ]
+          ),
         ),
       );
   }

@@ -80,9 +80,9 @@ class _body extends StatelessWidget {
 
  _sliverList( BuildContext context, dynamic canchas ) {
 
-  final horariosServices = Provider.of<HorarioProvider>(context, listen: false);
-  final fSer = new DateFormat('yyyy-MM-dd');
-  final reservaServices = Provider.of<ReservaProvider>(context);
+  //final horariosServices = Provider.of<HorarioProvider>(context, listen: false);
+  //final fSer = new DateFormat('yyyy-MM-dd');
+  //final reservaServices = Provider.of<ReservaProvider>(context);
   final canchasServices = Provider.of<CanchasProvider>(context);
 
 
