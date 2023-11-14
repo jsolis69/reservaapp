@@ -39,12 +39,21 @@ class SucursalesProvider with ChangeNotifier{
 
 
 
-  Future<SucursalesXUbicacionResponse> obtenerSucursalesPorUbicacion() async {
+  Future<SucursalesXUbicacionResponse> obtenerSucursalesPorUbicacion(double? latitud, double? longitud ) async {
    
+
+
 
  var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Sucursal/ObtenerSucursalesPorUbicacion');
 
-  final response = await http.get(url);
+  final response = await http.post(url,
+  headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+ body: jsonEncode({
+  'Latitud': latitud.toString(),
+  'Longitud': longitud.toString()
+  }));
 
   return sucursalesXUbicacionResponseFromJson(response.body);
 
