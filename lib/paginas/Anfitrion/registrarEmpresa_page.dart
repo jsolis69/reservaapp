@@ -7,7 +7,6 @@ import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/models/notificacion_model.dart';
 import 'package:reservaapp/providers/empresa_provider.dart';
 import 'package:reservaapp/widgets/boton_personalizado.dart';
-import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
 import 'package:reservaapp/widgets/header.dart';
 import 'package:reservaapp/widgets/input_personalizado.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart';

@@ -140,6 +140,7 @@ class __SlidesState extends State<_Slides> {
 
   @override
   void dispose() {
+    super.dispose();
     pageviewController.dispose();
   }
 

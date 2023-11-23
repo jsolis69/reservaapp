@@ -29,7 +29,6 @@ import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/providers/tema_provider.dart';
-import 'package:reservaapp/providers/ubicaciones_provider.dart';
 import 'package:reservaapp/providers/usuario_provider.dart';
 
 void main() async{
@@ -45,7 +44,6 @@ void main() async{
           ChangeNotifierProvider( create: (_)=>new TemaServicio(esModoOscuro: PreferenciasUsuario.esModoOscuro)),
           ChangeNotifierProvider( create: (_)=>new UsuarioProvider()),
           ChangeNotifierProvider( create: (_)=>new SucursalesProvider()),
-          ChangeNotifierProvider( create: (_)=>new UbicacionesProvider()),
           ChangeNotifierProvider( create: (_)=>new ReservaProvider()),
           ChangeNotifierProvider( create: (_)=>new NotificacionModel()),
           ChangeNotifierProvider( create: (_)=>new CanchasProvider()),

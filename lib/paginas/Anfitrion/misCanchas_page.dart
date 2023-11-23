@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
 import 'package:reservaapp/providers/canchas_provider.dart';
-import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/botonesNavegacionAnfitrion.dart';
 import 'package:reservaapp/widgets/header.dart';

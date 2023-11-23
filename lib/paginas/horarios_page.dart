@@ -26,7 +26,7 @@ class HorariosPage extends StatelessWidget {
 
 
     return Scaffold(
-      backgroundColor:  const Color(0xFF333A47),
+      //backgroundColor:  const Color(0xFF333A47),
       //appBar: AppBar( title: Text('Horarios'), ),
       body: SafeArea(
         child: Stack(

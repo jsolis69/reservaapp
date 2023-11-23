@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
-import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
 import 'package:reservaapp/widgets/header.dart';
 import 'package:reservaapp/widgets/input_personalizado.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart'; 

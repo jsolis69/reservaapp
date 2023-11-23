@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/Preferencias_usuario/preferencias_usuario.dart';
@@ -9,23 +10,40 @@ import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
+import 'package:reservaapp/widgets/header.dart';
 import 'package:reservaapp/widgets/notificacion_widget.dart';
 
 class ProcesarReservaPage extends StatelessWidget {
   const ProcesarReservaPage({super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
+
+    String titulo = 'Procesar Reserva';
+    Color colorPrimario = Color(0xff08088A);
+    Color colorSecundario = Color(0xff5858FA);
+
     return Scaffold(
-      backgroundColor:  const Color(0xFF333A47),
-      appBar: AppBar(
-        title: Text('Procesar Reserva'),
-      ),
-      body: Column(
-        children: [
-          Expanded(child: _horario()),
-          const NotificacionWidget(),
-        ],
+      //backgroundColor:  const Color(0xFF333A47),
+      //appBar: AppBar(
+      //  title: Text('Procesar Reserva'),
+      //),
+      body: SafeArea(
+        child: Stack(
+          children:[
+            _horario(),
+            HeaderWidget(
+              icono: FontAwesomeIcons.calendarDay, 
+              titulo: titulo,
+              color1: colorPrimario,
+              color2: colorSecundario,
+              paginaReturn: 'Horarios',
+            ),
+            const NotificacionWidget(),
+          ],
+        ),
       ),
       //bottomNavigationBar: BotonesNavegacion(seleccionado: 1,),
     );
@@ -43,87 +61,89 @@ class _horario extends StatelessWidget {
     final horario = horarioService.horarioSeleccionado;
     final f = new DateFormat('dd-MM-yyyy');
     
-    return SingleChildScrollView (
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-      child: Column(
-        
-        children: [ Card(
-          //color: Colors.white,
-          shadowColor: Colors.amber,
-          elevation: 8.0,
-          child: SizedBox(
-            //width: 300,
-            height: 250,
-            child: Column(
-              children: [
-    
-    
-                Row(
-                  children: [
-                    Container(
-                      height: 40,
-                      width: 110,
-                      child: Center(child: Column(
-                        children: [
-                          EtiquetaPersonalizada(descripcion: 'Fecha', tamano: 15,),
-                          EtiquetaPersonalizada(descripcion: f.format(reservaService.fechaSeleccionada), tamano: 15,),
-                        ],
-                      )),
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                      ),
-    
-                  Expanded(child: SizedBox()),
-    
-                  Container(
-                  height: 40,
-                  width: 110,
-                  child: Center(child: Column(
+    return Padding(
+      padding: const EdgeInsets.only(top: 120.0, left: 30.0, right: 30.0),
+      child: SingleChildScrollView (
+        child: Column(
+          
+          children: [ Card(
+            //color: Colors.white,
+            shadowColor: Colors.amber,
+            elevation: 8.0,
+            child: SizedBox(
+              //width: 300,
+              height: 250,
+              child: Column(
+                children: [
+      
+      
+                  Row(
                     children: [
-                      EtiquetaPersonalizada(descripcion: 'Hora', tamano: 15,),
-                      EtiquetaPersonalizada(descripcion: horario.horaInicio!.substring(0, 5) + ' - ' + horario.horaFin!.substring(0, 5), tamano: 15,),
+                      Container(
+                        height: 40,
+                        width: 110,
+                        child: Center(child: Column(
+                          children: [
+                            EtiquetaPersonalizada(descripcion: 'Fecha', tamano: 15,),
+                            EtiquetaPersonalizada(descripcion: f.format(reservaService.fechaSeleccionada), tamano: 15,),
+                          ],
+                        )),
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                        ),
+      
+                    Expanded(child: SizedBox()),
+      
+                    Container(
+                    height: 40,
+                    width: 110,
+                    child: Center(child: Column(
+                      children: [
+                        EtiquetaPersonalizada(descripcion: 'Hora', tamano: 15,),
+                        EtiquetaPersonalizada(descripcion: horario.horaInicio!.substring(0, 5) + ' - ' + horario.horaFin!.substring(0, 5), tamano: 15,),
+                      ],
+                    )),
+                                decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(10)
+                                ),
+                    ),
+                      
                     ],
-                  )),
-                              decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10)
-                              ),
                   ),
-                    
-                  ],
-                ),
-                  SizedBox(height: 40,),
-              
-                if(horario.reserva.equipo1.nombre!.isEmpty)
-                  EtiquetaPersonalizada(descripcion: 'Disponible', tamano: 15,)
-                else if (horario.reserva.indLlevaDosEquipos)
-                  EtiquetaPersonalizada(descripcion: 'Cancha reservada por: ${horario.reserva.equipo1.nombre}', tamano: 15,)
-                else
-                  Text(horario.reserva.equipo1.nombre! + ' vrs ' + (horario.reserva.equipo2.nombre!.isEmpty ? 'Necesita Reto' : horario.reserva.equipo2.nombre!)),
+                    SizedBox(height: 40,),
+                
+                  if(horario.reserva.equipo1.nombre!.isEmpty)
+                    EtiquetaPersonalizada(descripcion: 'Disponible', tamano: 15,)
+                  else if (horario.reserva.indLlevaDosEquipos)
+                    EtiquetaPersonalizada(descripcion: 'Cancha reservada por: ${horario.reserva.equipo1.nombre}', tamano: 15,)
+                  else
+                    Text(horario.reserva.equipo1.nombre! + ' vrs ' + (horario.reserva.equipo2.nombre!.isEmpty ? 'Necesita Reto' : horario.reserva.equipo2.nombre!)),
+      
+                 SwitchListTile(
+                      value: horarioService.horarioSeleccionado.reserva.indLlevaDosEquipos, 
+                      onChanged: horario.reserva.equipo1.nombre!.isNotEmpty ? null : (value){
+                      //print(value);
+                      horario.reserva.indLlevaDosEquipos = value;
+                      horarioService.horarioSeleccionado = horario;
+                      },
+                      title: EtiquetaPersonalizada(descripcion: 'Lleva los dos equipos', tamano: 15),
+                      activeColor:Colors.amber,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      inactiveThumbColor: horario.reserva.equipo1.nombre!.isNotEmpty ? Colors.red :Colors.amber,
+                    ),
     
-               SwitchListTile(
-                    value: horarioService.horarioSeleccionado.reserva.indLlevaDosEquipos, 
-                    onChanged: horario.reserva.equipo1.nombre!.isNotEmpty ? null : (value){
-                    //print(value);
-                    horario.reserva.indLlevaDosEquipos = value;
-                    horarioService.horarioSeleccionado = horario;
-                    },
-                    title: EtiquetaPersonalizada(descripcion: 'Lleva los dos equipos', tamano: 15),
-                    activeColor:Colors.amber,
-                    controlAffinity: ListTileControlAffinity.leading,
-                    inactiveThumbColor: horario.reserva.equipo1.nombre!.isNotEmpty ? Colors.red :Colors.amber,
-                  ),
-
-                _listaBotones1(horario: horario),
-
-              ],
+                  _listaBotones1(horario: horario),
+    
+                ],
+              ),
             ),
           ),
+          
+          ]
         ),
-        
-        ]
       ),
     );
   }
@@ -306,53 +326,5 @@ class _listaBotones1 extends StatelessWidget {
 );
   }
 }
-  
 
-
-class _iconoReservar extends StatelessWidget {
-  const _iconoReservar({
-    required this.horario,
-  });
-
-  final horario;
-  @override
-  Widget build(BuildContext context) {
-
-  final reservaServices = Provider.of<ReservaProvider>(context, listen: true);
-  final notificacionModel = Provider.of<NotificacionModel>(context);
-  final sucursalesServices = Provider.of<SucursalesProvider>(context);
-
-    return IconButton(onPressed: (){
-        //TODO hacer un dialog para validar si lleva ambos equipos
-                  //showDialog(context: context, builder: Container());
-                  horario.reserva.equipo1.idUsuario = PreferenciasUsuario.usuarioLogueado;
-                  horario.reserva.indLlevaDosEquipos = true;
-                  horario.reserva.fecha = reservaServices.fechaSeleccionada;
-                  horario.reserva.equipo2.idUsuario = -1;
-
-                  reservaServices.InsertarReserva(horario, sucursalesServices.sucursalSeleccionada).then((value){
-                    notificacionModel.codigo = value.codigoRespuesta;
-                        if(value.codigoRespuesta == 0)
-                        {
-                          notificacionModel.descripcion = "Reserva agregada satisfactoriamente";
-                          notificacionModel.mostrarAlerta = true;
-                          Timer(const Duration(seconds: 3), (() => { 
-                            notificacionModel.mostrarAlerta = false 
-                          } ));
-                        }
-                        else
-                        {
-                          notificacionModel.mostrarAlerta = true;
-                          notificacionModel.descripcion = value.descripcionRespuesta;
-                          Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
-                        } 
-
-                  });
-
-                
-
-
-    }, icon: Icon(Icons.calendar_month));
-  }
-}
 

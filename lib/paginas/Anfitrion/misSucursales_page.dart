@@ -75,6 +75,12 @@ class _listaScurusales extends StatelessWidget {
                     label: 'Borrar',
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
+                    icon: Icons.delete,),
+                    SlidableAction(
+                    onPressed: (value){print(value);},
+                    label: 'Notificar',
+                    backgroundColor: Colors.lightBlue,
+                    foregroundColor: Colors.white,
                     icon: Icons.delete,)
                 ]),
               child: TarjetaWidget(

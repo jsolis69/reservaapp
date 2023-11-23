@@ -119,18 +119,4 @@ class LoginPage extends StatelessWidget {
         ],
       );
   }
-  _login(BuildContext context) {
-
-    final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: false);
-
-    var prueba = usuarioprovider.login;
-
-    var a = '';
-    //if(respuesta['ok']){
-    //  Navigator.pushReplacementNamed(context, 'Inicio');
-    //}
-    //else{
-    //  mostrarAlerta(context, respuesta['mensaje']);
-    //}
-  }
 }

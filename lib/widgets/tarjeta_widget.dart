@@ -3,7 +3,7 @@ import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TarjetaWidget extends StatelessWidget {
-    final double ancho;
+  final double ancho;
   final double alto;
   final Color color1;
   final Color color2;

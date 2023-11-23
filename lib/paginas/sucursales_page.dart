@@ -6,6 +6,7 @@ import 'package:reservaapp/widgets/header.dart';
 import 'package:provider/provider.dart';
 import 'package:reservaapp/providers/sucursales_provider.dart';
 import 'package:location/location.dart';
+import 'package:reservaapp/widgets/tarjetaCliente.dart';
 
 
 class SucursalesPage extends StatefulWidget {
@@ -101,26 +102,16 @@ class _contenido extends StatelessWidget {
               ListView.builder(
               itemCount: snapshot.data.listaGenerica.length,
               itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: ListTile(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15), side: BorderSide(color: Color(0xff5858FA), width: 1)) ,
-              contentPadding: EdgeInsets.all(15),
-              //tileColor: Colors.red,
-              //splashColor: Colors.green,
-              leading: Image(image: AssetImage('assets/img/stadiumIcon.png')),// Icon(Icons.list),
-              trailing: const Icon(Icons.arrow_forward_ios_sharp),
-              title: Center(
-                child: Text(snapshot.data.listaGenerica[index].nombre),
-              ),
-              subtitle:  Center(child: Text(snapshot.data.listaGenerica[index].NombreEmpresa)),
-              //isThreeLine: true,
-              onTap: (){
+          return TarjetaCliente(
+            color1: Color(0xff5858FA),
+            titulo: snapshot.data.listaGenerica[index].nombre,
+            subTitulo: snapshot.data.listaGenerica[index].NombreEmpresa,
+            ontap: (){
                 sucursalesServices.sucursalSeleccionada = snapshot.data.listaGenerica[index].idSucursal;
                 Navigator.pushNamed(context, 'Canchas');
                 
               },
-              ),
+              imagen: AssetImage('assets/img/stadiumIcon.png'),
           );
               },
             )
