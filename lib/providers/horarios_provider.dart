@@ -120,10 +120,8 @@ class HorarioProvider with ChangeNotifier
     var HorariosResponse = horariosResponseFromJson(response.body);
     horariosXCancha = HorariosResponse.listaGenerica;
   }
-  //TODO: Este método se está llamando muchisimas veces
-  //Hay que revisar
+  
   ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
-    
     var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorCancha');
     final response = await http.post(
       url,
@@ -138,13 +136,13 @@ class HorarioProvider with ChangeNotifier
       })
     );
     
-    horariosXReserva = [];
+    //horariosXReserva = [];
     var HorariosResponse = horariosResponseFromJson(response.body);
 
-    if(HorariosResponse.codigoRespuesta == 0)
-    {
-      respuestaServicio = HorariosResponse.codigoRespuesta;
-      horariosXReserva = HorariosResponse.listaGenerica;
-    }
+    return HorariosResponse.listaGenerica;    //if(HorariosResponse.codigoRespuesta == 0)
+    //{
+    //  respuestaServicio = HorariosResponse.codigoRespuesta;
+    //  horariosXReserva = HorariosResponse.listaGenerica;
+    //}
   }
 }

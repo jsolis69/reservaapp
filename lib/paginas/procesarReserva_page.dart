@@ -123,7 +123,6 @@ class _horario extends StatelessWidget {
                  SwitchListTile(
                       value: horarioService.horarioSeleccionado.reserva.indLlevaDosEquipos, 
                       onChanged: horario.reserva.equipo1.nombre!.isNotEmpty ? null : (value){
-                      //print(value);
                       horario.reserva.indLlevaDosEquipos = value;
                       horarioService.horarioSeleccionado = horario;
                       },

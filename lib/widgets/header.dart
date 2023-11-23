@@ -38,7 +38,6 @@ class HeaderWidget extends StatelessWidget {
           top: 20,
           left: 10,
           child: GestureDetector(onTap: (){
-            print(paginaReturn);
             Navigator.pushNamed(context, paginaReturn);
           }, child: FaIcon(Icons.arrow_back, size: 40, color: Colors.grey),) ),
         Column(

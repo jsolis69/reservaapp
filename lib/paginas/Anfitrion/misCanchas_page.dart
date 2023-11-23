@@ -70,6 +70,13 @@ class _listaCanchas extends StatelessWidget {
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                         icon: Icons.delete
+                      ),
+                      SlidableAction(
+                        onPressed: (value){print(value);},
+                        label: 'Notificar',
+                        backgroundColor: Colors.lightBlue,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete
                       )
                     ]
                   ),
@@ -82,7 +89,6 @@ class _listaCanchas extends StatelessWidget {
                     icono: FontAwesomeIcons.solidFutbol,
                     ontap: (){ 
                       canchasServices.canchaSeleccionada = snapshot.data[index].idCancha;
-                      //print(snapshot.data[index].nombre); 
                       Navigator.pushNamed(context, 'MisHorarios');
                     },
                   ),

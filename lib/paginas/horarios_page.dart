@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reservaapp/models/horariosCancha_model.dart';
 import 'package:reservaapp/providers/canchas_provider.dart';
 import 'package:reservaapp/providers/horarios_provider.dart';
 import 'package:reservaapp/providers/reserva_provider.dart';
@@ -12,11 +13,11 @@ import 'package:reservaapp/widgets/header.dart';
 class HorariosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final horariosServices = Provider.of<HorarioProvider>(context, listen: true);
-    final fSer = new DateFormat('yyyy-MM-dd');
-    final reservaServices = Provider.of<ReservaProvider>(context);
-    final canchasServices = Provider.of<CanchasProvider>(context);
-    horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada)); 
+    //final horariosServices = Provider.of<HorarioProvider>(context, listen: true);
+    //final fSer = new DateFormat('yyyy-MM-dd');
+    //final reservaServices = Provider.of<ReservaProvider>(context);
+    //final canchasServices = Provider.of<CanchasProvider>(context);
+    //horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada)); 
     String titulo = 'Horarios';
     Color colorPrimario = Color(0xff08088A);
     Color colorSecundario = Color(0xff5858FA);
@@ -25,9 +26,10 @@ class HorariosPage extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            horariosServices.respuestaServicio == 97
-            ? const Center(child: CircularProgressIndicator())
-            : HorariosxDia(),
+            //horariosServices.respuestaServicio == 97
+            //? const Center(child: CircularProgressIndicator())
+            //: 
+            HorariosxDia(),
             HeaderWidget(
               icono: FontAwesomeIcons.calendarDay, 
               titulo: titulo,
@@ -43,55 +45,69 @@ class HorariosPage extends StatelessWidget {
 }
 
 class HorariosxDia extends StatelessWidget {
-  const HorariosxDia({super.key});
 
 @override
   Widget build(BuildContext context) {
+
+    final horariosServices = Provider.of<HorarioProvider>(context, listen: true);
+    final fSer = new DateFormat('yyyy-MM-dd');
+    final canchasServices = Provider.of<CanchasProvider>(context);
     final reservaServices = Provider.of<ReservaProvider>(context);
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: 100,),
-          EtiquetaPersonalizada(descripcion: 'Seleccione la fecha del partido'),
-          SizedBox(height: 20,),
-          CalendarTimeline(
-            initialDate: reservaServices.fechaSeleccionada,
-            firstDate: DateTime.now(),
-            lastDate: DateTime.now().add(const Duration(days: 10)),
-            onDateSelected: (date)  
-            {
-              reservaServices.fechaSeleccionada = date;
-            },
-            monthColor: Colors.white70,
-            dayColor: Colors.teal[200],
-            dayNameColor: const Color(0xFF333A47),
-            activeDayColor: Colors.white,
-            activeBackgroundDayColor: Colors.redAccent[100],
-            dotsColor: const Color(0xFF333A47),
-            //selectableDayPredicate: (date) => date.day != 23,
-            locale: 'es',
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: _listaHorarios(context)
-            ),
-          ),
-        ]
-      ),
+    return FutureBuilder(
+      future: horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada)), 
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
+          }
+          else if (snapshot.hasData) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 100,),
+                EtiquetaPersonalizada(descripcion: 'Seleccione la fecha del partido'),
+                SizedBox(height: 20,),
+                CalendarTimeline(
+                  initialDate: reservaServices.fechaSeleccionada,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(const Duration(days: 10)),
+                  onDateSelected: (date)  {
+                    reservaServices.fechaSeleccionada = date;
+                  },
+                  monthColor: Colors.white70,
+                  dayColor: Colors.teal[200],
+                  dayNameColor: const Color(0xFF333A47),
+                  activeDayColor: Colors.white,
+                  activeBackgroundDayColor: Colors.redAccent[100],
+                  dotsColor: const Color(0xFF333A47),
+                  //selectableDayPredicate: (date) => date.day != 23,
+                  locale: 'es',
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: _listaHorarios(snapshot.data)
+                  ),
+                ),
+              ]),
+            );
+          }
+        }
+        return const Center(child: CircularProgressIndicator());
+      }
     );
   }
 }
 
 
-  Widget _listaHorarios(BuildContext context) {
+  Widget _listaHorarios(List<Horario> horarios) {
       
-       final horariosServices = Provider.of<HorarioProvider>(context);
+       //final horariosServices = Provider.of<HorarioProvider>(context);
 
 
-      if(horariosServices.horariosXReserva.length <= 0)
+      if(horarios.length <= 0)
     return Center(child: Text('No existen horarios para esta fecha'));
     else
   ////Container();
@@ -106,10 +122,10 @@ class HorariosxDia extends StatelessWidget {
           childAspectRatio: 2.0
         ),
         delegate: SliverChildBuilderDelegate((context, index) {
-          final horario = horariosServices.horariosXReserva[index];
+          final horario = horarios[index];
           return _horas(horario: horario);
         },
-        childCount: horariosServices.horariosXReserva.length
+        childCount: horarios.length
         ),
       )
     ],
@@ -145,7 +161,6 @@ class _horas extends StatelessWidget {
 
     return GestureDetector(
       onTap: (){
-          //print(horario.idHorario);
           reservaServices.horarioSeleccionado = horario;
           Navigator.pushNamed(context, 'ProcesarReserva');
         },

@@ -86,7 +86,6 @@ class ListaItems extends StatelessWidget {
                       trailing: Checkbox(
                         value: element.seleccionado, 
                         onChanged: (_value){ 
-                          //print(element.idHorario);
                           HorariosServices.InsertarHorarioCancha(canchasServices.canchaSeleccionada, element.idHorario, _value);
                         },
                       ),/// const Icon(Icons.arrow_forward),
