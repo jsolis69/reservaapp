@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final sucursalesXUbicacionResponse = sucursalesXUbicacionResponseFromJson(jsonString);
-
 import 'dart:convert';
 
 SucursalesXUbicacionResponse sucursalesXUbicacionResponseFromJson(String str) => SucursalesXUbicacionResponse.fromJson(json.decode(str));

@@ -14,12 +14,9 @@ class MisCanchasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
+        onPressed: () {},
         backgroundColor: Colors.blue[600],
         child: const FaIcon(FontAwesomeIcons.plus),
       ),
@@ -28,23 +25,18 @@ class MisCanchasPage extends StatelessWidget {
           children: [
             _listaCanchas(),
             HeaderWidget(
-            icono: FontAwesomeIcons.solidFutbol, 
-            titulo: 'Canchas',
-            color1: Colors.blue,
-            color2: Colors.grey,
-            paginaReturn: 'MisSucursales',
-          ),
-            
-            
-            
+              icono: FontAwesomeIcons.solidFutbol, 
+              titulo: 'Canchas',
+              color1: Colors.blue,
+              color2: Colors.grey,
+              paginaReturn: 'MisSucursales',
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: BotonesNavegacionAnfitron(seleccionado: 0,)
+      bottomNavigationBar: BotonesNavegacionAnfitron(seleccionado: 0)
     );
   }
-
-  
 }
 
 class _listaCanchas extends StatelessWidget {
@@ -58,56 +50,48 @@ class _listaCanchas extends StatelessWidget {
     return FutureBuilder(
       future: canchasServices.ObtenerCanchasPorSucursal(sucursalesServices.sucursalSeleccionada),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        
         if (snapshot.connectionState == ConnectionState.done) {
-        if (snapshot.hasError) {
-          return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
-        }
-       else if (snapshot.hasData) {
-        
-        return ListView.builder(
-          padding: EdgeInsets.only(top: 110),
-          //itemExtent: 50,
-          itemCount: snapshot.data.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Slidable(
-              endActionPane: ActionPane(
-                motion: const ScrollMotion(), 
-                children: [
-                  SlidableAction(
-                    onPressed: (value){print(value);},
-                    label: 'Borrar',
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,)
-                ]),
-              child: TarjetaWidget(
-             ancho: double.infinity,
-              alto: 120.0,
-              color1: PreferenciasUsuario.esModoOscuro ? Colors.grey.shade800 : Colors.white,
-              color2: Colors.blue,
-              titulo: snapshot.data[index].nombre,
-              icono: FontAwesomeIcons.solidFutbol,
-              ontap: (){ 
-                canchasServices.canchaSeleccionada = snapshot.data[index].idCancha;
-                //print(snapshot.data[index].nombre); 
-                Navigator.pushNamed(context, 'MisHorarios');
-                },
-          ),
+          if (snapshot.hasError) {
+            return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
+          }
+          else if (snapshot.hasData) {
+            return ListView.builder(
+              padding: EdgeInsets.only(top: 110),
+              //itemExtent: 50,
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Slidable(
+                  endActionPane: ActionPane(
+                    motion: const ScrollMotion(), 
+                    children: [
+                      SlidableAction(
+                        onPressed: (value){print(value);},
+                        label: 'Borrar',
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete
+                      )
+                    ]
+                  ),
+                  child: TarjetaWidget(
+                    ancho: double.infinity,
+                    alto: 120.0,
+                    color1: PreferenciasUsuario.esModoOscuro ? Colors.grey.shade800 : Colors.white,
+                    color2: Colors.blue,
+                    titulo: snapshot.data[index].nombre,
+                    icono: FontAwesomeIcons.solidFutbol,
+                    ontap: (){ 
+                      canchasServices.canchaSeleccionada = snapshot.data[index].idCancha;
+                      //print(snapshot.data[index].nombre); 
+                      Navigator.pushNamed(context, 'MisHorarios');
+                    },
+                  ),
+                );
+              },
             );
-          },
-        
-        );
-
-      }
-        
+          }
+        }
+        return const Center(child: CircularProgressIndicator());
+      });
     }
-    return const Center(child: CircularProgressIndicator());
-
-
-
-      },
-    );
-
-  }
-  }
+}

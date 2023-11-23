@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:reservaapp/models/sucursales_model.dart';
 import 'package:reservaapp/utils/utils.dart';
 
 class SucursalesProvider with ChangeNotifier{
-
 
   int _sucursalSeleccionada = 0;
   int get sucursalSeleccionada => _sucursalSeleccionada;
@@ -15,7 +13,6 @@ class SucursalesProvider with ChangeNotifier{
     notifyListeners();
   }
 
-
   String _nombre = '';
   String get nombre => _nombre;
   set nombre(String valor){
@@ -23,8 +20,8 @@ class SucursalesProvider with ChangeNotifier{
     notifyListeners();
   }
 
-    String _telefono = '';
-  String get TableBorder => _telefono;
+  String _telefono = '';
+  String get telefono => _telefono;
   set telefono(String valor){
     _telefono = valor;
     notifyListeners();
@@ -37,44 +34,28 @@ class SucursalesProvider with ChangeNotifier{
     notifyListeners();
   }
 
-
-
   Future<SucursalesXUbicacionResponse> obtenerSucursalesPorUbicacion(double? latitud, double? longitud ) async {
-   
+    var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Sucursal/ObtenerSucursalesPorUbicacion');
+    final response = await http.post(url,
+      headers: Utilitarios().header,
+      body: jsonEncode({
+        'Latitud': latitud.toString(),
+        'Longitud': longitud.toString()
+      })
+    );
 
-
-
- var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Sucursal/ObtenerSucursalesPorUbicacion');
-
-  final response = await http.post(url,
-  headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
- body: jsonEncode({
-  'Latitud': latitud.toString(),
-  'Longitud': longitud.toString()
-  }));
-
-  return sucursalesXUbicacionResponseFromJson(response.body);
-
+    return sucursalesXUbicacionResponseFromJson(response.body);
   }
 
-   Future<SucursalesXUbicacionResponse> ObtenerSucursalesPorPropietario(idUsurio) async {
-   
-
- var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Sucursal/ObtenerSucursalesPorPropietario');
-
-  final response = await http.post(url,
-  headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
- body: jsonEncode({
-  'IdUsuario': idUsurio.toString(),
-  }));
-
-  return sucursalesXUbicacionResponseFromJson(response.body);
-
+  Future<SucursalesXUbicacionResponse> ObtenerSucursalesPorPropietario(idUsurio) async {
+    var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Sucursal/ObtenerSucursalesPorPropietario');
+    final response = await http.post(
+      url,
+      headers: Utilitarios().header,
+      body: jsonEncode({
+        'IdUsuario': idUsurio.toString(),
+      })
+    );
+    return sucursalesXUbicacionResponseFromJson(response.body);
   }
-
-  
 }

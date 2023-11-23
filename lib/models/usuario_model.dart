@@ -1,9 +1,4 @@
-// To parse this JSON data, do
-//
-//     final UsuarioResponse = UsuarioResponseFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:reservaapp/models/estado_model.dart';
 
 UsuarioResponse usuarioResponseFromJson(String str) => UsuarioResponse.fromJson(json.decode(str));
@@ -21,29 +16,29 @@ class UsuarioResponse {
 
     int codigoRespuesta;
     String descripcionRespuesta;
-    List<Objeto> listaGenerica;
-    Objeto objeto;
+    List<Usuario> listaGenerica;
+    Usuario objeto;
     String infoAdicional;
 
     factory UsuarioResponse.fromJson(Map<String, dynamic> json) => UsuarioResponse(
         codigoRespuesta: json["CodigoRespuesta"],
         descripcionRespuesta: json["DescripcionRespuesta"]??'',
-        listaGenerica: List<Objeto>.from(json["ListaGenerica"].map((x) => x)),
-        objeto: Objeto.fromJson(json["Objeto"]),
+        listaGenerica: List<Usuario>.from(json["ListaGenerica"].map((x) => x)),
+        objeto: Usuario.fromJson(json["Objeto"]),
         infoAdicional: json["InfoAdicional"]??'',
     );
 
     Map<String, dynamic> toJson() => {
         "CodigoRespuesta": codigoRespuesta,
         "DescripcionRespuesta": descripcionRespuesta,
-        "ListaGenerica": List<Objeto>.from(listaGenerica.map((x) => x)),
+        "ListaGenerica": List<Usuario>.from(listaGenerica.map((x) => x)),
         "Objeto": objeto.toJson(),
         "InfoAdicional": infoAdicional,
     };
 }
 
-class Objeto {
-    Objeto({
+class Usuario {
+    Usuario({
         required this.idUsuario,
         required this.nombre,
         required this.primerApellido,
@@ -73,7 +68,7 @@ class Objeto {
     bool permiteNotificar;
     bool indEsAdministrador;
 
-    factory Objeto.fromJson(Map<String, dynamic> json) => Objeto(
+    factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
         idUsuario: json["IdUsuario"],
         nombre: json["Nombre"]??'',
         primerApellido: json["PrimerApellido"]??'',

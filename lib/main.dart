@@ -1,5 +1,3 @@
-//import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -32,13 +30,10 @@ import 'package:reservaapp/providers/tema_provider.dart';
 import 'package:reservaapp/providers/usuario_provider.dart';
 
 void main() async{
-
     WidgetsFlutterBinding.ensureInitialized();
     //final prefs = new PreferenciasUsuario();
     await PreferenciasUsuario.init();
-
     runApp(
-
       MultiProvider(
         providers:[
           ChangeNotifierProvider( create: (_)=>new TemaServicio(esModoOscuro: PreferenciasUsuario.esModoOscuro)),
@@ -53,19 +48,14 @@ void main() async{
         child: MyApp(), 
       )
     );
-
 } 
-
-
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
+    
     final temaActual = Provider.of<TemaServicio>(context).temaActual;
-
     return MaterialApp(
       //para cambiar el idioma del datepicker
       localizationsDelegates: [      
@@ -107,5 +97,5 @@ class MyApp extends StatelessWidget {
     
         },
     );
-}
+  }
 }

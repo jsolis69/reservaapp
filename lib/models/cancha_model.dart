@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final canchaResponse = canchaResponseFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:reservaapp/models/estado_model.dart';

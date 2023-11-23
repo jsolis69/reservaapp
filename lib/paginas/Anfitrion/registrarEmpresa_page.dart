@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +21,12 @@ class RegistrarEmpresaPage extends StatelessWidget {
           children: [ 
              _formulario(context),
             HeaderWidget(
-            icono: FontAwesomeIcons.registered, 
-            titulo: 'Registrar Empresa',
-            color1: Colors.green,
-            color2: Colors.grey,
-            paginaReturn: 'Menu',
-          ),
-           
+              icono: FontAwesomeIcons.registered, 
+              titulo: 'Registrar Empresa',
+              color1: Colors.green,
+              color2: Colors.grey,
+              paginaReturn: 'Menu',
+            ),
             const NotificacionWidget()
           ],
         ),
@@ -36,47 +34,25 @@ class RegistrarEmpresaPage extends StatelessWidget {
     );
   }
 
-Widget _formulario(BuildContext context) {
+  Widget _formulario(BuildContext context) {
     final empresaprovider = Provider.of<EmpresaProvider>(context, listen: false);
-    //final notificacionModel = Provider.of<NotificacionModel>(context);
-    
-    return SingleChildScrollView(
-      child: 
-      //Column(
-        //children: <Widget>[
-        //  SafeArea(
-        //    child: Container(
-        //      height: 10.0,
-        //    ),
-        //  ),
-          Padding(
-            padding: const EdgeInsets.only(top: 120.0, left: 30.0, right: 30.0),
-            child: Column(
-              children: [
-                //EtiquetaPersonalizada(descripcion: 'Crear empresa', tamano: 20.0 ),
-                SizedBox(height: 30.0),
-                InputPersonalizado(icono: Icons.account_box, placeholder: 'Digíte el nombre de su empresa', onChange: (value) => { empresaprovider.nombre = value  },),
-                InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su teléfono', tipoTeclado: TextInputType.phone, onChange: (value) => { empresaprovider.telefono = value  },),
-                InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su correo', tipoTeclado: TextInputType.emailAddress, onChange: (value) => { empresaprovider.correo = value  },),
-                //InputPersonalizado(icono: Icons.lock, placeholder: 'Dígite su contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
-                //InputPersonalizado(icono: Icons.lock, placeholder: 'Vuelva a digitar la contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
-                //InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su nombre completo', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.nombre = value  },),
-                
-                
-               _crearBoton(context),
-              ],
-            ),
-          ),
-       // ],
-      //)
+    return SingleChildScrollView(child: 
+      Padding(
+        padding: const EdgeInsets.only(top: 120.0, left: 30.0, right: 30.0),
+        child: Column(
+          children: [
+            SizedBox(height: 30.0),
+            InputPersonalizado(icono: Icons.account_box, placeholder: 'Digíte el nombre de su empresa', onChange: (value) => { empresaprovider.nombre = value  },),
+            InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su teléfono', tipoTeclado: TextInputType.phone, onChange: (value) => { empresaprovider.telefono = value  },),
+            InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su correo', tipoTeclado: TextInputType.emailAddress, onChange: (value) => { empresaprovider.correo = value  },),
+            _crearBoton(context),
+          ],
+        ),
+      ),
     );
-
-    
   }
 
   Widget _crearBoton(BuildContext context) {
-    
-    //final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: false);
     final empresaprovider = Provider.of<EmpresaProvider>(context, listen: false);
     final notificacionModel = Provider.of<NotificacionModel>(context);
     
@@ -84,21 +60,21 @@ Widget _formulario(BuildContext context) {
       texto: 'Guardar',
       onPressed: () {
         empresaprovider.idUsuario = PreferenciasUsuario.usuarioLogueado;
-          empresaprovider.InsertarEmpresa().then((resp)
-          { 
-            if(resp.codigoRespuesta == 0)
-            {
-              PreferenciasUsuario.esPropietario = true;
-              Navigator.pushReplacementNamed(context, 'MisSucursales');
-            }
-            else
-            {
-              notificacionModel.mostrarAlerta = true;
-              notificacionModel.descripcion = resp.descripcionRespuesta;
-              notificacionModel.codigo = resp.codigoRespuesta;
-              Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
-            }
-          });
+        empresaprovider.InsertarEmpresa().then((resp)
+        { 
+          if(resp.codigoRespuesta == 0)
+          {
+            PreferenciasUsuario.esPropietario = true;
+            Navigator.pushReplacementNamed(context, 'MisSucursales');
+          }
+          else
+          {
+            notificacionModel.mostrarAlerta = true;
+            notificacionModel.descripcion = resp.descripcionRespuesta;
+            notificacionModel.codigo = resp.codigoRespuesta;
+            Timer(const Duration(seconds: 3), (() => { notificacionModel.mostrarAlerta = false } ));
+          }
+        });
       },
       validador: _validarRegistro(context),
     );
@@ -106,10 +82,7 @@ Widget _formulario(BuildContext context) {
 }
 
 bool _validarRegistro(BuildContext context) { 
-  //final usuarioprovider = Provider.of<UsuarioProvider>(context, listen: false);
   final empresaprovider = Provider.of<EmpresaProvider>(context, listen: true);
-  //if(empresaprovider.idUsuario.isEmpty)
-   // return false;
   if(empresaprovider.nombre.isEmpty)
     return false;
   if(empresaprovider.telefono.isEmpty)

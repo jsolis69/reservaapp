@@ -1,5 +1,7 @@
-import 'dart:convert';import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:reservaapp/models/empresa_model.dart';
+import 'package:reservaapp/models/equipo_model.dart';
 import 'package:reservaapp/models/estado_model.dart';
 import 'package:reservaapp/models/horariosCancha_model.dart';
 import 'package:reservaapp/utils/utils.dart';
@@ -8,18 +10,15 @@ import 'package:http/http.dart' as http;
 
 class HorarioProvider with ChangeNotifier
 {
-
-  //List<Horario> misHorarios = [];
-   List<Horario> _horariosXCancha = [];
-   List<Horario> _horariosXReserva = [];
-   int _respuestaServicio = 97; //procesando
-   int get respuestaServicio => _respuestaServicio;
-   set respuestaServicio(int resp){
+  List<Horario> _horariosXCancha = [];
+  List<Horario> _horariosXReserva = [];
+   
+  int _respuestaServicio = 97; //procesando
+  int get respuestaServicio => _respuestaServicio;
+  set respuestaServicio(int resp){
     _respuestaServicio = resp;
     notifyListeners();
    }
-
-
 
   Horario _horarioSeleccionado = new Horario(
     idHorario: 0, 
@@ -66,14 +65,11 @@ class HorarioProvider with ChangeNotifier
         permiteNotificar: false, 
         indEsAdministrador: false
         )));
-
   Horario get horarioSeleccionado => _horarioSeleccionado;
   set horarioSeleccionado(Horario horario){
     _horarioSeleccionado = horario;
     notifyListeners();
-    }
-
-
+  }
 
   List<Horario> get horariosXCancha => _horariosXCancha;
   set horariosXCancha(List<Horario> valor){
@@ -89,96 +85,66 @@ class HorarioProvider with ChangeNotifier
 
   
   ObtenerMisHorarios(int pIdCancha) async {
-   
     
- var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorario');
+    var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorario');
+    final response = await http.post(url,
+      headers: Utilitarios().header,
+      body: jsonEncode({
+        'IdCancha': pIdCancha.toString(),
+      })
+    );
+    
+    horariosXCancha = [];
+    var HorariosResponse = horariosResponseFromJson(response.body);
 
- final response = await http.post(url,
-  headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
- body: jsonEncode({
-  'IdCancha': pIdCancha.toString(),
-    }));
-
-
-  //misHorarios = [];
-  horariosXCancha = [];
-  var HorariosResponse = horariosResponseFromJson(response.body);
-
-  horariosXCancha = HorariosResponse.listaGenerica;
-  //misHorarios = [...misHorarios, ...HorariosResponse.listaGenerica];
-  
-  //return listaCanchas;
-  //notifyListeners();
+    horariosXCancha = HorariosResponse.listaGenerica;
   }
-
-
-  //api/Horario/InsertarHorarioCancha
 
   InsertarHorarioCancha(int pIdCancha, int pIdHoraio, bool? estado) async {
-var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/InsertarHorarioCancha');
-
- final response = await http.post(url,
-  headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
- body: jsonEncode({
-  'IdCancha': pIdCancha.toString(),
-  'Horarios': [{
-    'IdHorario': pIdHoraio.toString(),
-    'Estado': {
-      'Codigo': estado == true ? 1 : 2
-    }
-  }]
-    }));
-
-
-  //misHorarios = [];
-  horariosXCancha = [];
-  var HorariosResponse = horariosResponseFromJson(response.body);
-
-  horariosXCancha = HorariosResponse.listaGenerica;
-  //misHorarios = [...misHorarios, ...HorariosResponse.listaGenerica];
-  
-  //return listaCanchas;
-  //notifyListeners();
+    
+    var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/InsertarHorarioCancha');
+    final response = await http.post(url,
+      headers: Utilitarios().header,
+      body: jsonEncode({
+        'IdCancha': pIdCancha.toString(),
+        'Horarios': [{
+          'IdHorario': pIdHoraio.toString(),
+          'Estado': {
+            'Codigo': estado == true ? 1 : 2
+          }
+        }]
+      })
+    );
+    
+    horariosXCancha = [];
+    var HorariosResponse = horariosResponseFromJson(response.body);
+    horariosXCancha = HorariosResponse.listaGenerica;
   }
-
-
-ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
-   
-
- var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorCancha');
-
- final response = await http.post(url,
-  headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
- body: jsonEncode({
-  'IdCancha': idSucursal.toString(),
-  'Horarios':[
-        { 
+  //TODO: Este método se está llamando muchisimas veces
+  //Hay que revisar
+  ObtenerHorarioPorCancha(int idSucursal, String fecha) async {
+    
+    var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/ObtenerHorarioPorCancha');
+    final response = await http.post(
+      url,
+      headers: Utilitarios().header,
+      body: jsonEncode({
+        'IdCancha': idSucursal.toString(),
+        'Horarios':[{ 
           'Reserva': { 
             'Fecha': fecha
           }
-        }
-      ]
-    }));
+        }]
+      })
+    );
+    
+    horariosXReserva = [];
+    var HorariosResponse = horariosResponseFromJson(response.body);
 
-
-  horariosXReserva = [];
-  var HorariosResponse = horariosResponseFromJson(response.body);
-
-  if(HorariosResponse.codigoRespuesta == 0)
-  {
-    respuestaServicio = HorariosResponse.codigoRespuesta;
-    horariosXReserva = HorariosResponse.listaGenerica;
+    if(HorariosResponse.codigoRespuesta == 0)
+    {
+      respuestaServicio = HorariosResponse.codigoRespuesta;
+      horariosXReserva = HorariosResponse.listaGenerica;
+    }
   }
-  //notifyListeners();
-  //return HorariosResponse;
-  
-  }
-
-
 }

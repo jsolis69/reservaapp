@@ -10,32 +10,24 @@ import 'package:reservaapp/widgets/etiqueta_personalizada.dart';
 import 'package:reservaapp/widgets/header.dart';
 
 class HorariosPage extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
-      final horariosServices = Provider.of<HorarioProvider>(context, listen: true);
-  final fSer = new DateFormat('yyyy-MM-dd');
-  final reservaServices = Provider.of<ReservaProvider>(context);
-  final canchasServices = Provider.of<CanchasProvider>(context);
-  horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada));
-    
+    final horariosServices = Provider.of<HorarioProvider>(context, listen: true);
+    final fSer = new DateFormat('yyyy-MM-dd');
+    final reservaServices = Provider.of<ReservaProvider>(context);
+    final canchasServices = Provider.of<CanchasProvider>(context);
+    horariosServices.ObtenerHorarioPorCancha(canchasServices.canchaSeleccionada, fSer.format(reservaServices.fechaSeleccionada)); 
     String titulo = 'Horarios';
     Color colorPrimario = Color(0xff08088A);
     Color colorSecundario = Color(0xff5858FA);
 
-
     return Scaffold(
-      //backgroundColor:  const Color(0xFF333A47),
-      //appBar: AppBar( title: Text('Horarios'), ),
       body: SafeArea(
         child: Stack(
           children: [
-            
             horariosServices.respuestaServicio == 97
             ? const Center(child: CircularProgressIndicator())
             : HorariosxDia(),
-
             HeaderWidget(
               icono: FontAwesomeIcons.calendarDay, 
               titulo: titulo,
@@ -43,13 +35,10 @@ class HorariosPage extends StatelessWidget {
               color2: colorSecundario,
               paginaReturn: 'Canchas',
             )
-      
           ],
         ),
       ) 
-      
-
-      );
+    );
   }
 }
 
@@ -58,58 +47,41 @@ class HorariosxDia extends StatelessWidget {
 
 @override
   Widget build(BuildContext context) {
-
-  
-
-    //final canchaServices = Provider.of<CanchasProvider>(context);
-    //final horarioServices = Provider.of<HorarioProvider>(context, listen: false);
     final reservaServices = Provider.of<ReservaProvider>(context);
-
-    //final fSer = new DateFormat('yyyy-MM-dd');
-
-return Padding(
-  padding: const EdgeInsets.only(left: 20.0),
-  child:   Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 100,),
-              EtiquetaPersonalizada(descripcion: 'Seleccione la fecha del partido'),
-              SizedBox(height: 20,),
-              CalendarTimeline(
-                //showYears: true,
-                initialDate: reservaServices.fechaSeleccionada,
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 10)),
-                onDateSelected: (date)  
-                {
-                  reservaServices.fechaSeleccionada = date;
-                  //horarioServices.ObtenerHorarioPorCancha(canchaServices.canchaSeleccionada, fSer.format(date));
-                },
-                monthColor: Colors.white70,
-                dayColor: Colors.teal[200],
-                dayNameColor: const Color(0xFF333A47),
-                activeDayColor: Colors.white,
-                activeBackgroundDayColor: Colors.redAccent[100],
-                dotsColor: const Color(0xFF333A47),
-                //selectableDayPredicate: (date) => date.day != 23,
-                locale: 'es',
-              ),
-              //const SizedBox(height: 40),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 40),
-                  child: _listaHorarios(context)
-  
-                ),
-  
-              ),
-  
-            ],
-  
-  
-  
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(height: 100,),
+          EtiquetaPersonalizada(descripcion: 'Seleccione la fecha del partido'),
+          SizedBox(height: 20,),
+          CalendarTimeline(
+            initialDate: reservaServices.fechaSeleccionada,
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 10)),
+            onDateSelected: (date)  
+            {
+              reservaServices.fechaSeleccionada = date;
+            },
+            monthColor: Colors.white70,
+            dayColor: Colors.teal[200],
+            dayNameColor: const Color(0xFF333A47),
+            activeDayColor: Colors.white,
+            activeBackgroundDayColor: Colors.redAccent[100],
+            dotsColor: const Color(0xFF333A47),
+            //selectableDayPredicate: (date) => date.day != 23,
+            locale: 'es',
           ),
-);
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: _listaHorarios(context)
+            ),
+          ),
+        ]
+      ),
+    );
   }
 }
 

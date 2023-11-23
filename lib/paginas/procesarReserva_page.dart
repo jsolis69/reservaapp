@@ -26,14 +26,13 @@ class ProcesarReservaPage extends StatelessWidget {
     Color colorSecundario = Color(0xff5858FA);
 
     return Scaffold(
-      //backgroundColor:  const Color(0xFF333A47),
-      //appBar: AppBar(
-      //  title: Text('Procesar Reserva'),
-      //),
       body: SafeArea(
         child: Stack(
           children:[
-            _horario(),
+            Column(children: [
+              Expanded(child: _horario()),
+              const NotificacionWidget(),
+            ]),
             HeaderWidget(
               icono: FontAwesomeIcons.calendarDay, 
               titulo: titulo,
@@ -41,7 +40,6 @@ class ProcesarReservaPage extends StatelessWidget {
               color2: colorSecundario,
               paginaReturn: 'Horarios',
             ),
-            const NotificacionWidget(),
           ],
         ),
       ),

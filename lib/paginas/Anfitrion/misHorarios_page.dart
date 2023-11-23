@@ -1,4 +1,3 @@
-//import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -14,79 +13,41 @@ class MisHorariosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(),
     body: SafeArea(child: 
-    Stack(
-      children: [
-        _listaHorarios(),
-        HeaderWidget(
+      Stack(
+        children: [
+          _listaHorarios(),
+          HeaderWidget(
             icono: FontAwesomeIcons.calendarDay, 
             titulo: 'Horarios',
             color1: Colors.pinkAccent,
             color2: Colors.grey,
             paginaReturn: 'MisCanchas',
           )
-      ],
-    )
-    )
-    );
+        ],
+      )
+    ));
   }
 }
-
 
 class _listaHorarios extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-  final HorariosServices = Provider.of<HorarioProvider>(context);
-  final canchasServices = Provider.of<CanchasProvider>(context);
-
-  HorariosServices.ObtenerMisHorarios(canchasServices.canchaSeleccionada);
+    final HorariosServices = Provider.of<HorarioProvider>(context);
+    final canchasServices = Provider.of<CanchasProvider>(context);
+    HorariosServices.ObtenerMisHorarios(canchasServices.canchaSeleccionada);
 
     return HorariosServices.horariosXCancha.length == 0
     ? const Center(child: CircularProgressIndicator())
     : ListaItems();
-    //FutureBuilder(
-    //  future: HorariosServices.ObtenerMisHorarios(canchasServices.canchaSeleccionada),
-    //  builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //    
-    //    if (snapshot.connectionState == ConnectionState.done) {
-    //    if (snapshot.hasError) {
-    //      return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
-    //    }
-    //   else if (snapshot.hasData) {
-//
-    //    
-    //    Future.delayed(Duration.zero, () async{
-    //      HorariosServices.horarios = snapshot.data.listaGenerica;
-    //      ListaItems();
-    //    });
-    //    
-    //    
-    //  }
-    //    
-    //}
-
-
-
-      //},
-    //);
-
   }
-  }
-
+}
 
 class ListaItems extends StatelessWidget {
-
   const ListaItems({super.key});
-  
-  
-
   @override
   Widget build(BuildContext context) {
-
-
     final HorariosServices = Provider.of<HorarioProvider>(context, listen: true);
     final canchasServices = Provider.of<CanchasProvider>(context);
     return Padding(
@@ -128,8 +89,6 @@ class ListaItems extends StatelessWidget {
                           //print(element.idHorario);
                           HorariosServices.InsertarHorarioCancha(canchasServices.canchaSeleccionada, element.idHorario, _value);
                         },
-                        //splashRadius: 50.0,
-                      //shape: OutlinedBorder.lerp() lerp(OutlinedBorder., b, t),
                       ),/// const Icon(Icons.arrow_forward),
                   ),
                 ),

@@ -12,16 +12,13 @@ class MenuAnfitrionPage extends StatefulWidget {
 }
 
 class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
-  //const MenuPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     IconData icono = FontAwesomeIcons.user;
     String titulo = 'Menú';
     Color colorPrimario = Color(0xffFA5858);
     Color colorSecundario = Color(0xffDF0101);
-
-     //final temaAplicacion = Provider.of<TemaServicio>(context);
+    
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -30,7 +27,6 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
               padding: const EdgeInsets.only(top: 120.0),
               child: ListView(
               children: [
-                //Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Cambiar a modo mejenguero'),
                   trailing: FaIcon(FontAwesomeIcons.exchangeAlt),
@@ -53,9 +49,8 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
                   onTap: (){
                     Navigator.pushNamed(context, 'Comentarios', arguments: 'MenuAnfitrion');
                   },
-                  ),
-                  
-                  Divider(height: 20, color: Colors.red, thickness: 1,),
+                ),  
+                Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Modo oscuro'),
                   trailing: Switch.adaptive(
@@ -68,23 +63,19 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
                       value ? temaServicio.setModoOscuro() : temaServicio.setModoClaro();
                       setState(() {
                       });
-                  
                     }
-                    )
-                  ),
+                  )
+                ),
                 Divider(height: 20, color: Colors.red, thickness: 1,),
                 ListTile(
                   title: Text('Cerrar sesión'),
                   trailing: FaIcon(FontAwesomeIcons.signOutAlt),
                   onTap: (){
-                  
                     Navigator.pushReplacementNamed(context, 'Login');
                   },
-                  )
-              ],
-              ),
+                )
+              ]),
             ),
-            
             HeaderWidget(
               icono: icono, 
               titulo: titulo,
@@ -96,6 +87,5 @@ class _MenuAnfitrionPageState extends State<MenuAnfitrionPage> {
       ),
       bottomNavigationBar: BotonesNavegacionAnfitron(seleccionado: 1),  
     );
-
   }
 }

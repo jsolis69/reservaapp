@@ -17,7 +17,6 @@ class MisSucursalesPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, 'AgregarSucursal');
-          // Add your onPressed code here!
         },
         backgroundColor: Colors.green,
         child: const FaIcon(FontAwesomeIcons.plus),
@@ -27,22 +26,17 @@ class MisSucursalesPage extends StatelessWidget {
           children: [
             _listaScurusales(),
             HeaderWidget(
-            icono: FontAwesomeIcons.building, 
-            titulo: 'Sucursales',
-            color1: Colors.green,
-            color2: Colors.grey
-          ),
-            
-            
-            
+              icono: FontAwesomeIcons.building, 
+              titulo: 'Sucursales',
+              color1: Colors.green,
+              color2: Colors.grey
+            ),
           ],
         ),
       ),
       bottomNavigationBar: BotonesNavegacionAnfitron(seleccionado: 0,)
     );
   }
-
-  
 }
 
 class _listaScurusales extends StatelessWidget {
@@ -54,61 +48,53 @@ class _listaScurusales extends StatelessWidget {
     return FutureBuilder(
       future: sucursalesServices.ObtenerSucursalesPorPropietario(PreferenciasUsuario.usuarioLogueado),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        
         if (snapshot.connectionState == ConnectionState.done) {
-        if (snapshot.hasError) {
-          return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
-        }
-       else if (snapshot.hasData) {
-        
-        return ListView.builder(
-          padding: EdgeInsets.only(top: 110),
-          //itemExtent: 50,
-          itemCount: snapshot.data.listaGenerica.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Slidable(
-              endActionPane: ActionPane(
-                motion: const ScrollMotion(), 
-                children: [
-                  SlidableAction(
-                    onPressed: (value){print(value);},
-                    label: 'Borrar',
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,),
-                    SlidableAction(
-                    onPressed: (value){print(value);},
-                    label: 'Notificar',
-                    backgroundColor: Colors.lightBlue,
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,)
-                ]),
-              child: TarjetaWidget(
-               ancho: double.infinity,
-                alto: 120.0,
-                color1: PreferenciasUsuario.esModoOscuro ? Colors.grey.shade800 : Colors.white,
-                color2: Colors.green,
-                titulo: snapshot.data.listaGenerica[index].nombre,
-                ontap: (){ 
-                  sucursalesServices.sucursalSeleccionada = snapshot.data.listaGenerica[index].idSucursal;
-                  Navigator.pushNamed(context, 'MisCanchas');
-                  },
-                  icono: FontAwesomeIcons.building,
-                      ),
+          if (snapshot.hasError) {
+            return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
+          }
+          else if (snapshot.hasData) {
+            return ListView.builder(
+              padding: EdgeInsets.only(top: 110),
+              //itemExtent: 50,
+              itemCount: snapshot.data.listaGenerica.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Slidable(
+                  endActionPane: ActionPane(
+                    motion: const ScrollMotion(), 
+                    children: [
+                      SlidableAction(
+                        onPressed: (value){print(value);},
+                        label: 'Borrar',
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,),
+                      SlidableAction(
+                        onPressed: (value){print(value);},
+                        label: 'Notificar',
+                        backgroundColor: Colors.lightBlue,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,)
+                    ]
+                  ),
+                  child: TarjetaWidget(
+                    ancho: double.infinity,
+                    alto: 120.0,
+                    color1: PreferenciasUsuario.esModoOscuro ? Colors.grey.shade800 : Colors.white,
+                    color2: Colors.green,
+                    titulo: snapshot.data.listaGenerica[index].nombre,
+                    ontap: (){ 
+                      sucursalesServices.sucursalSeleccionada = snapshot.data.listaGenerica[index].idSucursal;
+                      Navigator.pushNamed(context, 'MisCanchas');
+                    },
+                    icono: FontAwesomeIcons.building,
+                  ),
+                );
+              },
             );
-          },
-        
-        );
-
-      }
-        
-    }
-    return const Center(child: CircularProgressIndicator());
-
-
-
+          }
+        }
+        return const Center(child: CircularProgressIndicator());
       },
     );
-
   }
-  }
+}

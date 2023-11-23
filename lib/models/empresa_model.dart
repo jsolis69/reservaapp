@@ -1,13 +1,7 @@
-// To parse this JSON data, do
-//
-//     final empresaResponse = empresaResponseFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:reservaapp/models/estado_model.dart';
 
 EmpresaResponse empresaResponseFromJson(String str) => EmpresaResponse.fromJson(json.decode(str));
-
 String empresaResponseToJson(EmpresaResponse data) => json.encode(data.toJson());
 
 class EmpresaResponse {

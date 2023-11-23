@@ -18,7 +18,6 @@ void mostrarAlerta(BuildContext context, String mensaje){
   );
 
 }
-
 bool tokenActivo(String fechaExpira){
 bool bandera = true;
 
@@ -39,13 +38,10 @@ else
 return bandera;
 
 }
-
-
-  Widget crearTitulo(String texto, double fontsize) {
+Widget crearTitulo(String texto, double fontsize) {
     return Text(texto, style: TextStyle(fontSize: fontsize));
   }
-
-  Widget fondo() {
+Widget fondo() {
   return Container(
     width: double.infinity,
     height: double.infinity,
@@ -55,9 +51,7 @@ return bandera;
     ),
     );
   }
-
-
-  class HeaderDiagonalPainter extends CustomPainter {
+class HeaderDiagonalPainter extends CustomPainter {
   
   @override
   void paint(Canvas canvas, Size size) {
@@ -86,7 +80,6 @@ return bandera;
     return true;
   }
 }
-
 class Utilitarios {
 
   final urlWebapi = '192.168.100.6';
@@ -98,7 +91,6 @@ class Utilitarios {
   };
 
 }
-
 class ValidacioItem{
 
   final String? value;
@@ -109,7 +101,6 @@ class ValidacioItem{
     this.error);
 
 }
-
 Widget MostrarMensajeError(){
   return Container(
     child: Text('Error'),

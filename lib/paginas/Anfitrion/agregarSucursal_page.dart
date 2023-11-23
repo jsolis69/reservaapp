@@ -27,32 +27,21 @@ class AgregarSucursalPage extends StatelessWidget {
         ]),
       ),
     );
-    
   }
 
   Widget _formulario(BuildContext context){
     final sucursalprovider = Provider.of<SucursalesProvider>(context, listen: false);
 
     return SingleChildScrollView(child: 
-     Padding(
-       padding: const EdgeInsets.only(top: 120.0, left: 30.0, right: 30.0),
-       child: Column(children: [
+    Padding(
+      padding: const EdgeInsets.only(top: 120.0, left: 30.0, right: 30.0),
+      child: Column(children: [
         //EtiquetaPersonalizada(descripcion: 'Crear empresa', tamano: 20.0 ),
         //SizedBox(height: 30.0),
         InputPersonalizado(icono: Icons.account_box, placeholder: 'Nombre de sucursal', onChange: (value) => { sucursalprovider.nombre = value  },),
         InputPersonalizado(icono: Icons.text_fields, placeholder: 'Teléfono', tipoTeclado: TextInputType.phone, onChange: (value) => { sucursalprovider.telefono = value  },),
         InputPersonalizado(icono: Icons.text_fields, placeholder: 'Correo', tipoTeclado: TextInputType.emailAddress, onChange: (value) => { sucursalprovider.correo = value  },),
-        //InputPersonalizado(icono: Icons.lock, placeholder: 'Dígite su contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.contrasenia = value },),
-        //InputPersonalizado(icono: Icons.lock, placeholder: 'Vuelva a digitar la contraseña', tipoPassword: '◍', esPassword: true, tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.validarcontrasenia = value  },),
-        //InputPersonalizado(icono: Icons.text_fields, placeholder: 'Digíte su nombre completo', tipoTeclado: TextInputType.visiblePassword, onChange: (value) => { usuarioprovider.nombre = value  },),
-                
-                
-        //_crearBoton(context),
-         
-         ],
-        ),
-     )
-    );
-
+      ]),
+    ));
   }
 }
