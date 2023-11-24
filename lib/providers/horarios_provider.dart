@@ -97,10 +97,10 @@ class HorarioProvider with ChangeNotifier
     horariosXCancha = [];
     var HorariosResponse = horariosResponseFromJson(response.body);
 
-    horariosXCancha = HorariosResponse.listaGenerica;
+    return HorariosResponse.listaGenerica;
   }
 
-  InsertarHorarioCancha(int pIdCancha, int pIdHoraio, bool? estado) async {
+  Future<List<Horario>> InsertarHorarioCancha(int pIdCancha, int pIdHoraio, bool? estado) async {
     
     var url = Uri.http( Utilitarios().urlWebapi, '/Reserva.API/api/Horario/InsertarHorarioCancha');
     final response = await http.post(url,
@@ -118,7 +118,9 @@ class HorarioProvider with ChangeNotifier
     
     horariosXCancha = [];
     var HorariosResponse = horariosResponseFromJson(response.body);
-    horariosXCancha = HorariosResponse.listaGenerica;
+    
+
+    return HorariosResponse.listaGenerica;
   }
   
   ObtenerHorarioPorCancha(int idSucursal, String fecha) async {

@@ -16,7 +16,7 @@ class MisHorariosPage extends StatelessWidget {
     body: SafeArea(child: 
       Stack(
         children: [
-          _listaHorarios(),
+          ListaItems(),
           HeaderWidget(
             icono: FontAwesomeIcons.calendarDay, 
             titulo: 'Horarios',
@@ -30,70 +30,98 @@ class MisHorariosPage extends StatelessWidget {
   }
 }
 
-class _listaHorarios extends StatelessWidget {
+//class _listaHorarios extends StatelessWidget {
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    //final HorariosServices = Provider.of<HorarioProvider>(context);
+//    //final canchasServices = Provider.of<CanchasProvider>(context);
+//    //HorariosServices.ObtenerMisHorarios(canchasServices.canchaSeleccionada);
+//
+//    return HorariosServices.horariosXCancha.length == 0
+//    ? const Center(child: CircularProgressIndicator())
+//    : ListaItems();
+//  }
+//}
+
+class ListaItems extends StatefulWidget {
+  const ListaItems({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final HorariosServices = Provider.of<HorarioProvider>(context);
-    final canchasServices = Provider.of<CanchasProvider>(context);
-    HorariosServices.ObtenerMisHorarios(canchasServices.canchaSeleccionada);
-
-    return HorariosServices.horariosXCancha.length == 0
-    ? const Center(child: CircularProgressIndicator())
-    : ListaItems();
-  }
+  State<ListaItems> createState() => _ListaItemsState();
 }
 
-class ListaItems extends StatelessWidget {
-  const ListaItems({super.key});
+class _ListaItemsState extends State<ListaItems> {
   @override
   Widget build(BuildContext context) {
-    final HorariosServices = Provider.of<HorarioProvider>(context, listen: true);
+    final HorariosServices = Provider.of<HorarioProvider>(context, listen: false);
     final canchasServices = Provider.of<CanchasProvider>(context);
-    return Padding(
-          padding: const EdgeInsets.only(top: 110),
-          child: GroupedListView<dynamic, String>(
-            //useStickyGroupSeparators: true,
-            //stickyHeaderBackgroundColor: Colors.red,
-            //padding: EdgeInsets.only(top: 110),
-            elements: HorariosServices.horariosXCancha,
-            groupBy: (element) => element.diaSemana.codigo.toString(),
-            groupComparator: (value1, value2) => value2.compareTo(value1),
-            itemComparator: (item1, item2) =>
-                item1.idHorario.compareTo(item2.idHorario),
-            order: GroupedListOrder.DESC,
-            //floatingHeader: true,
-            //sort: true,
-            //useStickyGroupSeparators: true,
-            groupSeparatorBuilder: (String value) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                ObtenerNombreDia(value),
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            itemBuilder: (c, element) {
-              return Card(
-                //elevation: 19.0,
-                margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                child: SizedBox(
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10.0),
-                      leading: const Icon(FontAwesomeIcons.solidClock),
-                      title: Text(element.horaInicio),
-                      trailing: Checkbox(
-                        value: element.seleccionado, 
-                        onChanged: (_value){ 
-                          HorariosServices.InsertarHorarioCancha(canchasServices.canchaSeleccionada, element.idHorario, _value);
-                        },
-                      ),/// const Icon(Icons.arrow_forward),
-                  ),
+    return FutureBuilder(
+      future: HorariosServices.ObtenerMisHorarios(canchasServices.canchaSeleccionada),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return const Center(child: Text('Ocurrió un error consultado los datos', style: TextStyle(fontSize: 18)));
+          }
+          else if (snapshot.hasData) {
+
+            //HorariosServices.horariosXCancha = snapshot.data;
+
+            return Padding(
+            padding: const EdgeInsets.only(top: 110),
+            child: GroupedListView<dynamic, String>(
+              //useStickyGroupSeparators: true,
+              //stickyHeaderBackgroundColor: Colors.red,
+              //padding: EdgeInsets.only(top: 110),
+              elements: snapshot.data,//HorariosServices.horariosXCancha,
+              groupBy: (element) => element.diaSemana.codigo.toString(),
+              groupComparator: (value1, value2) => value2.compareTo(value1),
+              itemComparator: (item1, item2) =>
+                  item1.idHorario.compareTo(item2.idHorario),
+              order: GroupedListOrder.DESC,
+              //floatingHeader: true,
+              //sort: true,
+              //useStickyGroupSeparators: true,
+              groupSeparatorBuilder: (String value) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  ObtenerNombreDia(value),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-              );
-            }),
-        );
+              ),
+              itemBuilder: (c, element) {
+                return Card(
+                  //elevation: 19.0,
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                  child: SizedBox(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                        leading: const Icon(FontAwesomeIcons.solidClock),
+                        title: Text(element.horaInicio),
+                        trailing: Checkbox(
+                          value: element.seleccionado, 
+                          onChanged: (_value){ 
+                            HorariosServices.InsertarHorarioCancha(canchasServices.canchaSeleccionada, element.idHorario, _value).then((_resp){
+                              setState(() {
+                                HorariosServices.horariosXCancha = _resp;
+                              });
+                            });
+                              
+                            
+                          },
+                        ),/// const Icon(Icons.arrow_forward),
+                    ),
+                  ),
+                );
+              }),
+          );
+          }
+        }
+      return const Center(child: CircularProgressIndicator());
+      },
+    );
   }
 }
 
